@@ -6,10 +6,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-
-    private String hoho;
+    private String KALJAA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
