@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView henkiloView;
 
 
+
+
+
+    private String hoho;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
