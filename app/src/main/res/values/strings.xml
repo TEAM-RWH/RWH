@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">RWH</string>
+
+    <string-array name="urheilu">
+        <item>Ryömiminen</item>
+        <item>Kävely</item>
+        <item>Hölkkä</item>
+        <item>Juoksu</item>
+        <item>PikaJuoksu</item>
+    </string-array>
+
+    <string-array name="kesto">
+        <item>10 min</item>
+        <item>20 min</item>
+        <item>30 min</item>
+        <item>40 min</item>
+        <item>50 min</item>
+        <item>60 min</item>
+    </string-array>
 </resources>
