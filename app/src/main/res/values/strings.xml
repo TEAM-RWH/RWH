@@ -17,4 +17,15 @@
         <item>50 min</item>
         <item>60 min</item>
     </string-array>
+
+    <string-array name="Ateriat">
+        <item></item>
+        <item>Aamupala</item>
+        <item>Lounas</item>
+        <item>Välipala</item>
+        <item>Päivällinen</item>
+        <item>Iltapala</item>
+    </string-array>
+    <string name="aterian_pvm">Valitse PVM</string>
+
 </resources>
