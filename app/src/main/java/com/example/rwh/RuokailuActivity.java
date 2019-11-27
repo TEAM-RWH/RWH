@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +23,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     private TextView aterian_paiva;
     private Spinner ateriaSpinner;
     private DatePickerDialog.OnDateSetListener setListener;
+    public static final String TAG = "Ruokailulista";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,5 +78,18 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "Return to main from RuokailuActivity");
+        int id = item.getItemId();
+
+        if ( id == android.R.id.home ) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
