@@ -3,6 +3,8 @@ package com.example.rwh;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     private TextView kesto;
     private TextView kaloreitapoltettu;
     private TextView cheerup;
+    public static final String TAG = "Urheilulista";
 
 
 
@@ -92,4 +95,17 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "Return to main from UrheiluActivity");
+        int id = item.getItemId();
+
+        if ( id == android.R.id.home ) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
+
