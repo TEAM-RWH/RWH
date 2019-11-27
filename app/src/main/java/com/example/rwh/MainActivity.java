@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,11 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private Intent ruokailuActivity;
     private Intent urheiluActivity;
     private TextView henkiloView;
-
-
-
-
-
     private String hoho;
 
     @Override
