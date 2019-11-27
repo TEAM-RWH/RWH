@@ -1,18 +1,30 @@
 package com.example.rwh;
 
 public class Henkilo {
+
+    private String nimi;
     private int pituus;
     private int paino;
     private int ika;
-    private int urheiluKalorit;
-    private int ruokaKalorit;
 
-    public Henkilo(int pituus, int paino, int ika, int urheiluKalorit, int ruokaKalorit) {
+    public Henkilo(String nimi, int pituus, int paino, int ika) {
+        this.nimi = nimi;
         this.pituus = pituus;
         this.paino = paino;
         this.ika = ika;
-        this.urheiluKalorit = urheiluKalorit;
-        this.ruokaKalorit = ruokaKalorit;
+    }
+
+    @Override
+    public String toString() {
+        return this.nimi;
+    }
+
+    public String getNimi() {
+        return nimi;
+    }
+
+    public void setNimi(String nimi) {
+        this.nimi = nimi;
     }
 
     public int getPituus() {
@@ -39,19 +51,4 @@ public class Henkilo {
         this.ika = ika;
     }
 
-    public int getUrheiluKalorit() {
-        return urheiluKalorit;
-    }
-
-    public void setUrheiluKalorit(int urheiluKalorit) {
-        this.urheiluKalorit = urheiluKalorit;
-    }
-
-    public int getRuokaKalorit() {
-        return ruokaKalorit;
-    }
-
-    public void setRuokaKalorit(int ruokaKalorit) {
-        this.ruokaKalorit = ruokaKalorit;
-    }
 }
