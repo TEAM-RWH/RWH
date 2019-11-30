@@ -6,12 +6,14 @@ public class Henkilo {
     private int pituus;
     private int paino;
     private int ika;
+    private String sukupuoli;
 
-    public Henkilo(String nimi, int pituus, int paino, int ika) {
+    public Henkilo(String nimi, int pituus, int paino, int ika, String sukupuoli) {
         this.nimi = nimi;
         this.pituus = pituus;
         this.paino = paino;
         this.ika = ika;
+        this.sukupuoli = sukupuoli;
     }
 
     @Override
@@ -51,4 +53,11 @@ public class Henkilo {
         this.ika = ika;
     }
 
+    public String getSukupuoli() {
+        return sukupuoli;
+    }
+
+    public void setSukupuoli(String sukupuoli) {
+        this.sukupuoli = sukupuoli;
+    }
 }

@@ -18,7 +18,11 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -30,20 +34,27 @@ import java.util.ArrayList;
 public class BasicInformationActivity extends AppCompatActivity {
 
     public static final String EXTRA = "123";
-    public static final String TAG = "Henkilölista";
+    public static final String TAG = "BasicInformation";
 
     private ArrayAdapter Adapter1;
     private ListView ListView1;
+
+    //private TextView textView2;
 
     private EditText editName;
     private EditText editPituus;
     private EditText editPaino;
     private EditText editIka;
 
+    private RadioGroup radioGroup;
+    private int radioId;
+    private RadioButton radioButton;
+
     //private DecimalFormat laskut = new DecimalFormat("###.##");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate being called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_information);
 
@@ -56,9 +67,108 @@ public class BasicInformationActivity extends AppCompatActivity {
         editPaino = (EditText) findViewById(R.id.editPaino);
         editIka = (EditText) findViewById(R.id.editIka);
 
+        //textView2 = (TextView) findViewById(R.id.textView2);
+
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+
+        radioId = radioGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(radioId);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                updateRadioButton();
+                if(checkedId == R.id.muuButton){
+                    Toast.makeText(getApplicationContext(), "Choose a real gender. :)", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
         loadData();
 
+        setData();
 
+
+    }
+
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(OverallPattern.getInstance().henkilot);
+        editor.putString("henkilo lista", json);
+        editor.apply();
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("henkilo lista", null);
+        Type type = new TypeToken<ArrayList<Henkilo>>() {
+        }.getType();
+        OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveData();
+    }
+
+    public void taytaLista(View v) {
+        Log.d(TAG, "Lisätty listaan");
+
+        OverallPattern.getInstance().henkilot.add(new Henkilo("Kristian", 175, 75, 35, "Mies"));
+        OverallPattern.getInstance().henkilot.add(new Henkilo("Hanne", 165, 60, 30, "Nainen"));
+        OverallPattern.getInstance().henkilot.add(new Henkilo("Dmitri", 180, 70, 23, "Mies"));
+
+        ListView1.setAdapter(Adapter1);
+        Toast.makeText(getApplicationContext(), "Lista täytetty", Toast.LENGTH_SHORT).show();
+    }
+
+    public void lisaaKayttaja(View v) {
+
+        Log.d(TAG, "Käyttäjä lisätty");
+
+        if (!editName.getText().toString().trim().isEmpty() && !editPituus.getText().toString().trim().isEmpty() &&
+                !editPaino.getText().toString().trim().isEmpty() && !editIka.getText().toString().trim().isEmpty() &&
+                !radioButton.getText().equals("Muu")) {
+
+            OverallPattern.getInstance().henkilot.add(new Henkilo(editName.getText().toString().trim(), Integer.valueOf(editPituus.getText().toString()),
+                    Integer.valueOf(editPaino.getText().toString()), Integer.valueOf(editIka.getText().toString()),
+                    String.valueOf(radioButton.getText())));
+
+            clearEditTexts();
+            saveData();
+
+        } else {
+            if(radioButton.getText().equals("Muu")){
+                Toast.makeText(getApplicationContext(), "That's not a gender.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Fill all textfields!", Toast.LENGTH_SHORT).show();
+            }
+        }
+        ListView1.setAdapter(Adapter1);
+
+    }
+
+    private void updateRadioButton() {
+        radioId = radioGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(radioId);
+
+    }
+
+    private void clearEditTexts(){
+        editName.getText().clear();
+        editPituus.getText().clear();
+        editPaino.getText().clear();
+        editIka.getText().clear();
+    }
+
+    private void setData(){
         Adapter1 = new ArrayAdapter<>(this,    /*CONVERTER*/
                 android.R.layout.simple_list_item_1,
                 OverallPattern.getInstance().getHenkilot())
@@ -120,60 +230,11 @@ public class BasicInformationActivity extends AppCompatActivity {
 
     }
 
-    public void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(OverallPattern.getInstance().henkilot);
-        editor.putString("henkilo lista", json);
-        editor.apply();
-    }
-
-    public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("henkilo lista", null);
-        Type type = new TypeToken<ArrayList<Henkilo>>() {
-        }.getType();
-        OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        saveData();
-    }
-
-    public void taytaLista(View v) {
-        Log.d(TAG, "Lisätty listaan");
-
-        OverallPattern.getInstance().henkilot.add(new Henkilo("Kristian", 175, 75, 35));
-        OverallPattern.getInstance().henkilot.add(new Henkilo("Hanne", 165, 60, 30));
-        OverallPattern.getInstance().henkilot.add(new Henkilo("Dmitri", 180, 70, 23));
-
-        ListView1.setAdapter(Adapter1);
-        Toast.makeText(getApplicationContext(), "Lista täytetty", Toast.LENGTH_SHORT).show();
-    }
-
-    public void lisaaKayttaja(View v) {
-
-        Log.d(TAG, "Käyttäjä lisätty");
-
-        if (!editName.getText().toString().trim().isEmpty() && !editPituus.getText().toString().trim().isEmpty() &&
-                !editPaino.getText().toString().trim().isEmpty() && !editIka.getText().toString().trim().isEmpty()) {
-
-            OverallPattern.getInstance().henkilot.add(new Henkilo(editName.getText().toString().trim(), Integer.valueOf(editPituus.getText().toString()),
-                    Integer.valueOf(editPaino.getText().toString()), Integer.valueOf(editIka.getText().toString())));
-
-            editName.getText().clear();
-            editPituus.getText().clear();
-            editPaino.getText().clear();
-            editIka.getText().clear();
-
-        } else {
-            Toast.makeText(getApplicationContext(), "Fill all textfields!", Toast.LENGTH_SHORT).show();
-
-        }
-        ListView1.setAdapter(Adapter1);
+    public void onResume(){
+        Log.d(TAG, "onResume being Called");
+        super.onResume();
+        loadData();
+        setData();
     }
 }
+
