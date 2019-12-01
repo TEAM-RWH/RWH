@@ -31,9 +31,6 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_urheilu);
         getSupportActionBar().setTitle("Urheilu page");
 
-        //Bundle bundle = getIntent().getExtras();
-        //i = bundle.getInt(BasicInformationActivity.EXTRA, 0);
-
         urheilucaloriesView = findViewById(R.id.urheilucaloriesView);
         urheilucaloriesView.setText("Urheilu Suoritus");
 

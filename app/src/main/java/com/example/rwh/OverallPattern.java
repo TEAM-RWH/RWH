@@ -23,8 +23,8 @@ public class OverallPattern {
     }
 
     private OverallPattern() {
-        henkilot = new ArrayList<Henkilo>();
-        henkilot.add(new Henkilo("Lauri", 178, 70, 27, "Mies"));
+        //henkilot = new ArrayList<Henkilo>();
+        //henkilot.add(new Henkilo("Lauri", 178, 70, 27, "Mies"));
 
 
     }

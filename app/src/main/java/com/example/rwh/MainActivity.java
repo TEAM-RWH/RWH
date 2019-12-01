@@ -1,5 +1,6 @@
 package com.example.rwh;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,9 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -126,6 +130,52 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.info_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.item1:
+                Toast.makeText(this,"Item 1 selected", Toast.LENGTH_SHORT).show();
+
+                new AlertDialog.Builder(MainActivity.this)
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setTitle("Information")
+                        .setMessage("Formulas used for calculating kcal values : \nFor men: 88.362 + ((13.397 * paino) + (4.799 * pituus) - (5.677 * ika)) * 1.5" +
+                                "\nFor women:  447.593 + ((9.247 * paino) + (3.098 * pituus) - (4.330 * ika)) * 1.5\n\n" +
+                                "Name and weight are adjustable with longclick.")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Exited info screen",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+                return true;
+            case R.id.item2:
+                Toast.makeText(this,"Item 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this,"Item 3 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem1:
+                Toast.makeText(this,"Subitem 1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem2:
+                Toast.makeText(this,"Subitem 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
     public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -145,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     private void setInformation() {
-        getSupportActionBar().setTitle("Käyttäjätiedot: " + nimi);
+        getSupportActionBar().setTitle("Käyttäjä: " + nimi);
 
         nimiView.setText("Käyttäjän nimi: " + nimi);
         pituusView.setText("Käyttäjän pituus: " + pituus + " cm");
@@ -242,7 +292,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                         // Do something with value!
-                        String saatuArvo = (input.getText().toString());
+                        String saatuArvo = (input.getText().toString().trim().substring(0,1).toUpperCase() +
+                                input.getText().toString().substring(1));
                         OverallPattern.getInstance().henkilot.get(i).setNimi(saatuArvo);
                         //Toast.makeText(getApplicationContext(), String.valueOf(OverallPattern.getInstance().henkilot.get(i).getPaino()), Toast.LENGTH_LONG).show();
                         setValues();

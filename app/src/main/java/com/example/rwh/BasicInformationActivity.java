@@ -1,5 +1,6 @@
 package com.example.rwh;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +10,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -60,7 +64,7 @@ public class BasicInformationActivity extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        getSupportActionBar().setTitle("Valitse tai luo käyttäjä");
+        getSupportActionBar().setTitle("Choose or create a user");
 
         editName = (EditText) findViewById(R.id.editName);
         editPituus = (EditText) findViewById(R.id.editPituus);
@@ -74,23 +78,67 @@ public class BasicInformationActivity extends AppCompatActivity {
         radioId = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 updateRadioButton();
-                if(checkedId == R.id.muuButton){
+                if (checkedId == R.id.muuButton) {
                     Toast.makeText(getApplicationContext(), "Choose a real gender. :)", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
+        //saveData();
 
         loadData();
 
         setData();
 
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.info_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
+
+                new AlertDialog.Builder(BasicInformationActivity.this)
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setTitle("Information")
+                        .setMessage("Fill all the textfields, select gender and push 'Add user' to create a new user.\n\nLong press to remove users.")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Exited info screen",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+                return true;
+            case R.id.item2:
+                Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem1:
+                Toast.makeText(this, "Subitem 1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem2:
+                Toast.makeText(this, "Subitem 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
     }
 
@@ -106,10 +154,15 @@ public class BasicInformationActivity extends AppCompatActivity {
     public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("henkilo lista", null);
+        String json = sharedPreferences.getString("henkilo lista", null );
         Type type = new TypeToken<ArrayList<Henkilo>>() {
         }.getType();
         OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
+
+        if(OverallPattern.getInstance().henkilot == null){
+            OverallPattern.getInstance().henkilot = new ArrayList<Henkilo>();
+            OverallPattern.getInstance().henkilot.add(new Henkilo("Lauri", 178, 70, 27, "Mies"));
+        }
     }
 
     @Override
@@ -137,7 +190,8 @@ public class BasicInformationActivity extends AppCompatActivity {
                 !editPaino.getText().toString().trim().isEmpty() && !editIka.getText().toString().trim().isEmpty() &&
                 !radioButton.getText().equals("Muu")) {
 
-            OverallPattern.getInstance().henkilot.add(new Henkilo(editName.getText().toString().trim(), Integer.valueOf(editPituus.getText().toString()),
+            OverallPattern.getInstance().henkilot.add(new Henkilo(editName.getText().toString().trim().substring(0,1).toUpperCase() +
+                    editName.getText().toString().substring(1), Integer.valueOf(editPituus.getText().toString()),
                     Integer.valueOf(editPaino.getText().toString()), Integer.valueOf(editIka.getText().toString()),
                     String.valueOf(radioButton.getText())));
 
@@ -145,7 +199,7 @@ public class BasicInformationActivity extends AppCompatActivity {
             saveData();
 
         } else {
-            if(radioButton.getText().equals("Muu")){
+            if (radioButton.getText().equals("Muu")) {
                 Toast.makeText(getApplicationContext(), "That's not a gender.", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "Fill all textfields!", Toast.LENGTH_SHORT).show();
@@ -161,14 +215,14 @@ public class BasicInformationActivity extends AppCompatActivity {
 
     }
 
-    private void clearEditTexts(){
+    private void clearEditTexts() {
         editName.getText().clear();
         editPituus.getText().clear();
         editPaino.getText().clear();
         editIka.getText().clear();
     }
 
-    private void setData(){
+    private void setData() {
         Adapter1 = new ArrayAdapter<>(this,    /*CONVERTER*/
                 android.R.layout.simple_list_item_1,
                 OverallPattern.getInstance().getHenkilot())
@@ -230,10 +284,9 @@ public class BasicInformationActivity extends AppCompatActivity {
 
     }
 
-    public void onResume(){
+    public void onResume() {
         Log.d(TAG, "onResume being Called");
         super.onResume();
-        loadData();
         setData();
     }
 }
