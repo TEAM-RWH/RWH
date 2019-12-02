@@ -15,7 +15,7 @@ public class OverallPattern {
     }
 
     private OverallPattern() {
-        henkilot = new ArrayList<Henkilo>();
+        //henkilot = new ArrayList<Henkilo>();
 
 
         paivamaarat = new ArrayList<>();

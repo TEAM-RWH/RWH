@@ -1,10 +1,10 @@
 package com.example.rwh;
 
-public class Pvm extends Henkilo{
+public class Pvm{
     private String pvm;
 
     public Pvm(String pvm){
-        super(pvm);
+        //super(pvm);
     }
 
     public String getPvm() {
