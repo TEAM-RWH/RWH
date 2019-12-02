@@ -1,5 +1,6 @@
 package com.example.rwh;
 
+
 import java.util.ArrayList;
 
 public class OverallPattern {
@@ -15,7 +16,7 @@ public class OverallPattern {
 
     private OverallPattern() {
         henkilot = new ArrayList<Henkilo>();
-        henkilot.add(new Henkilo("Lauri", 178, 70, 27));
+
 
         paivamaarat = new ArrayList<>();
         ateriat = new ArrayList<>();
@@ -25,12 +26,8 @@ public class OverallPattern {
         return henkilot;
     }
 
-    public ArrayList<Ateria> getAteriaPaivat(){
-        return ateriat;
-    }
-
     public ArrayList<Pvm> getPaivamaarat(){
-        return paivamaarat;
+        return  paivamaarat;
     }
 }
 
