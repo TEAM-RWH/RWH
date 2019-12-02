@@ -6,12 +6,17 @@ public class Henkilo {
     private int pituus;
     private int paino;
     private int ika;
+    private String pvm;
 
     public Henkilo(String nimi, int pituus, int paino, int ika) {
         this.nimi = nimi;
         this.pituus = pituus;
         this.paino = paino;
         this.ika = ika;
+    }
+
+    public Henkilo(String pvm){
+        this.pvm = pvm;
     }
 
     @Override

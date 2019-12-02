@@ -19,7 +19,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private String[] activities;
-    public static final String EXTRA = "com.example.project.MESSAGE";
+    public static final String EXTRA = "123";
     public static final String TAG = "Projekti";
     private ListAdapter latenAdapter;
     private ListView latenListView;
@@ -85,9 +85,10 @@ public class MainActivity extends AppCompatActivity {
                         /*String activities = */
                         String.valueOf(parent.getItemAtPosition(indeksi));
 
-                        //nextActivity.putExtra(EXTRA, i);
+                        //
                         //saveData();
                         if (indeksi == 0) {
+                            ruokailuActivity.putExtra(EXTRA, i);
                             startActivity(ruokailuActivity);
                             Toast.makeText(getApplicationContext(), "Ruokailu activity for user: " + OverallPattern.getInstance().henkilot.get(i).getNimi(), Toast.LENGTH_LONG).show();
                         } else {

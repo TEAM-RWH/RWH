@@ -19,13 +19,18 @@
     </string-array>
 
     <string-array name="Ateriat">
-        <item></item>
+        <item>Valitse ateria:</item>
         <item>Aamupala</item>
         <item>Lounas</item>
         <item>Välipala</item>
         <item>Päivällinen</item>
         <item>Iltapala</item>
     </string-array>
+
     <string name="aterian_pvm">Valitse PVM</string>
+    <string name="ruoat_button">Valitse ruoat:</string>
+    <string name="valitse_ateria">Valitse ateria:</string>
+    <string name="valitutRuoat_textview"></string>
+    <string name="lisaaAteria_button">Lisää ateria</string>
 
 </resources>
