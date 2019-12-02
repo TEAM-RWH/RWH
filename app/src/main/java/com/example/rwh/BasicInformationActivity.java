@@ -89,12 +89,9 @@ public class BasicInformationActivity extends AppCompatActivity {
             }
         });
 
-        //saveData();
 
         loadData();
-
         setData();
-
 
     }
 

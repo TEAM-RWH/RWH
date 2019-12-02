@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int indeksi, long Id) {
-                        Log.d(TAG, "onItemClick(" + i + ")");
+                        Log.d(TAG, "onItemClick(" + indeksi + ")");
                         /*String activities = */
                         String.valueOf(parent.getItemAtPosition(indeksi));
 
