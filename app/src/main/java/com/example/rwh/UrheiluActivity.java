@@ -20,6 +20,7 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     private TextView kesto;
     private TextView kaloreitapoltettu;
     private TextView cheerup;
+    //private int i;
     public static final String TAG = "Urheilulista";
     public static final String EXTRA = "123";
 
@@ -31,6 +32,9 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_urheilu);
         getSupportActionBar().setTitle("Urheilu page");
 
+        //Bundle bundle = getIntent().getExtras();
+        //i = bundle.getInt(BasicInformationActivity.EXTRA, 0);
+
         urheilucaloriesView = findViewById(R.id.urheilucaloriesView);
         urheilucaloriesView.setText("Urheilu Suoritus");
 
@@ -40,23 +44,35 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         kesto = findViewById(R.id.kesto);
         //kesto.setText("blabla");
 
+
         Intent intent = getIntent();
         int i = intent.getIntExtra(EXTRA, 0);
+
+        //Information about calorie burning calculations
+        //This calculation relies on a key value known as a MET, which stands for metabolic equivalent.
+        //One "MET" is "roughly equivalent to the energy cost of sitting quietly,"
+        //according to the Compendium, and can be considered 1 kcal/kg/hour.
+        //Since sitting quietly is one MET, a 70 kg person would burn 70 calories (kcal) if they sat quietly for an hour.
+        //MET value multiplied by weight in kilograms tells you calories burned per hour (MET*weight in kg=calories/hour).
+        //If you only want to know how many calories you burned in a half hour,
+        //divide that number by two. If you want to know about 15 minutes, divide that number by four.
 
         kaloreitapoltettu = findViewById(R.id.kaloreitapoltettu);
         kaloreitapoltettu.setText(String.valueOf(OverallPattern.getInstance().henkilot.get(i).getIka())); //Call for a calorie calculation
 
+        int met = (OverallPattern.getInstance().henkilot.get(i).getPaino()); //laskee paljonko yksi MET on kyseiselle henkilölle.
+        //2.5 met	bird watching, slow walk
+        double kavely10 = (2.5 * met)/6;
+        double kavely20 = (2.5 * met)/6;
+        double kavely30 = (2.5 * met)/6;
+        double kavely40 = (2.5 * met)/6;
+        double kavely50 = (2.5 * met)/6;
+        double kavely60 = (2.5 * met)/6;
+
         cheerup = findViewById(R.id.cheerup);
         cheerup.setText("Hyvin Menee!");
 
-        int kaloripoltto;
 
-        //urheilulajijen kilokalori kulutus 10 minuutissa
-        int ryömiminen=1;
-        int kävely=2;
-        int hölkkä=3;
-        int juoksu=4;
-        int pikajuoksu=5;
 
        Spinner spinner = findViewById(R.id.spinner1);
        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.urheilu, android.R.layout.simple_spinner_item);

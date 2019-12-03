@@ -31,9 +31,8 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     private Spinner ateriaSpinner;
     private DatePickerDialog.OnDateSetListener setListener;
     public static final String TAG = "Ruokailulista";
-    private String valittuAteriaLuokalle, aterianPvmluokalle;
-    private ArrayList<String> valittujenRuokienLista, paivamaarat;
-    //private ArrayList<Ateria> ateriat;
+    private String valittuAteriaLuokalle, aterianPvmluokalle, aterian_pvm;
+    private ArrayList<String> valittujenRuokienLista;
     private ArrayAdapter pvmAdapter;
     private ListView listView;
     public static final String EXTRA = "123";
@@ -48,7 +47,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
        j = intent.getIntExtra(EXTRA,0);
 
 
-        getSupportActionBar().setTitle(OverallPattern.getInstance().henkilot.get(j).getNimi());
+        getSupportActionBar().setTitle("Ruokailut: " + OverallPattern.getInstance().henkilot.get(j).getNimi());
 
         valittujenRuokienLista = new ArrayList<>();
         //ateriat = new ArrayList<Ateria>();
@@ -72,7 +71,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
                         nextActivity.putExtra(EXTRA, i);
                         //nextActivity.putExtra("flag", "A");
                         startActivity(nextActivity);
-                        Toast.makeText(getApplicationContext(), "You clicked user: " + pvmAdapter.getItem(i), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Valitsit: " + pvmAdapter.getItem(i), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -89,17 +88,17 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
                                 .setIcon(android.R.drawable.ic_menu_delete)
                                 .setTitle("Poista päivä")
                                 .setMessage("Poista " + pvmAdapter.getItem(i) + "?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                .setPositiveButton("Kyllä", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getApplicationContext(), "Removed user: " + pvmAdapter.getItem(which_item),
+                                        Toast.makeText(getApplicationContext(), "Poistettu päivä: " + pvmAdapter.getItem(which_item),
                                                 Toast.LENGTH_SHORT).show();
-                                        OverallPattern.getInstance().henkilot.remove(which_item);
+                                        OverallPattern.getInstance().paivamaarat.remove(which_item);
                                         pvmAdapter.notifyDataSetChanged();
 
                                     }
                                 })
-                                .setNegativeButton("No", null)
+                                .setNegativeButton("Ei", null)
                                 .show();
 
                         return true;
@@ -135,7 +134,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
                 String date = day+"/"+month+"/"+year;
                 aterian_paiva.setText(date);
                 aterianPvmluokalle = date;
-                //paivamaarat.add
+
             }
         };
 
@@ -207,7 +206,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
 
                             if (valittu) {
 
-                                valittujenRuokienLista.add(ruoka1.getText() + ruokienLista.get(i));
+                                valittujenRuokienLista.add(ruokienLista.get(i));
                                 ruoka1.setText(ruoka1.getText() + ruokienLista.get(i) + "\n");
 
                             }
@@ -248,16 +247,20 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
             finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     public void lisaaAteriaPaiva(View v){
-        //ateriat.add();
-
         OverallPattern.getInstance().paivamaarat.add(new Pvm(aterianPvmluokalle));
         OverallPattern.getInstance().ateriat.add(new Ateria(valittuAteriaLuokalle,valittujenRuokienLista));
+        tyhjennaValinnat();
         listView.setAdapter(pvmAdapter);
 
+    }
+
+    public void tyhjennaValinnat(){
+        aterian_paiva.setText(R.string.aterian_pvm);
+        ateriaSpinner.setSelection(0);
+        ruoka1.setText(R.string.valitutRuoat_textview);
     }
 }
