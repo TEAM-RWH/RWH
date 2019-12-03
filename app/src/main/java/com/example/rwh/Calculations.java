@@ -1,10 +1,10 @@
 package com.example.rwh;
 import java.lang.*;
+public class Calculations extends UrheiluActivity {
 
-public class Calculations {
-    int aika;
-    public double sport(String sport, String time,int met) {
-        if (sport.equals("Kävely")) {
+    public static double sport(String sport, String time,double met) {
+        int aika =0;
+        if (sport.equals("Kävely Birdwatching")) {
             if (time.equals("10 min")) {
                 aika = 10;
             } else if (time.equals("20 min")) {

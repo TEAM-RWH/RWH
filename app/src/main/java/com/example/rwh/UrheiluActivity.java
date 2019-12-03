@@ -20,6 +20,8 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     private TextView kesto;
     private TextView kaloreitapoltettu;
     private TextView cheerup;
+    int met;
+    double kalorit;
     //private int i;
     public static final String TAG = "Urheilulista";
     public static final String EXTRA = "123";
@@ -58,16 +60,10 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         //divide that number by two. If you want to know about 15 minutes, divide that number by four.
 
         kaloreitapoltettu = findViewById(R.id.kaloreitapoltettu);
-        kaloreitapoltettu.setText(String.valueOf(OverallPattern.getInstance().henkilot.get(i).getIka())); //Call for a calorie calculation
 
-        int met = (OverallPattern.getInstance().henkilot.get(i).getPaino()); //laskee paljonko yksi MET on kyseiselle henkilölle.
-        //2.5 met	bird watching, slow walk
-        double kavely10 = (2.5 * met)/6;
-        double kavely20 = (2.5 * met)/6;
-        double kavely30 = (2.5 * met)/6;
-        double kavely40 = (2.5 * met)/6;
-        double kavely50 = (2.5 * met)/6;
-        double kavely60 = (2.5 * met)/6;
+
+        met = (OverallPattern.getInstance().henkilot.get(i).getPaino()); //laskee paljonko yksi MET on kyseiselle henkilölle.
+
 
         cheerup = findViewById(R.id.cheerup);
         cheerup.setText("Hyvin Menee!");
@@ -86,6 +82,8 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
        spinner2.setAdapter(adapter2);
        spinner2.setOnItemSelectedListener(this);
     }
+    String sport;
+    String time;
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -93,15 +91,21 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         {
             case R.id.spinner1:
             { // code for first spinner
-                String text1 = parent.getItemAtPosition(position).toString();
-                urheilulaji.setText(text1);
+                kaloreitapoltettu.setText(Double.toString(0));
+                sport = parent.getItemAtPosition(position).toString();
+                urheilulaji.setText(sport);
+                kaloreitapoltettu.setText(Double.toString(kalorit));
+                kalorit = Calculations.sport(sport,time,met);
                 break;
                 // code for first spinner. Depending on spinner.getselecteditem assign adapter to second spinner
             }
             case R.id.spinner2:
             { // code for second spinner
-                String text2 = parent.getItemAtPosition(position).toString();
-                kesto.setText(text2);
+                kaloreitapoltettu.setText(Double.toString(0));
+                time = parent.getItemAtPosition(position).toString();
+                kesto.setText(time);
+                kaloreitapoltettu.setText(Double.toString(kalorit));
+                kalorit = (Calculations.sport(sport,time,met));
                 break;
 
                 //Use get item selected and get selected item position
@@ -128,5 +132,6 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
 
         return super.onOptionsItemSelected(item);
     }
+
 }
 
