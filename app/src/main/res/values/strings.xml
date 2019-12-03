@@ -27,7 +27,7 @@
         <item>Iltapala</item>
     </string-array>
 
-    <string name="aterian_pvm">Valitse PVM</string>
+    <string name="aterian_pvm">Valitse PVM:</string>
     <string name="ruoat_button">Valitse ruoat:</string>
     <string name="valitse_ateria">Valitse ateria:</string>
     <string name="valitutRuoat_textview"></string>

@@ -15,11 +15,13 @@ public class Ateria {
         return aterianNimi;
     }
 
-    public void setAterianNimi(String aterianNimi) {
+    public void setAterianNimi(String aterianNimi)
+    {
         this.aterianNimi = aterianNimi;
     }
 
     public ArrayList<String> getRuoat() {
+
         return ruoat;
     }
 
@@ -35,11 +37,12 @@ public class Ateria {
         return aterianNimi.equals(ateria.aterianNimi) &&
                 ruoat.equals(ateria.ruoat);
     }*/
-
-    /*@Override
+    //android:layout_width="176dp"
+    //android:layout_height="27dp"
+    @Override
     public String toString(){
-        return this.pvm;
-    }*/
+        return this.aterianNimi + "\n" + this.ruoat;
+    }
 }
 
 
