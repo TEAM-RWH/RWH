@@ -13,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
 public class UrheiluActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private TextView urheilulaji;
@@ -25,7 +27,7 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     //private int i;
     public static final String TAG = "Urheilulista";
     public static final String EXTRA = "123";
-
+    private DecimalFormat laskut = new DecimalFormat("###.##");
 
 
     @Override
@@ -69,50 +71,49 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         cheerup.setText("Hyvin Menee!");
 
 
+        Spinner spinner = findViewById(R.id.spinner1);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.urheilu, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
-       Spinner spinner = findViewById(R.id.spinner1);
-       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.urheilu, android.R.layout.simple_spinner_item);
-       adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-       spinner.setAdapter(adapter);
-       spinner.setOnItemSelectedListener(this);
-
-       Spinner spinner2 = findViewById(R.id.spinner2);
-       ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.kesto, android.R.layout.simple_spinner_item);
-       adapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
-       spinner2.setAdapter(adapter2);
-       spinner2.setOnItemSelectedListener(this);
+        Spinner spinner2 = findViewById(R.id.spinner2);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.kesto, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinner2.setAdapter(adapter2);
+        spinner2.setOnItemSelectedListener(this);
     }
+
     String sport;
     String time;
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch(parent.getId())
-        {
-            case R.id.spinner1:
-            { // code for first spinner
+        switch (parent.getId()) {
+            case R.id.spinner1: { // code for first spinner
                 kaloreitapoltettu.setText(Double.toString(0));
                 sport = parent.getItemAtPosition(position).toString();
                 urheilulaji.setText(sport);
-                kaloreitapoltettu.setText(Double.toString(kalorit));
-                kalorit = Calculations.sport(sport,time,met);
+                kalorit = Calculations.sport(sport, time, met);
+                kaloreitapoltettu.setText(laskut.format(kalorit) + " kcal");
                 break;
                 // code for first spinner. Depending on spinner.getselecteditem assign adapter to second spinner
             }
-            case R.id.spinner2:
-            { // code for second spinner
+            case R.id.spinner2: { // code for second spinner
                 kaloreitapoltettu.setText(Double.toString(0));
                 time = parent.getItemAtPosition(position).toString();
                 kesto.setText(time);
-                kaloreitapoltettu.setText(Double.toString(kalorit));
-                kalorit = (Calculations.sport(sport,time,met));
+                kalorit = Calculations.sport(sport, time, met);
+                kaloreitapoltettu.setText(laskut.format(kalorit) + " kcal");
                 break;
 
                 //Use get item selected and get selected item position
             }
 
-    }}
-//String text = parent.getItemAtPosition(position).toString();
+        }
+    }
+
+    //String text = parent.getItemAtPosition(position).toString();
 //        Toast.makeText(parent.getContext(),text,Toast.LENGTH_SHORT).show();
 //        urheilulaji.setText(text);
 //        kesto.setText(text);
@@ -120,12 +121,13 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "Return to main from UrheiluActivity");
         int id = item.getItemId();
 
-        if ( id == android.R.id.home ) {
+        if (id == android.R.id.home) {
             finish();
             return true;
         }
@@ -133,5 +135,80 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         return super.onOptionsItemSelected(item);
     }
 
+    /*private double laskut(String sport, String time, double met) {
+        int aika = 0;
+        if (sport.equals("Kävely Birdwatching")) {
+            if (time.equals("10 min")) {
+                aika = 10;
+            } else if (time.equals("20 min")) {
+                aika = 20;
+            } else if (time.equals("30 min")) {
+                aika = 30;
+            } else if (time.equals("40 min")) {
+                aika = 40;
+            } else if (time.equals("50 min")) {
+                aika = 50;
+            } else if (time.equals("60 min")) {
+                aika = 60;
+            }
+            //2.5 met	bird watching, slow walk
+            return (((met * 2.5) / 6) * aika);
+
+        } else if (sport.equals("Hölkkä")) {
+            if (time.equals("10 min")) {
+                aika = 10;
+            } else if (time.equals("20 min")) {
+                aika = 20;
+            } else if (time.equals("30 min")) {
+                aika = 30;
+            } else if (time.equals("40 min")) {
+                aika = 40;
+            } else if (time.equals("50 min")) {
+                aika = 50;
+            } else if (time.equals("60 min")) {
+                aika = 60;
+            }
+            //7.0 met	jogging, general
+            return (((met * 7.0) / 6) * aika);
+        } else if (sport.equals("Juoksu")) {
+            if (time.equals("10 min")) {
+                aika = 10;
+            } else if (time.equals("20 min")) {
+                aika = 20;
+            } else if (time.equals("30 min")) {
+                aika = 30;
+            } else if (time.equals("40 min")) {
+                aika = 40;
+            } else if (time.equals("50 min")) {
+                aika = 50;
+            } else if (time.equals("60 min")) {
+                aika = 60;
+            }
+            //9.8	running, 6 mph (10 min/mile)
+            return (((met * 9.8) / 6) * aika);
+        } else if (sport.equals("PikaJuoksu")) {
+            if (time.equals("10 min")) {
+                aika = 10;
+            } else if (time.equals("20 min")) {
+                aika = 20;
+            } else if (time.equals("30 min")) {
+                aika = 30;
+            } else if (time.equals("40 min")) {
+                aika = 40;
+            } else if (time.equals("50 min")) {
+                aika = 50;
+            } else if (time.equals("60 min")) {
+                aika = 60;
+            }
+            // 19.0
+            //running, 12 mph (5 min/mile)
+            return (((met * 19.0) / 6) * aika);
+        } else {
+            return 0;
+        }
+
+
+    }*/
 }
+
 
