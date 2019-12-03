@@ -2,9 +2,11 @@ package com.example.rwh;
 
 public class Pvm{
     private String pvm;
+    private String mikaAteria;
 
-    public Pvm(String pvm){
-        //super(pvm);
+    public Pvm(String pvm, String mikaAteria){
+        this.pvm = pvm;
+        this.mikaAteria = mikaAteria;
     }
 
     public String getPvm() {
