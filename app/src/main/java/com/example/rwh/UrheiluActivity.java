@@ -2,6 +2,7 @@ package com.example.rwh;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     private TextView kaloreitapoltettu;
     private TextView cheerup;
     public static final String TAG = "Urheilulista";
+    public static final String EXTRA = "123";
 
 
 
@@ -38,8 +40,11 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         kesto = findViewById(R.id.kesto);
         //kesto.setText("blabla");
 
+        Intent intent = getIntent();
+        int i = intent.getIntExtra(EXTRA, 0);
+
         kaloreitapoltettu = findViewById(R.id.kaloreitapoltettu);
-        kaloreitapoltettu.setText("blabla"); //Call for a calorie calculation
+        kaloreitapoltettu.setText(String.valueOf(OverallPattern.getInstance().henkilot.get(i).getIka())); //Call for a calorie calculation
 
         cheerup = findViewById(R.id.cheerup);
         cheerup.setText("Hyvin Menee!");
