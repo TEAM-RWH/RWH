@@ -255,7 +255,8 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     public void lisaaAteriaPaiva(View v){
         //ateriat.add();
 
-        OverallPattern.getInstance().paivamaarat.add(new Pvm(aterianPvmluokalle, valittuAteriaLuokalle));
+        OverallPattern.getInstance().paivamaarat.add(new Pvm(aterianPvmluokalle));
+        OverallPattern.getInstance().ateriat.add(new Ateria(valittuAteriaLuokalle,valittujenRuokienLista));
         listView.setAdapter(pvmAdapter);
 
     }
