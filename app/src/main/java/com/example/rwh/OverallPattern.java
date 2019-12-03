@@ -27,7 +27,10 @@ public class OverallPattern {
     }
 
     public ArrayList<Pvm> getPaivamaarat(){
-        return  paivamaarat;
+        return paivamaarat;
+    }
+    public ArrayList<Ateria> getAteriat(){
+        return ateriat;
     }
 }
 
