@@ -9,6 +9,8 @@ public class OverallPattern {
     public ArrayList<Henkilo> henkilot;
     public ArrayList<Pvm> paivamaarat;
     public ArrayList<Ateria> ateriat;
+    public ArrayList<Liikkuminen> liikunnat;
+
 
     public static OverallPattern getInstance() {
         return ourInstance;
@@ -17,7 +19,7 @@ public class OverallPattern {
     private OverallPattern() {
         //henkilot = new ArrayList<Henkilo>();
 
-
+        liikunnat = new ArrayList<>();
         paivamaarat = new ArrayList<>();
         ateriat = new ArrayList<>();
     }
@@ -31,6 +33,9 @@ public class OverallPattern {
     }
     public ArrayList<Ateria> getAteriat(){
         return ateriat;
+    }
+    public ArrayList<Liikkuminen> getLiikunnat(){
+        return liikunnat;
     }
 }
 
