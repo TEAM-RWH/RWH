@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Selection;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -251,10 +252,16 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void lisaaAteriaPaiva(View v){
-        OverallPattern.getInstance().paivamaarat.add(new Pvm(aterianPvmluokalle));
-        OverallPattern.getInstance().ateriat.add(new Ateria(valittuAteriaLuokalle,valittujenRuokienLista));
-        tyhjennaValinnat();
-        listView.setAdapter(pvmAdapter);
+
+        if(aterian_paiva.getText().toString().isEmpty() || ruoka1.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Tee kaikki valinnat!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            OverallPattern.getInstance().paivamaarat.add(new Pvm(aterianPvmluokalle));
+            OverallPattern.getInstance().ateriat.add(new Ateria(valittuAteriaLuokalle, valittujenRuokienLista));
+            tyhjennaValinnat();
+            listView.setAdapter(pvmAdapter);
+        }
 
     }
 
