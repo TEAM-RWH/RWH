@@ -28,9 +28,10 @@
     </string-array>
 
     <string name="aterian_pvm">Valitse PVM:</string>
-    <string name="ruoat_button">Valitse ruoat:</string>
     <string name="valitse_ateria">Valitse ateria:</string>
     <string name="valitutRuoat_textview"></string>
     <string name="lisaaAteria_button">Lisää ateria</string>
+    <string name="kalorit_editText">Syötä aterian kalorit</string>
+    <string name="ruoat_button">Tarkista ruoan kalorit:</string>
 
 </resources>

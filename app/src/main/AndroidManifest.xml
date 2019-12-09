@@ -14,9 +14,6 @@
 
         </activity>
         <activity
-            android:name=".PaivanRuokailut"
-            android:parentActivityName=".RuokailuActivity" />
-        <activity
             android:name=".MainActivity"
             android:parentActivityName=".BasicInformationActivity" />
         <activity android:name=".BasicInformationActivity">
