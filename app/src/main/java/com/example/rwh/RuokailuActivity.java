@@ -118,13 +118,11 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     }*/
 
     public void asetaTiedot() {
-        //ruoan tarkistaminen
-        final String[] ruoat = new String[]{"omena", "banaani", "leipä", "Lasi maitoa", "Juustoa",
-                "asd", "fafa", "fjdalkfn", "fdaa", "fafa", "dasfaf", "fafdaf", "bsfbfdb", "gdshdhg",
-                "dhshgs", "gdsgs", "shgsf", "dsgfsh"};
+
+        //Ruoan tarkistaminen
 
         AutoCompleteTextView editText = findViewById(R.id.tarkistaKalorit);
-        ArrayAdapter<String> ruokaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ruoat);
+        ArrayAdapter<String> ruokaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, OverallPattern.getInstance().getRuoat());
         editText.setAdapter((ruokaAdapter));
 
         //Spinnervalikon luominen
