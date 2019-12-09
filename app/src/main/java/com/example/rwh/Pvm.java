@@ -4,31 +4,14 @@ import java.util.ArrayList;
 
 public class Pvm{
     private String pvm;
-    private ArrayList<Ateria> paivanateriat;
+    private ArrayList<ArrayList<Ateria>> paivanAteriat;
 
-    public Pvm(String pvm, ArrayList<Ateria> valitutruoat){
+    public Pvm(String pvm, ArrayList<ArrayList<Ateria>> paivanAteriat){
         this.pvm = pvm;
-        this.paivanateriat = valitutruoat;
+        this.paivanAteriat = paivanAteriat;
     }
 
-    public Pvm(String pvm){
-        this.pvm = pvm;
-    }
-
-    public ArrayList<Ateria> getPaivanAteriat() {
-        return paivanateriat;
-    }
-
-    public String getPvm() {
-        return pvm;
-    }
-
-    public void setPvm(String pvm) {
-        this.pvm = pvm;
-    }
-
-    @Override
-    public String toString(){
-        return pvm;
+    public ArrayList<ArrayList<Ateria>> getPaivanAteriat(){
+        return paivanAteriat;
     }
 }

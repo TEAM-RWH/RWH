@@ -223,13 +223,10 @@ public class BasicInformationActivity extends AppCompatActivity {
     private void setData() {
         Adapter1 = new ArrayAdapter<>(this,    /*CONVERTER*/
                 android.R.layout.simple_list_item_1,
-                OverallPattern.getInstance().getHenkilot())
-        ;
-
+                OverallPattern.getInstance().getHenkilot());
 
         ListView1 = findViewById(R.id.kayttajaValikko);
         ListView1.setAdapter(Adapter1);
-
 
         ListView1.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
@@ -249,11 +246,6 @@ public class BasicInformationActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
                         Log.d(TAG, "Long Click :D(" + i + ")");
-                        /*muutetaan.setText("Long Click...");
-                        Toast.makeText(getApplicationContext(), "Removed car: " + Adapter1.getItem(i), Toast.LENGTH_SHORT).show();
-                        GlobalModel.getInstance().autot.remove(i);
-                        Adapter1.notifyDataSetChanged();
-                        ListView1.requestLayout();*/
 
                         final int which_item = i;
 
@@ -279,7 +271,6 @@ public class BasicInformationActivity extends AppCompatActivity {
 
                 }
         );
-
     }
 
     public void onResume() {
@@ -288,4 +279,3 @@ public class BasicInformationActivity extends AppCompatActivity {
         setData();
     }
 }
-
