@@ -10,6 +10,7 @@ public class OverallPattern {
     public ArrayList<Pvm> paivamaarat;
     public ArrayList<Ateria> ateriat;
 
+
     public static OverallPattern getInstance() {
         return ourInstance;
     }
@@ -32,6 +33,8 @@ public class OverallPattern {
     public ArrayList<Ateria> getAteriat(){
         return ateriat;
     }
+
+
 }
 
 

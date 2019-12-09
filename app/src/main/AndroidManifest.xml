@@ -9,11 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PaivanRuokailut"
-                  android:parentActivityName=".RuokailuActivity"></activity>
+        <activity android:name=".PaivamaaraActivity"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
+        <activity
+            android:name=".PaivanRuokailut"
+            android:parentActivityName=".RuokailuActivity" />
         <activity
             android:name=".MainActivity"
-            android:parentActivityName=".BasicInformationActivity"></activity>
+            android:parentActivityName=".BasicInformationActivity" />
         <activity android:name=".BasicInformationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,10 +28,10 @@
         </activity>
         <activity
             android:name=".UrheiluActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".PaivamaaraActivity" />
         <activity
             android:name=".RuokailuActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".PaivamaaraActivity" />
     </application>
 
 </manifest>
