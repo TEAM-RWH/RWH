@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -66,6 +67,9 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         } else if (ateriaSpinner.getSelectedItem().toString().equals(valinta) || aterianKalorit.getText().toString().trim().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Tee kaikki valinnat!", Toast.LENGTH_SHORT).show();
         } else {
+            if(ateriaSpinner.getSelectedItem().toString().equals("aamupala")){
+                getInstance().paivamaarat.get(j).setAamupala(Integer.valueOf(aterianKalorit.getText().toString()));
+            }
 
             tyhjennaValinnat();
             //tallennaValinnat();
@@ -114,6 +118,14 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     }*/
 
     public void asetaTiedot() {
+        //ruoan tarkistaminen
+        final String[] ruoat = new String[]{"omena", "banaani", "leipä", "Lasi maitoa", "Juustoa",
+                "asd", "fafa", "fjdalkfn", "fdaa", "fafa", "dasfaf", "fafdaf", "bsfbfdb", "gdshdhg",
+                "dhshgs", "gdsgs", "shgsf", "dsgfsh"};
+
+        AutoCompleteTextView editText = findViewById(R.id.tarkistaKalorit);
+        ArrayAdapter<String> ruokaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ruoat);
+        editText.setAdapter((ruokaAdapter));
 
         //Spinnervalikon luominen
 
@@ -140,7 +152,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
 
         });
 
-        //Ruokavalikon luominen;
+        /*Ruokavalikon luominen;
 
         ruokaLista = findViewById(R.id.ruokalista);
         ruokaLista.setOnClickListener(new View.OnClickListener() {
@@ -174,7 +186,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-        });
+        });*/
 
     }
 
