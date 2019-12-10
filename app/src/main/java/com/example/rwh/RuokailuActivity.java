@@ -122,7 +122,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         //Ruoan tarkistaminen
 
         AutoCompleteTextView editText = findViewById(R.id.tarkistaKalorit);
-        ArrayAdapter<String> ruokaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, OverallPattern.getInstance().getRuoat());
+        ArrayAdapter<String> ruokaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, OverallPattern.getInstance().getRuokalista());
         editText.setAdapter((ruokaAdapter));
 
         //Spinnervalikon luominen
