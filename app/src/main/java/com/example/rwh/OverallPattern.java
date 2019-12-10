@@ -1,5 +1,6 @@
 package com.example.rwh;
 
+
 import java.util.ArrayList;
 
 public class OverallPattern {
@@ -7,8 +8,8 @@ public class OverallPattern {
 
     public ArrayList<Henkilo> henkilot;
     public ArrayList<Pvm> paivamaarat;
-    //public final String[] ruoat;
     public ArrayList<String> ruokalista;
+    public ArrayList<Ateria> ateriat;
 
 
     public static OverallPattern getInstance() {
@@ -239,6 +240,12 @@ public class OverallPattern {
         return paivamaarat;
     }
 
+        //henkilot = new ArrayList<Henkilo>();
+
+
+        //paivamaarat = new ArrayList<>();
+
+
 
     public ArrayList<Henkilo> getHenkilot() {
         return henkilot;
@@ -248,5 +255,4 @@ public class OverallPattern {
     public ArrayList<String> getRuokalista(){
         return  ruokalista;
     }
-
 }

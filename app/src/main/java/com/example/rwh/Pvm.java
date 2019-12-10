@@ -66,6 +66,5 @@ public class Pvm {
 
     public void setIllallinen(int illallinen) {
         this.illallinen = illallinen;
-
     }
 }

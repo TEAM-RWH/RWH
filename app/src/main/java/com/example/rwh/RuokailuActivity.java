@@ -87,34 +87,25 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     /*public void tallennaValinnat() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
         Gson gson = new Gson();
         String json = gson.toJson(getInstance().aterioidenLista);
         String json2 = gson.toJson(getInstance().paivienLista);
-
         editor.putString("aterioiden lista", json);
         editor.putString("paivien lista", json2);
         editor.apply();
     }
-
     public void lataaVanhatValinnat() {
-
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         Gson gson2 = new Gson();
-
         String json = sharedPreferences.getString("aterioiden lista", null);
         String json2 = sharedPreferences.getString("paivien lista", null);
-
-
         Type type = new TypeToken<ArrayList<ArrayList<Ateria>>>(){
         }.getType();
         getInstance().aterioidenLista = gson.fromJson(json, type);
-
         Type type2 = new TypeToken<ArrayList<ArrayList<Pvm>>>(){
         }.getType();
         getInstance().paivienLista = gson2.fromJson(json2,type2);
-
     }*/
 
     public void asetaTiedot() {
@@ -151,7 +142,6 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         });
 
         /*Ruokavalikon luominen;
-
         ruokaLista = findViewById(R.id.ruokalista);
         ruokaLista.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,19 +151,15 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
                 final String[] ruoat = new String[]{"omena", "banaani", "leipä", "Lasi maitoa", "Juustoa",
                         "asd", "fafa", "fjdalkfn", "fdaa", "fafa", "dasfaf", "fafdaf", "bsfbfdb", "gdshdhg",
                         "dhshgs", "gdsgs", "shgsf", "dsgfsh"};
-
                 //ruoat arrayn muunto listaksi
                 final List<String> ruokienLista = Arrays.asList(ruoat);
-
                 //AlertDialogin otsikon asettaminen
                 builder.setTitle("Ruokienlista:");
-
                 builder.setItems(ruoat, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int item) {
                         String selectedText = ruoat[item].toString();  //Selected item in listview
                     }
                 });
-
                 //valintojen peruminen
                 builder.setNeutralButton("Takaisin", new DialogInterface.OnClickListener() {
                     @Override

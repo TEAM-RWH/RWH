@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         nimiView = (TextView) findViewById(R.id.nimiView);
         pituusView = (TextView) findViewById(R.id.pituusView);
         painoView = (TextView) findViewById(R.id.painoView);
@@ -98,16 +99,23 @@ public class MainActivity extends AppCompatActivity {
 
         String[] activities = {"Ruokailu suoritukset", "Urheilu suoritukset"};*/
 
+        lataaPaivamaaraData();
+
         latenAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
                 OverallPattern.getInstance().getPaivamaarat())
         ;
+
 
         latenListView = findViewById(R.id.lista);
         latenListView.setAdapter(latenAdapter);
 
         Bundle bundle = getIntent().getExtras();
         i = bundle.getInt(BasicInformationActivity.EXTRA, 0);
+
+
+        lataaHenkiloData();
+
 
 
         setValues();
@@ -241,11 +249,19 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(OverallPattern.getInstance().henkilot);
-        String json2 = gson.toJson(OverallPattern.getInstance().paivamaarat);
         editor.putString("henkilo lista", json);
-        editor.putString("paivamaara lista", json2);
         editor.apply();
     }//Käytetään jos käyttäjän ominaisuuksiin(Nimi, paino... tehdään muutoksia
+
+    public void savePaivamaaraData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson2 = new Gson();
+        String json2 = gson2.toJson(OverallPattern.getInstance().paivamaarat);
+        editor.putString("paivamaara lista", json2);
+        editor.apply();
+
+    }
 
     public void lisaaPaivamaara(View v) {
 
@@ -255,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Valitse lisättävä päivämäärä", Toast.LENGTH_SHORT).show();
         }
         latenListView.setAdapter(latenAdapter);
-
+        savePaivamaaraData();
     }
 
     private void setInformation() {
@@ -418,4 +434,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     }//Mahdollistaa käyttäjän tietojen muuttamisen
+
+    public void lataaHenkiloData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+
+        String json = sharedPreferences.getString("henkilo lista", null);
+
+        Type type = new TypeToken<ArrayList<Henkilo>>() {
+        }.getType();
+        OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
+    }
+
+    public void lataaPaivamaaraData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        Gson gson2 = new Gson();
+        String json2 = sharedPreferences.getString("paivamaara lista", null);
+        Type type2 = new TypeToken<ArrayList<Pvm>>() {
+        }.getType();
+        OverallPattern.getInstance().paivamaarat = gson2.fromJson(json2, type2);
+
+        if(OverallPattern.getInstance().paivamaarat == null) {
+            OverallPattern.getInstance().paivamaarat = new ArrayList<Pvm>();
+        }
+
+    }
 }
