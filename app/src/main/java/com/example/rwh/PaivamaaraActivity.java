@@ -46,6 +46,7 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG,"onCreate being called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paivamaara);
 
@@ -101,6 +102,13 @@ public class PaivamaaraActivity extends AppCompatActivity {
         paivamaaraView.setText(OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
         aamupalaView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getAamupala()));
 
+    }
+
+    public void onResume(){
+        Log.d(TAG, "onResume being called");
+        super.onResume();
+        paivamaaraView.setText(OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
+        aamupalaView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getAamupala()));
     }
 
     @Override
