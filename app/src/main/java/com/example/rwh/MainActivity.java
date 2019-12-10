@@ -94,10 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
         paivamaaraActivity = new Intent(MainActivity.this, PaivamaaraActivity.class);
 
-        /*ruokailuActivity = new Intent(MainActivity.this, RuokailuActivity.class);
-        urheiluActivity = new Intent(MainActivity.this, UrheiluActivity.class);
-
-        String[] activities = {"Ruokailu suoritukset", "Urheilu suoritukset"};*/
 
         lataaPaivamaaraData();
 

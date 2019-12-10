@@ -217,12 +217,6 @@ public class BasicInformationActivity extends AppCompatActivity {
     private void setData() {
 
 
-        /*for (Henkilo i: OverallPattern.getInstance().henkilot)
-        {
-            if (i.getNimi().equals("Lauri"))
-
-        }*/
-
         Adapter1 = new ArrayAdapter<>(this,    /*CONVERTER*/
                 android.R.layout.simple_list_item_1,
                 OverallPattern.getInstance().getHenkilot())

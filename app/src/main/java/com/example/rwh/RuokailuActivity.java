@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -33,21 +34,11 @@ import static com.example.rwh.OverallPattern.getInstance;
 public class RuokailuActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner ateriaSpinner;
-    private DatePickerDialog.OnDateSetListener setListener;
     public static final String TAG = "Ruokailulista";
-    private String valittuAteriaLuokalle, aterianPvmluokalle, aterian_pvm;
-    private ArrayList<String> valittujenRuokienLista;
-    private ArrayList<String> paivamaarat2;
-    private ArrayAdapter pvmAdapter;
-    private ListView listView;
-    public String valittuAteriaMetodille;
     public static final String EXTRA = "123";
-    public static final String EXTRA_MESSAGE = "com.example.rwh.MESSAGE";
     private EditText aterianKalorit;
-    private Button ruokaLista;
     private TextView testView;
     private int j;
-    //private Multimap<String, ArrayList<Ateria>> paivat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +69,25 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
                 getInstance().paivamaarat.get(j).setAamupala(Integer.valueOf(aterianKalorit.getText().toString()));
                 testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getAamupala()));
                 tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Lounas")){
+                getInstance().paivamaarat.get(j).setLounas(Integer.valueOf(aterianKalorit.getText().toString()));
+                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getLounas()));
+                tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Välipala")){
+                getInstance().paivamaarat.get(j).setValipala(Integer.valueOf(aterianKalorit.getText().toString()));
+                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getValipala()));
+                tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Päivällinen")){
+                getInstance().paivamaarat.get(j).setPaivallinen(Integer.valueOf(aterianKalorit.getText().toString()));
+                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getPaivallinen()));
+                tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Iltapala")){
+                getInstance().paivamaarat.get(j).setIllallinen(Integer.valueOf(aterianKalorit.getText().toString()));
+                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getIllallinen()));
+                tallennaTiedot();
             }
 
             tyhjennaValinnat();
-            //tallennaValinnat();
-            //lataaVanhatValinnat();
-            //asetaVanhatTiedot();
         }
     }
 
@@ -93,31 +97,14 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
-    /*public void tallennaValinnat() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(getInstance().aterioidenLista);
-        String json2 = gson.toJson(getInstance().paivienLista);
-        editor.putString("aterioiden lista", json);
-        editor.putString("paivien lista", json2);
-        editor.apply();
-    }
-    public void lataaVanhatValinnat() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        Gson gson2 = new Gson();
-        String json = sharedPreferences.getString("aterioiden lista", null);
-        String json2 = sharedPreferences.getString("paivien lista", null);
-        Type type = new TypeToken<ArrayList<ArrayList<Ateria>>>(){
-        }.getType();
-        getInstance().aterioidenLista = gson.fromJson(json, type);
-        Type type2 = new TypeToken<ArrayList<ArrayList<Pvm>>>(){
-        }.getType();
-        getInstance().paivienLista = gson2.fromJson(json2,type2);
-    }*/
 
     public void asetaTiedot() {
+
+        //Ruoan tarkistaminen
+
+        AutoCompleteTextView editText = findViewById(R.id.tarkistaKalorit);
+        ArrayAdapter<String> ruokaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, OverallPattern.getInstance().getRuokalista());
+        editText.setAdapter((ruokaAdapter));
 
         //Spinnervalikon luominen
 
@@ -142,42 +129,6 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
 
             }
 
-        });
-
-        //Ruokavalikon luominen;
-
-        ruokaLista = findViewById(R.id.ruokalista);
-        ruokaLista.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(RuokailuActivity.this);
-                //String array alert dialogin monivalinta vaihtoehdoille
-                final String[] ruoat = new String[]{"omena", "banaani", "leipä", "Lasi maitoa", "Juustoa",
-                        "asd", "fafa", "fjdalkfn", "fdaa", "fafa", "dasfaf", "fafdaf", "bsfbfdb", "gdshdhg",
-                        "dhshgs", "gdsgs", "shgsf", "dsgfsh"};
-
-                //ruoat arrayn muunto listaksi
-                final List<String> ruokienLista = Arrays.asList(ruoat);
-
-                //AlertDialogin otsikon asettaminen
-                builder.setTitle("Ruokienlista:");
-
-                builder.setItems(ruoat, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        String selectedText = ruoat[item].toString();  //Selected item in listview
-                    }
-                });
-
-                //valintojen peruminen
-                builder.setNeutralButton("Takaisin", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //koodataan mitä tapahtuu, jos peruuttaa valinnat
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
         });
 
     }
@@ -214,17 +165,5 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         editor.apply();
     }
 
-    /*public void lataaTiedot(){
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("paivamaara lista", null);
-        Type type = new TypeToken<ArrayList<Henkilo>>() {
-        }.getType();
-        OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
-
-        if (getInstance().paivamaarat == null) {
-            getInstance().paivamaarat = new ArrayList<Pvm>();
-        }
-    }*/
 
 }

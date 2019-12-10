@@ -101,6 +101,10 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
         paivamaaraView.setText(OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
         aamupalaView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getAamupala()));
+        lounasView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getLounas()));
+        valipalaView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getValipala()));
+        paivallinenView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getPaivallinen()));
+        illallinenView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getIllallinen()));
 
     }
 
@@ -109,6 +113,11 @@ public class PaivamaaraActivity extends AppCompatActivity {
         super.onResume();
         paivamaaraView.setText(OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
         aamupalaView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getAamupala()));
+        lounasView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getLounas()));
+        valipalaView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getValipala()));
+        paivallinenView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getPaivallinen()));
+        illallinenView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getIllallinen()));
+
     }
 
     @Override
