@@ -9,14 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".PaivamaaraActivity"
             android:parentActivityName=".MainActivity">
+        </activity>
 
+        <activity android:name=".BasicInformationActivity"
+                  >
         </activity>
         <activity
             android:name=".MainActivity"
             android:parentActivityName=".BasicInformationActivity" />
-        <activity android:name=".BasicInformationActivity">
+        <activity android:name=".HomeActivity"
+                  android:theme="@style/Theme.AppCompat.NoActionBar"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,10 +32,10 @@
         </activity>
         <activity
             android:name=".UrheiluActivity"
-            android:parentActivityName=".PaivamaaraActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".RuokailuActivity"
-            android:parentActivityName=".PaivamaaraActivity" />
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
