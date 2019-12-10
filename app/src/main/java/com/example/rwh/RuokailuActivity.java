@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,6 +19,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +45,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     public static final String EXTRA_MESSAGE = "com.example.rwh.MESSAGE";
     private EditText aterianKalorit;
     private Button ruokaLista;
+    private TextView testView;
     private int j;
     //private Multimap<String, ArrayList<Ateria>> paivat;
 
@@ -50,9 +57,10 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         Intent intent = getIntent();
         j = intent.getIntExtra(EXTRA, 0);
 
-        getSupportActionBar().setTitle("Ruokailut: " + getInstance().henkilot.get(j).getNimi());
+        getSupportActionBar().setTitle("Ruokailut: " + getInstance().paivamaarat.get(j).getPaivamaara());
 
         aterianKalorit = findViewById(R.id.aterian_kalorit);
+        testView = findViewById(R.id.testView);
 
         //lataaVanhatValinnat();
         asetaTiedot();
@@ -66,6 +74,11 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         } else if (ateriaSpinner.getSelectedItem().toString().equals(valinta) || aterianKalorit.getText().toString().trim().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Tee kaikki valinnat!", Toast.LENGTH_SHORT).show();
         } else {
+            if (ateriaSpinner.getSelectedItem().toString().equals("Aamupala")){
+                getInstance().paivamaarat.get(j).setAamupala(Integer.valueOf(aterianKalorit.getText().toString()));
+                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getAamupala()));
+                tallennaTiedot();
+            }
 
             tyhjennaValinnat();
             //tallennaValinnat();
@@ -191,5 +204,27 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void tallennaTiedot(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(getInstance().paivamaarat);
+        editor.putString("paivamaara lista", json);
+        editor.apply();
+    }
+
+    /*public void lataaTiedot(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("paivamaara lista", null);
+        Type type = new TypeToken<ArrayList<Henkilo>>() {
+        }.getType();
+        OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
+
+        if (getInstance().paivamaarat == null) {
+            getInstance().paivamaarat = new ArrayList<Pvm>();
+        }
+    }*/
 
 }
