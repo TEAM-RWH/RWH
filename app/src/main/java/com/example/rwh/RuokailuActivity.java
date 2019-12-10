@@ -1,14 +1,17 @@
 package com.example.rwh;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -51,7 +54,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         getSupportActionBar().setTitle("Ruokailut: " + getInstance().paivamaarat.get(j).getPaivamaara());
 
         aterianKalorit = findViewById(R.id.aterian_kalorit);
-        testView = findViewById(R.id.testView);
+        //testView = findViewById(R.id.testView);
 
         //lataaVanhatValinnat();
         asetaTiedot();
@@ -145,15 +148,58 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "Return to main from RuokailuActivity");
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.info_menu, menu);
+        return true;
+    }// Asetetaan info menu action bariin
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.d(TAG, "Return to PaivamaaraActivity from RuokailuActivity");
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
             finish();
             return true;
         }
-        return super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
+
+                new AlertDialog.Builder(RuokailuActivity.this)
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setTitle("Info")
+                        .setMessage("Valitse mikä ateria lisätään, ja syötä aterian sisältämä kalori määrä.\n\n" +
+                                "Voit myös tarkistella yleisten tuotteiden kalorimääriä painamalla 'Tarkista ruoan kalorit' kenttää ja" +
+                                " kirjoittamalla hakukenttään tuotteen.")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Poistuttu info ruudusta",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+                return true;
+            case R.id.item2:
+                Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem1:
+                Toast.makeText(this, "Subitem 1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem2:
+                Toast.makeText(this, "Subitem 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        //return super.onOptionsItemSelected(item);
     }
 
     public void tallennaTiedot(){

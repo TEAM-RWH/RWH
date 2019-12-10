@@ -102,17 +102,13 @@ public class MainActivity extends AppCompatActivity {
                 OverallPattern.getInstance().getPaivamaarat())
         ;
 
-
         latenListView = findViewById(R.id.lista);
         latenListView.setAdapter(latenAdapter);
 
         Bundle bundle = getIntent().getExtras();
         i = bundle.getInt(BasicInformationActivity.EXTRA, 0);
 
-
         lataaHenkiloData();
-
-
 
         setValues();
 
@@ -120,77 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
         setMuutokset();
 
-        //Päivämäärävalitsimen luominen
+        asetaPaivamaaraValitsin();
 
-        Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        paivamaaraView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        MainActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        setListener, year, month, day);
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog.show();
-            }
-        });
-
-        setListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                String date = day + "." + month + "." + year;
-                paivamaaraView.setText(date);
-                //aterianPvmluokalle = date;
-                //paivamaarat.add
-            }
-        };
-
-        latenListView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int i, long Id) {
-                        Log.d(TAG, "Klikattu indeksi(" + i + ")");
-                        paivamaaraActivity.putExtra(EXTRA2, i);
-                        startActivity(paivamaaraActivity);
-                        Toast.makeText(getApplicationContext(), "Valittu päivämäärä: " + latenAdapter.getItem(i), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        /*latenListView.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
-                        Log.d(TAG, "Long Click :D(" + i + ")");
-
-                        final int which_item = i;
-
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setIcon(android.R.drawable.ic_menu_delete)
-                                .setTitle("Delete päivämäärä")
-                                .setMessage("Delete " + latenAdapter.getItem(i) + "?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getApplicationContext(), "Removed user: " + latenAdapter.getItem(which_item),
-                                                Toast.LENGTH_SHORT).show();
-                                        OverallPattern.getInstance().henkilot.remove(which_item);
-                                        Adapter1.notifyDataSetChanged();
-
-                                    }
-                                })
-                                .setNegativeButton("No", null)
-                                .show();
-
-                        return true;
-                    }
-
-                }
-        );*/
 
     }
 
@@ -209,14 +136,14 @@ public class MainActivity extends AppCompatActivity {
 
                 new AlertDialog.Builder(MainActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
-                        .setTitle("Information")
-                        .setMessage("Formulas used for calculating kcal values : \nFor men: 88.362 + ((13.397 * paino) + (4.799 * pituus) - (5.677 * ika)) * 1.5" +
-                                "\nFor women:  447.593 + ((9.247 * paino) + (3.098 * pituus) - (4.330 * ika)) * 1.5\n\n" +
-                                "Name and weight are adjustable with longclick.")
+                        .setTitle("Info")
+                        .setMessage("Käytetyt kaavat tarvittavien kaloreiden selvittämiseksi : \n\nMiehille: 88.362 + ((13.397 * paino) + (4.799 * pituus) - (5.677 * ika)) * 1.5" +
+                                "\n\nNaisille:  447.593 + ((9.247 * paino) + (3.098 * pituus) - (4.330 * ika)) * 1.5\n\n" +
+                                "Nimi, paino ja ikä ovat muutettavissa pitkällä painalluksella.")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "Exited info screen",
+                                Toast.makeText(getApplicationContext(), "Poistuttu info ruudusta",
                                         Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -239,25 +166,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }//Asetetaan, jotta voidaan valita jokin toiminto action barista
-
-    public void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(OverallPattern.getInstance().henkilot);
-        editor.putString("henkilo lista", json);
-        editor.apply();
-    }//Käytetään jos käyttäjän ominaisuuksiin(Nimi, paino... tehdään muutoksia
-
-    public void savePaivamaaraData(){
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson2 = new Gson();
-        String json2 = gson2.toJson(OverallPattern.getInstance().paivamaarat);
-        editor.putString("paivamaara lista", json2);
-        editor.apply();
-
-    }
 
     public void lisaaPaivamaara(View v) {
 
@@ -304,6 +212,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setMuutokset() {
+
+
+        latenListView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int i, long Id) {
+                        Log.d(TAG, "Klikattu indeksi(" + i + ")");
+                        paivamaaraActivity.putExtra(EXTRA2, i);
+                        startActivity(paivamaaraActivity);
+                        Toast.makeText(getApplicationContext(), "Valittu päivämäärä: " + latenAdapter.getItem(i), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        latenListView.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
+                        Log.d(TAG, "Long Click :D(" + i + ")");
+
+                        final int which_item = i;
+
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setIcon(android.R.drawable.ic_menu_delete)
+                                .setTitle("Poista päivämäärä")
+                                .setMessage("Poista " + latenAdapter.getItem(i) + "?")
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(getApplicationContext(), "Poistettu päivämäärä: " + latenAdapter.getItem(which_item),
+                                                Toast.LENGTH_SHORT).show();
+                                        OverallPattern.getInstance().paivamaarat.remove(which_item);
+                                        latenAdapter.notifyDataSetChanged();
+                                        savePaivamaaraData();
+                                    }
+                                })
+                                .setNegativeButton("No", null)
+                                .show();
+
+                        return true;
+                    }
+
+                }
+        );
+
         painoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -431,6 +383,25 @@ public class MainActivity extends AppCompatActivity {
 
     }//Mahdollistaa käyttäjän tietojen muuttamisen
 
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(OverallPattern.getInstance().henkilot);
+        editor.putString("henkilo lista", json);
+        editor.apply();
+    }//Käytetään jos käyttäjän ominaisuuksiin(Nimi, paino... tehdään muutoksia
+
+    public void savePaivamaaraData(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson2 = new Gson();
+        String json2 = gson2.toJson(OverallPattern.getInstance().paivamaarat);
+        editor.putString("paivamaara lista", json2);
+        editor.apply();
+
+    } //Käyetetään jos käyttäjä lisää päivämääriä
+
     public void lataaHenkiloData(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -440,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
         Type type = new TypeToken<ArrayList<Henkilo>>() {
         }.getType();
         OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
-    }
+    } //Henkilötietojen lataamista varten
 
     public void lataaPaivamaaraData(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
@@ -454,5 +425,35 @@ public class MainActivity extends AppCompatActivity {
             OverallPattern.getInstance().paivamaarat = new ArrayList<Pvm>();
         }
 
-    }
+    } //Päivämäärä listan lataus
+
+    public void asetaPaivamaaraValitsin(){
+        Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        paivamaaraView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        MainActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        setListener, year, month, day);
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                datePickerDialog.show();
+            }
+        });
+
+        setListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                String date = day + "." + month + "." + year;
+                paivamaaraView.setText(date);
+
+            }
+        };
+
+    } //Asetetaan päivämäärä valitsin
 }
