@@ -1,10 +1,7 @@
 package com.example.rwh;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,11 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
 
 import static com.example.rwh.OverallPattern.getInstance;
 
@@ -39,7 +34,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     public static final String EXTRA = "123";
     public static final String EXTRA_MESSAGE = "com.example.rwh.MESSAGE";
     private EditText aterianKalorit;
-    private Button ruokaLista;
+    private AutoCompleteTextView ruokaLista;
     private int j;
     //private Multimap<String, ArrayList<Ateria>> paivat;
 
