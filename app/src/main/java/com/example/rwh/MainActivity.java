@@ -1,16 +1,16 @@
 package com.example.rwh;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,19 +18,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
-
-
     private ArrayAdapter adapter;
     private String[] activities;
     public static final String EXTRA = "123";
@@ -65,14 +70,11 @@ public class MainActivity extends AppCompatActivity {
     private DecimalFormat laskut = new DecimalFormat("###.##");
 
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate being called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         nimiView = (TextView) findViewById(R.id.nimiView);
         pituusView = (TextView) findViewById(R.id.pituusView);
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         ikaView = (TextView) findViewById(R.id.ikaView);
         sukupuoliView = (TextView) findViewById(R.id.sukupuoliView);
         arvioView = (TextView) findViewById(R.id.arvioView);
-        testView = (TextView) findViewById(R.id.testView);
+        //testView = (TextView) findViewById(R.id.testView);
 
         ruokailuActivity = new Intent(MainActivity.this, RuokailuActivity.class);
         urheiluActivity = new Intent(MainActivity.this, UrheiluActivity.class);
@@ -95,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
         latenListView = findViewById(R.id.lista);
         latenListView.setAdapter(latenAdapter);
 
-        Bundle bundle = getIntent().getExtras();
-        i = bundle.getInt(BasicInformationActivity.EXTRA, 0);
+        //Bundle bundle = getIntent().getExtras();
+        //i = bundle.getInt(BasicInformationActivity.EXTRA, 0);
 
 
         setValues();

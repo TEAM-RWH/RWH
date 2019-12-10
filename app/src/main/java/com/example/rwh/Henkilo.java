@@ -1,5 +1,7 @@
 package com.example.rwh;
 
+import java.util.ArrayList;
+
 public class Henkilo {
 
     private String nimi;
@@ -7,6 +9,10 @@ public class Henkilo {
     private int paino;
     private int ika;
     private String sukupuoli;
+    //private double tarvittavaEnergia;
+    //private double saatuEnergia;
+    //private double kulutettuEnenergia
+    //private double aktiivisuusTaso;
 
     public Henkilo(String nimi, int pituus, int paino, int ika, String sukupuoli) {
         this.nimi = nimi;
