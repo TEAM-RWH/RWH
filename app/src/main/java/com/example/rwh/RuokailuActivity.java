@@ -40,7 +40,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     public static final String TAG = "Ruokailulista";
     public static final String EXTRA = "123";
     private EditText aterianKalorit;
-    private TextView testView;
+    private AutoCompleteTextView tarkistaKalorit;
     private int j;
 
     @Override
@@ -54,7 +54,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         getSupportActionBar().setTitle("Ruokailut: " + getInstance().paivamaarat.get(j).getPaivamaara());
 
         aterianKalorit = findViewById(R.id.aterian_kalorit);
-        //testView = findViewById(R.id.testView);
+        tarkistaKalorit = findViewById(R.id.tarkistaKalorit);
 
         //lataaVanhatValinnat();
         asetaTiedot();
@@ -69,37 +69,25 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(getApplicationContext(), "Tee kaikki valinnat!", Toast.LENGTH_SHORT).show();
         } else {
             if (ateriaSpinner.getSelectedItem().toString().equals("Aamupala")){
-                getInstance().paivamaarat.get(j).setAamupala(Integer.valueOf(aterianKalorit.getText().toString()));
-                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getAamupala()));
+                getInstance().paivamaarat.get(j).setAamupala(Double.valueOf(aterianKalorit.getText().toString()));
                 tallennaTiedot();
             } else if (ateriaSpinner.getSelectedItem().toString().equals("Lounas")){
-                getInstance().paivamaarat.get(j).setLounas(Integer.valueOf(aterianKalorit.getText().toString()));
-                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getLounas()));
+                getInstance().paivamaarat.get(j).setLounas(Double.valueOf(aterianKalorit.getText().toString()));
                 tallennaTiedot();
             } else if (ateriaSpinner.getSelectedItem().toString().equals("Välipala")){
-                getInstance().paivamaarat.get(j).setValipala(Integer.valueOf(aterianKalorit.getText().toString()));
-                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getValipala()));
+                getInstance().paivamaarat.get(j).setValipala(Double.valueOf(aterianKalorit.getText().toString()));
                 tallennaTiedot();
             } else if (ateriaSpinner.getSelectedItem().toString().equals("Päivällinen")){
-                getInstance().paivamaarat.get(j).setPaivallinen(Integer.valueOf(aterianKalorit.getText().toString()));
-                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getPaivallinen()));
+                getInstance().paivamaarat.get(j).setPaivallinen(Double.valueOf(aterianKalorit.getText().toString()));
                 tallennaTiedot();
             } else if (ateriaSpinner.getSelectedItem().toString().equals("Iltapala")){
-                getInstance().paivamaarat.get(j).setIllallinen(Integer.valueOf(aterianKalorit.getText().toString()));
-                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getIllallinen()));
+                getInstance().paivamaarat.get(j).setIllallinen(Double.valueOf(aterianKalorit.getText().toString()));
                 tallennaTiedot();
             }
 
             tyhjennaValinnat();
         }
     }
-
-    public void tyhjennaValinnat() {
-        aterianKalorit.getText().clear();
-        ateriaSpinner.setSelection(0);
-
-    }
-
 
     public void asetaTiedot() {
 
@@ -209,6 +197,41 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         String json = gson.toJson(getInstance().paivamaarat);
         editor.putString("paivamaara lista", json);
         editor.apply();
+    }
+
+    public void tyhjennaValinnat() {
+        aterianKalorit.getText().clear();
+        ateriaSpinner.setSelection(0);
+        tarkistaKalorit.getText().clear();
+    }
+
+    public void lisaaRuokaListalle(View v){
+
+        String uusiRuoka = tarkistaKalorit.getText().toString();
+        if(tarkistaKalorit.getText().toString().trim().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Kirjoita ruoan nimi Tarkista ruoan kalorit -kenttään ja paina lisää ruoka!", Toast.LENGTH_SHORT).show();
+        } else if(getInstance().ruokalista.contains(uusiRuoka)){
+            tarkistaKalorit.getText().clear();
+            Toast.makeText(getApplicationContext(), "Ruoka on jo listalla!", Toast.LENGTH_SHORT).show();
+        }else{
+            getInstance().ruokalista.add(uusiRuoka);
+            tarkistaKalorit.getText().clear();
+            Toast.makeText(getApplicationContext(), "Uusi ruoka lisätty", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void poistaRuokaListalta(View v){
+
+        int tuoteIndex = Integer.valueOf(getInstance().ruokalista.indexOf(tarkistaKalorit.getText().toString()));
+        if(tarkistaKalorit.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Kirjoita ruoan nimi Tarkista ruoan kalorit -kenttään ja paina poista ruoka!", Toast.LENGTH_SHORT).show();
+        }else if( tuoteIndex < 213){
+            Toast.makeText(getApplicationContext(), "Et voi poistaa valitsemaasi ruokaa!", Toast.LENGTH_SHORT).show();
+        }else{
+            int poistettava = getInstance().ruokalista.indexOf(tarkistaKalorit.getText().toString());
+            getInstance().ruokalista.remove(poistettava);
+            Toast.makeText(getApplicationContext(), "Valitsemasi tuote poistettu!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
