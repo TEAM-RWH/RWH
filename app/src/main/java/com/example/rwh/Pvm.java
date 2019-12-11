@@ -1,5 +1,7 @@
 package com.example.rwh;
 
+import java.util.ArrayList;
+
 public class Pvm {
         private String paivamaara;
         private int aamupala;
@@ -66,6 +68,5 @@ public class Pvm {
 
     public void setIllallinen(int illallinen) {
         this.illallinen = illallinen;
-
     }
 }

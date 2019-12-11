@@ -20,6 +20,8 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import static com.example.rwh.OverallPattern.getInstance;
+
 public class PaivamaaraActivity extends AppCompatActivity {
 
     private int j;
@@ -44,11 +46,14 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG,"onCreate being called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paivamaara);
 
+
+
         Intent intent = getIntent();
-        j = intent.getIntExtra(EXTRA2,0);
+        j = intent.getIntExtra(EXTRA2, 0);
 
         paivamaaraView = (TextView) findViewById(R.id.paivamaaraView);
         aamupalaView = (TextView) findViewById(R.id.aamupalaView);
@@ -62,6 +67,8 @@ public class PaivamaaraActivity extends AppCompatActivity {
         urheiluActivity = new Intent(PaivamaaraActivity.this, UrheiluActivity.class);
 
         String[] activities = {"Ruokailu suoritukset", "Urheilu suoritukset"};
+
+        //lataaTiedot();
 
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
@@ -93,6 +100,7 @@ public class PaivamaaraActivity extends AppCompatActivity {
                 });
 
         paivamaaraView.setText(OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
+        aamupalaView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getAamupala()));
 
         if(OverallPattern.getInstance().paivamaarat.get(j).getAamupala() == 0){
 
@@ -103,12 +111,19 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
     }
 
+    public void onResume(){
+        Log.d(TAG, "onResume being called");
+        super.onResume();
+        paivamaaraView.setText(OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
+        aamupalaView.setText(String.valueOf(OverallPattern.getInstance().paivamaarat.get(j).getAamupala()));
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "Return to main from RuokailuActivity");
         int id = item.getItemId();
 
-        if ( id == android.R.id.home ) {
+        if (id == android.R.id.home) {
             finish();
             return true;
         }
@@ -116,4 +131,14 @@ public class PaivamaaraActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     } //Crash protection
 
+    public void lataaTiedot() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json2 = sharedPreferences.getString("paivamaara lista", null);
+        Type type2 = new TypeToken<ArrayList<Pvm>>() {
+        }.getType();
+        OverallPattern.getInstance().paivamaarat = gson.fromJson(json2, type2);
+
+
     }
+}
