@@ -8,14 +8,15 @@ public class OverallPattern {
 
     public ArrayList<Henkilo> henkilot;
     public ArrayList<Pvm> paivamaarat;
+
     public ArrayList<String> ruokalista;
+
 
     public static OverallPattern getInstance() {
         return ourInstance;
     }
 
     private OverallPattern() {
-
         paivamaarat = new ArrayList<>();
         henkilot = new ArrayList<>();
         ruokalista = new ArrayList<>();
@@ -234,15 +235,21 @@ public class OverallPattern {
         ruokalista.add("Salaattikastike 300-500 kcal/100g");
 
     }
-    public ArrayList<Pvm> getPaivamaarat(){
-        return paivamaarat;
-    }
 
     public ArrayList<Henkilo> getHenkilot() {
         return henkilot;
     }
 
+    public ArrayList<Pvm> getPaivamaarat(){
+        return paivamaarat;
+    }
+
     public ArrayList<String> getRuokalista(){
         return  ruokalista;
     }
+
+
+
 }
+
+
