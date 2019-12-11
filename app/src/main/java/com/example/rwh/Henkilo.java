@@ -9,7 +9,10 @@ public class Henkilo {
     private int paino;
     private int ika;
     private String sukupuoli;
-    private ArrayList<Pvm> paivamaara;
+    //private double tarvittavaEnergia;
+    //private double saatuEnergia;
+    //private double kulutettuEnenergia
+    //private double aktiivisuusTaso;
 
     public Henkilo(String nimi, int pituus, int paino, int ika, String sukupuoli) {
         this.nimi = nimi;

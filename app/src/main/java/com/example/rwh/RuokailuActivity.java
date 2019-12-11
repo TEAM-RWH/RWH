@@ -1,42 +1,46 @@
 package com.example.rwh;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import android.app.AlertDialog;
+
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
+
+import static com.example.rwh.OverallPattern.getInstance;
 
 public class RuokailuActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private Button valitseRuoat;
-    private TextView aterian_paiva, ruoka1;
     private Spinner ateriaSpinner;
-    private DatePickerDialog.OnDateSetListener setListener;
     public static final String TAG = "Ruokailulista";
-    private String valittuAteriaLuokalle, aterianPvmluokalle;
-    private ArrayList<String> valittujenRuokienLista, paivamaarat;
-    //private ArrayList<Ateria> ateriat;
-    private ArrayAdapter pvmAdapter;
-    private ListView listView;
     public static final String EXTRA = "123";
+    private EditText aterianKalorit;
+    private TextView testView;
     private int j;
 
     @Override
@@ -44,186 +48,90 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ruokailu);
 
-       Intent intent = getIntent();
-       j = intent.getIntExtra(EXTRA,0);
+        Intent intent = getIntent();
+        j = intent.getIntExtra(EXTRA, 0);
 
+        getSupportActionBar().setTitle("Ruokailut: " + getInstance().paivamaarat.get(j).getPaivamaara());
 
-        getSupportActionBar().setTitle(OverallPattern.getInstance().henkilot.get(j).getNimi());
+        aterianKalorit = findViewById(R.id.aterian_kalorit);
+        //testView = findViewById(R.id.testView);
 
-        valittujenRuokienLista = new ArrayList<>();
-        //ateriat = new ArrayList<Ateria>();
+        //lataaVanhatValinnat();
+        asetaTiedot();
+    }
 
-        pvmAdapter = new ArrayAdapter<>(this,    /*CONVERTER*/
-                android.R.layout.simple_list_item_1,
-                OverallPattern.getInstance().getPaivamaarat());
-        ;
+    public void lisaaAteriaPaiva(View v) {
+        String valinta = "Valitse ateria:";
 
-        //ListView luominen päiville
-
-        listView = findViewById(R.id.ateria_paivat);
-        listView.setAdapter(pvmAdapter);
-
-        listView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int i, long Id) {
-                        Log.d(TAG, "RuokailuActivityOnItemClick(" + i + ")");
-                        Intent nextActivity = new Intent(RuokailuActivity.this, PaivanRuokailut.class);
-                        nextActivity.putExtra(EXTRA, i);
-                        //nextActivity.putExtra("flag", "A");
-                        startActivity(nextActivity);
-                        Toast.makeText(getApplicationContext(), "You clicked user: " + pvmAdapter.getItem(i), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        listView.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
-                        Log.d(TAG, "Long Click :D(" + i + ")");
-
-
-                        final int which_item = i;
-
-                        new androidx.appcompat.app.AlertDialog.Builder(RuokailuActivity.this)
-                                .setIcon(android.R.drawable.ic_menu_delete)
-                                .setTitle("Poista päivä")
-                                .setMessage("Poista " + pvmAdapter.getItem(i) + "?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getApplicationContext(), "Removed user: " + pvmAdapter.getItem(which_item),
-                                                Toast.LENGTH_SHORT).show();
-                                        OverallPattern.getInstance().henkilot.remove(which_item);
-                                        pvmAdapter.notifyDataSetChanged();
-
-                                    }
-                                })
-                                .setNegativeButton("No", null)
-                                .show();
-
-                        return true;
-                    }
-
-                }
-        );
-
-        //Päivämäärävalitsimen luominen
-
-        aterian_paiva = findViewById(R.id.aterian_pvm);
-        Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        aterian_paiva.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        RuokailuActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        setListener, year, month, day);
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog.show();
+        if (aterianKalorit.getText().equals(toString())) {
+            Toast.makeText(getApplicationContext(), "Syöttämäsi arvo ei ole numero!", Toast.LENGTH_SHORT).show();
+        } else if (ateriaSpinner.getSelectedItem().toString().equals(valinta) || aterianKalorit.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Tee kaikki valinnat!", Toast.LENGTH_SHORT).show();
+        } else {
+            if (ateriaSpinner.getSelectedItem().toString().equals("Aamupala")){
+                getInstance().paivamaarat.get(j).setAamupala(Integer.valueOf(aterianKalorit.getText().toString()));
+                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getAamupala()));
+                tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Lounas")){
+                getInstance().paivamaarat.get(j).setLounas(Integer.valueOf(aterianKalorit.getText().toString()));
+                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getLounas()));
+                tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Välipala")){
+                getInstance().paivamaarat.get(j).setValipala(Integer.valueOf(aterianKalorit.getText().toString()));
+                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getValipala()));
+                tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Päivällinen")){
+                getInstance().paivamaarat.get(j).setPaivallinen(Integer.valueOf(aterianKalorit.getText().toString()));
+                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getPaivallinen()));
+                tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Iltapala")){
+                getInstance().paivamaarat.get(j).setIllallinen(Integer.valueOf(aterianKalorit.getText().toString()));
+                testView.setText(String.valueOf(getInstance().paivamaarat.get(j).getIllallinen()));
+                tallennaTiedot();
             }
-        });
 
-        setListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month+1;
-                String date = day+"/"+month+"/"+year;
-                aterian_paiva.setText(date);
-                aterianPvmluokalle = date;
-                //paivamaarat.add
-            }
-        };
+            tyhjennaValinnat();
+        }
+    }
+
+    public void tyhjennaValinnat() {
+        aterianKalorit.getText().clear();
+        ateriaSpinner.setSelection(0);
+
+    }
+
+
+    public void asetaTiedot() {
+
+        //Ruoan tarkistaminen
+
+        AutoCompleteTextView editText = findViewById(R.id.tarkistaKalorit);
+        ArrayAdapter<String> ruokaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, OverallPattern.getInstance().getRuokalista());
+        editText.setAdapter((ruokaAdapter));
 
         //Spinnervalikon luominen
 
         ateriaSpinner = findViewById(R.id.spinner_ateria);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Ateriat, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Ateriat, R.layout.spinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ateriaSpinner.setAdapter(adapter);
         ateriaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-             @Override
-             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                 if(parent.getItemAtPosition(position).equals("Valitse ateria:")){
-
-                  }
-                  else{
-                  String valittuAteria = parent.getItemAtPosition(position).toString();
-                  valittuAteriaLuokalle = parent.getItemAtPosition(position).toString();
-                  Toast.makeText(parent.getContext(),"Valitsit: " + valittuAteria, Toast.LENGTH_SHORT).show();
-                      }
-                  }
-
-             @Override
-             public void onNothingSelected(AdapterView<?> parent) {
-
-             }
-             });
-
-        //Ruokavalikon luominen
-
-        ruoka1 = findViewById(R.id.ruoat);
-        valitseRuoat = findViewById(R.id.ruoat_button);
-        valitseRuoat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(RuokailuActivity.this);
-                //String array alert dialogin monivalinta vaihtoehdoille
-                final String[] ruoat = new String[]{"omena", "banaani", "leipä", "Lasi maitoa", "Juustoa"};
-                //Boolean array alustetuille valituille vaihtoehdoille
-                final boolean[] valitutRuoat = new boolean[]{
-                        false,
-                        false,
-                        false,
-                        false,
-                        false
-                };
-                //ruoat arrayn muunto listaksi
-                final List<String> ruokienLista = Arrays.asList(ruoat);
-                //AlertDialogin otsikon asettaminen
-                builder.setTitle("Valitse ruoat:");
-                //Iconin asettaminen
-                builder.setIcon(R.drawable.ico);
-                builder.setMultiChoiceItems(ruoat, valitutRuoat, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        valitutRuoat[which] = isChecked;
-                        //
-                        String valitut = ruokienLista.get(which);
-                        //
-                        Toast.makeText(RuokailuActivity.this, valitut+" " + isChecked, Toast.LENGTH_SHORT);
-                    }
-                });
-                //valittujen ruokien hyväksyminen
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (int i = 0; i < ruoat.length; i++) {
-                            boolean valittu = valitutRuoat[i];
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                            if (valittu) {
+                if (parent.getItemAtPosition(position).equals("Valitse ateria:")) {
 
-                                valittujenRuokienLista.add(ruoka1.getText() + ruokienLista.get(i));
-                                ruoka1.setText(ruoka1.getText() + ruokienLista.get(i) + "\n");
-
-                            }
-                        }
-                    }
-                });
-                //valintojen peruminen
-                builder.setNeutralButton("Takaisin", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //koodataan mitä tapahtuu, jos peruuttaa valinnat
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                } else {
+                    String valittuAteria = parent.getItemAtPosition(position).toString();
+                    Toast.makeText(parent.getContext(), "Valitsit: " + valittuAteria, Toast.LENGTH_SHORT).show();
+                }
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
         });
 
     }
@@ -240,24 +148,68 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "Return to main from RuokailuActivity");
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.info_menu, menu);
+        return true;
+    }// Asetetaan info menu action bariin
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.d(TAG, "Return to PaivamaaraActivity from RuokailuActivity");
         int id = item.getItemId();
 
-        if ( id == android.R.id.home ) {
+        if (id == android.R.id.home) {
             finish();
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
+
+                new AlertDialog.Builder(RuokailuActivity.this)
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setTitle("Info")
+                        .setMessage("Valitse mikä ateria lisätään, ja syötä aterian sisältämä kalori määrä.\n\n" +
+                                "Voit myös tarkistella yleisten tuotteiden kalorimääriä painamalla 'Tarkista ruoan kalorit' kenttää ja" +
+                                " kirjoittamalla hakukenttään tuotteen.")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Poistuttu info ruudusta",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+                return true;
+            case R.id.item2:
+                Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem1:
+                Toast.makeText(this, "Subitem 1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem2:
+                Toast.makeText(this, "Subitem 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        //return super.onOptionsItemSelected(item);
     }
 
-    public void lisaaAteriaPaiva(View v){
-        //ateriat.add();
-
-        OverallPattern.getInstance().paivamaarat.add(new Pvm(aterianPvmluokalle));
-        OverallPattern.getInstance().ateriat.add(new Ateria(valittuAteriaLuokalle,valittujenRuokienLista));
-        listView.setAdapter(pvmAdapter);
-
+    public void tallennaTiedot(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(getInstance().paivamaarat);
+        editor.putString("paivamaara lista", json);
+        editor.apply();
     }
+
+
 }

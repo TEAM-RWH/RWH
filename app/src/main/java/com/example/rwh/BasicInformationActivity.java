@@ -63,28 +63,29 @@ public class BasicInformationActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_basic_information);
 
+        //Asetetaan buttonit niin, että ne pysyvät paikallaan
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        getSupportActionBar().setTitle("Choose or create a user");
+        //Asetetaan otsikko kyseiselle aktiviteetille
+        getSupportActionBar().setTitle("Luo / valitse käyttäjä");
 
         editName = (EditText) findViewById(R.id.editName);
         editPituus = (EditText) findViewById(R.id.editPituus);
         editPaino = (EditText) findViewById(R.id.editPaino);
         editIka = (EditText) findViewById(R.id.editIka);
 
-        //textView2 = (TextView) findViewById(R.id.textView2);
-
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
         radioId = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
 
+        //Tarkistetaan mikä radio button on valittuna
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 updateRadioButton();
                 if (checkedId == R.id.muuButton) {
-                    Toast.makeText(getApplicationContext(), "Choose a real gender. :)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Valitse oikea sukupuoli", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -101,22 +102,23 @@ public class BasicInformationActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.info_menu, menu);
         return true;
-    }
+    } // Asetetaan info menu action bariin
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
 
                 new AlertDialog.Builder(BasicInformationActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
-                        .setTitle("Information")
-                        .setMessage("Fill all the textfields, select gender and push 'Add user' to create a new user.\n\nLong press to remove users.")
+                        .setTitle("Info")
+                        .setMessage("Täytä tekstikentät, valitse sukupuoli ja paina 'Lisää käyttäjä' luodaksesi uuden käyttäjän." +
+                                "\n\nPitkä painallus käyttäjän poistamiseksi.")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "Exited info screen",
+                                Toast.makeText(getApplicationContext(), "Poistuttu info ruudusta",
                                         Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -138,7 +140,7 @@ public class BasicInformationActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
 
-    }
+    } //Asetetaan, jotta voidaan valita jokin toiminto action barista
 
     public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
@@ -147,21 +149,20 @@ public class BasicInformationActivity extends AppCompatActivity {
         String json = gson.toJson(OverallPattern.getInstance().henkilot);
         editor.putString("henkilo lista", json);
         editor.apply();
-    }
+    } //Tallennetaan luotu käyttäjä sharedpreferensseihin, josta tiedot voi aina noutaa
 
     public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("henkilo lista", null );
+        String json = sharedPreferences.getString("henkilo lista", null);
         Type type = new TypeToken<ArrayList<Henkilo>>() {
         }.getType();
         OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
 
-        if(OverallPattern.getInstance().henkilot == null){
+        if (OverallPattern.getInstance().henkilot == null) {
             OverallPattern.getInstance().henkilot = new ArrayList<Henkilo>();
-            OverallPattern.getInstance().henkilot.add(new Henkilo("Lauri", 178, 70, 27, "Mies"));
         }
-    }
+    } //Tallennettun henkilön tiedot voidaan noutaa
 
     @Override
     protected void onPause() {
@@ -169,43 +170,37 @@ public class BasicInformationActivity extends AppCompatActivity {
         saveData();
     }
 
-    public void taytaLista(View v) {
-        Log.d(TAG, "Lisätty listaan");
-
-        OverallPattern.getInstance().henkilot.add(new Henkilo("Kristian", 175, 75, 35, "Mies"));
-        OverallPattern.getInstance().henkilot.add(new Henkilo("Hanne", 165, 60, 30, "Nainen"));
-        OverallPattern.getInstance().henkilot.add(new Henkilo("Dmitri", 180, 70, 23, "Mies"));
-
-        ListView1.setAdapter(Adapter1);
-        Toast.makeText(getApplicationContext(), "Lista täytetty", Toast.LENGTH_SHORT).show();
-    }
-
     public void lisaaKayttaja(View v) {
 
-        Log.d(TAG, "Käyttäjä lisätty");
+        Log.d(TAG, "Käyttäjä yritetty lisätä");
 
-        if (!editName.getText().toString().trim().isEmpty() && !editPituus.getText().toString().trim().isEmpty() &&
-                !editPaino.getText().toString().trim().isEmpty() && !editIka.getText().toString().trim().isEmpty() &&
-                !radioButton.getText().equals("Muu")) {
+        if (OverallPattern.getInstance().henkilot.size() < 1) {
 
-            OverallPattern.getInstance().henkilot.add(new Henkilo(editName.getText().toString().trim().substring(0,1).toUpperCase() +
-                    editName.getText().toString().substring(1), Integer.valueOf(editPituus.getText().toString()),
-                    Integer.valueOf(editPaino.getText().toString()), Integer.valueOf(editIka.getText().toString()),
-                    String.valueOf(radioButton.getText())));
+            if (!editName.getText().toString().trim().isEmpty() && !editPituus.getText().toString().trim().isEmpty() &&
+                    !editPaino.getText().toString().trim().isEmpty() && !editIka.getText().toString().trim().isEmpty() &&
+                    !radioButton.getText().equals("Muu")) {
 
-            clearEditTexts();
-            saveData();
+                OverallPattern.getInstance().henkilot.add(new Henkilo(editName.getText().toString().trim().substring(0, 1).toUpperCase() +
+                        editName.getText().toString().substring(1).toLowerCase(), Integer.valueOf(editPituus.getText().toString()),
+                        Integer.valueOf(editPaino.getText().toString()), Integer.valueOf(editIka.getText().toString()),
+                        String.valueOf(radioButton.getText())));
+
+                clearEditTexts();
+                saveData();
+
+            } else {
+                if (radioButton.getText().equals("Muu")) {
+                    Toast.makeText(getApplicationContext(), "Muu ei ole sukupuoli", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Täytä kaikki tekstikentät!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            ListView1.setAdapter(Adapter1);
 
         } else {
-            if (radioButton.getText().equals("Muu")) {
-                Toast.makeText(getApplicationContext(), "That's not a gender.", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "Fill all textfields!", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(getApplicationContext(), "Vain yksi käyttäjä sallittu", Toast.LENGTH_SHORT).show();
         }
-        ListView1.setAdapter(Adapter1);
-
-    }
+    } //Metodi käyttäjän lisäämistä varten
 
     private void updateRadioButton() {
         radioId = radioGroup.getCheckedRadioButtonId();
@@ -218,9 +213,11 @@ public class BasicInformationActivity extends AppCompatActivity {
         editPituus.getText().clear();
         editPaino.getText().clear();
         editIka.getText().clear();
-    }
+    } //Tyhjentää Edit Text kentät käyttäjän tietojen syöttämisen jälkeen
 
     private void setData() {
+
+
         Adapter1 = new ArrayAdapter<>(this,    /*CONVERTER*/
                 android.R.layout.simple_list_item_1,
                 OverallPattern.getInstance().getHenkilot())
@@ -240,7 +237,7 @@ public class BasicInformationActivity extends AppCompatActivity {
                         nextActivity.putExtra(EXTRA, i);
                         nextActivity.putExtra("flag", "A");
                         startActivity(nextActivity);
-                        Toast.makeText(getApplicationContext(), "You clicked user: " + Adapter1.getItem(i), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Valitsit käyttäjän: " + Adapter1.getItem(i), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -249,29 +246,25 @@ public class BasicInformationActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
                         Log.d(TAG, "Long Click :D(" + i + ")");
-                        /*muutetaan.setText("Long Click...");
-                        Toast.makeText(getApplicationContext(), "Removed car: " + Adapter1.getItem(i), Toast.LENGTH_SHORT).show();
-                        GlobalModel.getInstance().autot.remove(i);
-                        Adapter1.notifyDataSetChanged();
-                        ListView1.requestLayout();*/
 
                         final int which_item = i;
 
                         new AlertDialog.Builder(BasicInformationActivity.this)
                                 .setIcon(android.R.drawable.ic_menu_delete)
-                                .setTitle("Delete user")
-                                .setMessage("Delete " + Adapter1.getItem(i) + "?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                .setTitle("Poista käyttäjä")
+                                .setMessage("Poista " + Adapter1.getItem(i) + "?\n\n" +
+                                        "Tämä poistaa käyttäjän ja sen tallennetut tiedot pysyvästi.")
+                                .setPositiveButton("Kyllä", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getApplicationContext(), "Removed user: " + Adapter1.getItem(which_item),
+                                        Toast.makeText(getApplicationContext(), "Poistettu käyttäjä: " + Adapter1.getItem(which_item),
                                                 Toast.LENGTH_SHORT).show();
                                         OverallPattern.getInstance().henkilot.remove(which_item);
                                         Adapter1.notifyDataSetChanged();
 
                                     }
                                 })
-                                .setNegativeButton("No", null)
+                                .setNegativeButton("Ei", null)
                                 .show();
 
                         return true;
@@ -280,7 +273,7 @@ public class BasicInformationActivity extends AppCompatActivity {
                 }
         );
 
-    }
+    } //Asetetaan ListViewiin adapteri, sekä onItemClickListener ja onItemLongClickListener
 
     public void onResume() {
         Log.d(TAG, "onResume being Called");

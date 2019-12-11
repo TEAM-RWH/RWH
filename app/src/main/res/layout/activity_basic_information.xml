@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#BDB76B"
+    android:background="@drawable/logo"
     tools:context=".BasicInformationActivity">
 
     <ListView
         android:id="@+id/kayttajaValikko"
-        android:layout_width="153dp"
-        android:layout_height="215dp"
+        android:layout_width="154dp"
+        android:layout_height="59dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
@@ -31,17 +31,13 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"
         android:onClick="lisaaKayttaja"
-        android:text="Add user"
+        android:text="Lisää käyttäjä"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.517" />
+        app:layout_constraintTop_toBottomOf="@+id/kayttajaValikko"
+        app:layout_constraintVertical_bias="0.047" />
 
     <EditText
         android:id="@+id/editName"
@@ -51,7 +47,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
-        android:hint="Enter user name"
+        android:hint="Nimi"
         android:inputType="textCapSentences"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +61,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
-        android:hint="Enter height"
+        android:hint="Syötä pituus"
         android:inputType="numberDecimal"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +75,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
-        android:hint="Enter weight"
+        android:hint="Syötä paino"
         android:inputType="number"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,25 +89,12 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
-        android:hint="Enter Age"
+        android:hint="Syötä ikä"
         android:inputType="numberDecimal"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editPaino" />
 
-
-    <Button
-        android:id="@+id/taytaLista"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="264dp"
-        android:layout_marginRight="264dp"
-        android:onClick="taytaLista"
-        android:text="Täytä lista"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lisaaKayttaja"
-        app:layout_constraintVertical_bias="0.594" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
