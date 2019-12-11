@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Pvm {
         private String paivamaara;
-        private int aamupala;
-        private int lounas;
-        private int valipala;
-        private int paivallinen;
-        private int illallinen;
+        private double aamupala;
+        private double lounas;
+        private double valipala;
+        private double paivallinen;
+        private double illallinen;
 
     public Pvm(String paivamaara) {
         this.paivamaara = paivamaara;
@@ -30,43 +30,43 @@ public class Pvm {
         this.paivamaara = paivamaara;
     }
 
-    public int getAamupala() {
+    public double getAamupala() {
         return aamupala;
     }
 
-    public void setAamupala(int aamupala) {
+    public void setAamupala(double aamupala) {
         this.aamupala = aamupala;
     }
 
-    public int getLounas() {
+    public double getLounas() {
         return lounas;
     }
 
-    public void setLounas(int lounas) {
+    public void setLounas(double lounas) {
         this.lounas = lounas;
     }
 
-    public int getValipala() {
+    public double getValipala() {
         return valipala;
     }
 
-    public void setValipala(int valipala) {
+    public void setValipala(double valipala) {
         this.valipala = valipala;
     }
 
-    public int getPaivallinen() {
+    public double getPaivallinen() {
         return paivallinen;
     }
 
-    public void setPaivallinen(int paivallinen) {
+    public void setPaivallinen(double paivallinen) {
         this.paivallinen = paivallinen;
     }
 
-    public int getIllallinen() {
+    public double getIllallinen() {
         return illallinen;
     }
 
-    public void setIllallinen(int illallinen) {
+    public void setIllallinen(double illallinen) {
         this.illallinen = illallinen;
     }
 }

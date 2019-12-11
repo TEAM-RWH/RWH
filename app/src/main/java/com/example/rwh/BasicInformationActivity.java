@@ -67,7 +67,7 @@ public class BasicInformationActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         //Asetetaan otsikko kyseiselle aktiviteetille
-        getSupportActionBar().setTitle("Choose or create a user");
+        getSupportActionBar().setTitle("Luo / valitse käyttäjä");
 
         editName = (EditText) findViewById(R.id.editName);
         editPituus = (EditText) findViewById(R.id.editPituus);
@@ -85,7 +85,7 @@ public class BasicInformationActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 updateRadioButton();
                 if (checkedId == R.id.muuButton) {
-                    Toast.makeText(getApplicationContext(), "Choose a real gender. :)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Valitse oikea sukupuoli", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -108,16 +108,17 @@ public class BasicInformationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
 
                 new AlertDialog.Builder(BasicInformationActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
-                        .setTitle("Information")
-                        .setMessage("Fill all the textfields, select gender and push 'Add user' to create a new user.\n\nLong press to remove users.")
+                        .setTitle("Info")
+                        .setMessage("Täytä tekstikentät, valitse sukupuoli ja paina 'Lisää käyttäjä' luodaksesi uuden käyttäjän." +
+                                "\n\nPitkä painallus käyttäjän poistamiseksi.")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "Exited info screen",
+                                Toast.makeText(getApplicationContext(), "Poistuttu info ruudusta",
                                         Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -189,15 +190,15 @@ public class BasicInformationActivity extends AppCompatActivity {
 
             } else {
                 if (radioButton.getText().equals("Muu")) {
-                    Toast.makeText(getApplicationContext(), "That's not a gender.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Muu ei ole sukupuoli", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Fill all textfields!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Täytä kaikki tekstikentät!", Toast.LENGTH_SHORT).show();
                 }
             }
             ListView1.setAdapter(Adapter1);
 
         } else {
-            Toast.makeText(getApplicationContext(), "Only one user allowed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Vain yksi käyttäjä sallittu", Toast.LENGTH_SHORT).show();
         }
     } //Metodi käyttäjän lisäämistä varten
 
@@ -216,12 +217,6 @@ public class BasicInformationActivity extends AppCompatActivity {
 
     private void setData() {
 
-
-        /*for (Henkilo i: OverallPattern.getInstance().henkilot)
-        {
-            if (i.getNimi().equals("Lauri"))
-
-        }*/
 
         Adapter1 = new ArrayAdapter<>(this,    /*CONVERTER*/
                 android.R.layout.simple_list_item_1,
@@ -242,7 +237,7 @@ public class BasicInformationActivity extends AppCompatActivity {
                         nextActivity.putExtra(EXTRA, i);
                         nextActivity.putExtra("flag", "A");
                         startActivity(nextActivity);
-                        Toast.makeText(getApplicationContext(), "You clicked user: " + Adapter1.getItem(i), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Valitsit käyttäjän: " + Adapter1.getItem(i), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -251,29 +246,25 @@ public class BasicInformationActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
                         Log.d(TAG, "Long Click :D(" + i + ")");
-                        /*muutetaan.setText("Long Click...");
-                        Toast.makeText(getApplicationContext(), "Removed car: " + Adapter1.getItem(i), Toast.LENGTH_SHORT).show();
-                        GlobalModel.getInstance().autot.remove(i);
-                        Adapter1.notifyDataSetChanged();
-                        ListView1.requestLayout();*/
 
                         final int which_item = i;
 
                         new AlertDialog.Builder(BasicInformationActivity.this)
                                 .setIcon(android.R.drawable.ic_menu_delete)
-                                .setTitle("Delete user")
-                                .setMessage("Delete " + Adapter1.getItem(i) + "?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                .setTitle("Poista käyttäjä")
+                                .setMessage("Poista " + Adapter1.getItem(i) + "?\n\n" +
+                                        "Tämä poistaa käyttäjän ja sen tallennetut tiedot pysyvästi.")
+                                .setPositiveButton("Kyllä", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getApplicationContext(), "Removed user: " + Adapter1.getItem(which_item),
+                                        Toast.makeText(getApplicationContext(), "Poistettu käyttäjä: " + Adapter1.getItem(which_item),
                                                 Toast.LENGTH_SHORT).show();
                                         OverallPattern.getInstance().henkilot.remove(which_item);
                                         Adapter1.notifyDataSetChanged();
 
                                     }
                                 })
-                                .setNegativeButton("No", null)
+                                .setNegativeButton("Ei", null)
                                 .show();
 
                         return true;
