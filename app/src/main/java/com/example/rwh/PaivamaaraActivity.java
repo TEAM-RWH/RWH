@@ -16,14 +16,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 import static com.example.rwh.OverallPattern.getInstance;
 
@@ -48,6 +45,8 @@ public class PaivamaaraActivity extends AppCompatActivity {
     private TextView valipalaView;
     private TextView paivallinenView;
     private TextView illallinenView;
+    private TextView testView;
+    private Spinner spinnerAktiivisuus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +67,9 @@ public class PaivamaaraActivity extends AppCompatActivity {
         valipalaView = (TextView) findViewById(R.id.valipalaView);
         paivallinenView = (TextView) findViewById(R.id.paivallinenView);
         illallinenView = (TextView) findViewById(R.id.illallinenView);
+        testView = (TextView) findViewById(R.id.testView);
+
+        spinnerAktiivisuus = findViewById(R.id.spinnerAktiivisuus);
 
 
         ruokailuActivity = new Intent(PaivamaaraActivity.this, RuokailuActivity.class);
@@ -83,7 +85,9 @@ public class PaivamaaraActivity extends AppCompatActivity {
         list = findViewById(R.id.lista);
         list.setAdapter(adapter);
 
-        list.setOnItemClickListener(
+        asetaTiedot();
+
+        /*list.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int indeksi, long Id) {
@@ -104,6 +108,23 @@ public class PaivamaaraActivity extends AppCompatActivity {
                     }
                 });
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Aktiivisuus, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAktiivisuus.setAdapter(adapter);
+        spinnerAktiivisuus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(),"Painoit " + position, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        testView.setText("" + getInstance().paivamaarat.get(j).getSukupuoli());
         paivamaaraView.setText("Saadut kalorit " + OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
         if(OverallPattern.getInstance().paivamaarat.get(j).getAamupala() != 0) {
         aamupalaView.setText("Aamupalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getAamupala() + " kcal");
@@ -119,7 +140,7 @@ public class PaivamaaraActivity extends AppCompatActivity {
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() != 0) {
         illallinenView.setText("Iltapalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() + " kcal");
-        }
+        }*/
 
     }
 
@@ -169,7 +190,14 @@ public class PaivamaaraActivity extends AppCompatActivity {
                 new AlertDialog.Builder(PaivamaaraActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
                         .setTitle("Info")
-                        .setMessage("Valitse Ruokailu tai Urheilu suoritukset ja lisää tapahtuma.")
+                        .setMessage("Valitse päivän aktiivisuustaso ja lisää ruokailu sekä urheilu suoritukset.\n\n" +
+                                "1. Aktiivisuustaso 2. Kerroin 3. Kuvaus\n\n" +
+                                "Täysi lepo | 1.0 | Sängyssä makaaminen, nukkuminen\n\n" +
+                                "Kevyt | 1.3 | Kevyt työ, ei lainkaan vapaa-ajan aktiivisuutta\n\n" +
+                                "Tavallinen | 1.5 | Kevyt työ, jonkin verran vapaa-ajan aktiivisuutta\n\n" +
+                                "Kohtalainen | 1.9 | Kevyt työ ja kuntoliikuntaa (esim. tunnin juoksulenkki päivässä) tai keskiraskas työ\n\n" +
+                                "Kova | 2.2 | Päivittäinen kova liikunta (esim. 2 tuntia uimista päivässä) tai fyysisesti raskas työ\n\n" +
+                                "Erittäin kova | 2.5 | Ammattiurheilija, esim. kilpapyöräilijä\n\n")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -197,5 +225,100 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
         //return super.onOptionsItemSelected(item);
     } //Crash protection
+
+    public void asetaTiedot(){
+        list.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int indeksi, long Id) {
+                        Log.d(TAG, "onItemClick(" + indeksi + ")");
+                        String.valueOf(parent.getItemAtPosition(indeksi));
+
+                        //saveData();
+                        if (indeksi == 0) {
+                            //Toast.makeText(getApplicationContext(), "Ruokailu activity for user: " + nimi, Toast.LENGTH_LONG).show();
+                            ruokailuActivity.putExtra(EXTRA, j);
+                            startActivity(ruokailuActivity);
+
+                        } else {
+                            //Toast.makeText(getApplicationContext(), "Urheilu activity for user: " + nimi, Toast.LENGTH_LONG).show();
+                            urheiluActivity.putExtra(EXTRA, j);
+                            startActivity(urheiluActivity);
+                        }
+                    }
+                });
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Aktiivisuus, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAktiivisuus.setAdapter(adapter);
+        spinnerAktiivisuus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(),"Painoit " + position, Toast.LENGTH_LONG).show();
+                if(position == 0){
+                    getInstance().paivamaarat.get(j).setAktiivisuustaso(1.0);
+                    testView.setText("" + getInstance().paivamaarat.get(j).getAktiivisuustaso());
+                    tallennaTiedot();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        testView.setText("" + getInstance().paivamaarat.get(j).getAktiivisuustaso());
+        paivamaaraView.setText("Saadut kalorit " + OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
+        if(OverallPattern.getInstance().paivamaarat.get(j).getAamupala() != 0) {
+            aamupalaView.setText("Aamupalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getAamupala() + " kcal");
+        }
+        if(OverallPattern.getInstance().paivamaarat.get(j).getLounas() != 0) {
+            lounasView.setText("Lounaasta saadaut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getLounas() + " kcal");
+        }
+        if(OverallPattern.getInstance().paivamaarat.get(j).getValipala() != 0) {
+            valipalaView.setText("Välipalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getValipala() + " kcal");
+        }
+        if(OverallPattern.getInstance().paivamaarat.get(j).getPaivallinen() != 0) {
+            paivallinenView.setText("Päivällisestä saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getPaivallinen() + " kcal");
+        }
+        if(OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() != 0) {
+            illallinenView.setText("Iltapalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() + " kcal");
+        }
+
+
+    }
+
+    public void asetaAktiivisuusKerroin(){
+        if (spinnerAktiivisuus.getSelectedItem().toString().equals("1.0 Täysi lepo")){
+            getInstance().paivamaarat.get(j).setAktiivisuustaso(1.0);
+            //tallennaTiedot();
+        } else if (spinnerAktiivisuus.getSelectedItem().toString().equals("1.3 Kevyt")){
+            getInstance().paivamaarat.get(j).setAktiivisuustaso(1.3);
+            //tallennaTiedot();
+        } else if (spinnerAktiivisuus.getSelectedItem().toString().equals("1.5 Tavallinen")){
+            getInstance().paivamaarat.get(j).setAktiivisuustaso(1.5);
+            //tallennaTiedot();
+        } else if (spinnerAktiivisuus.getSelectedItem().toString().equals("1.9 Kohtalainen")){
+            getInstance().paivamaarat.get(j).setAktiivisuustaso(1.9);
+            //tallennaTiedot();
+        } else if (spinnerAktiivisuus.getSelectedItem().toString().equals("2.2 Kova")){
+            getInstance().paivamaarat.get(j).setAktiivisuustaso(2.2);
+            //tallennaTiedot();
+        }else if (spinnerAktiivisuus.getSelectedItem().toString().equals("2.5 Erittäin kova")){
+            getInstance().paivamaarat.get(j).setAktiivisuustaso(2.5);
+            //tallennaTiedot();
+        }
+    }
+
+    public void tallennaTiedot(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(getInstance().paivamaarat);
+        editor.putString("paivamaara lista", json);
+        editor.apply();
+    }
 
 }

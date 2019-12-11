@@ -9,13 +9,23 @@ public class Pvm {
         private double valipala;
         private double paivallinen;
         private double illallinen;
+        private int paivanPituus;
+        private int paivanPaino;
+        private int paivanIka;
+        private String sukupuoli;
+        private double aktiivisuustaso;
 
-    public Pvm(String paivamaara) {
+    public Pvm(String paivamaara, int pituus, int paino, int ika, String sukupuoli) {
         this.paivamaara = paivamaara;
         this.aamupala = 0;
         this.lounas = 0;
         this.lounas = 0;
         this.illallinen = 0;
+        this.paivanPituus = pituus;
+        this.paivanPaino = paino;
+        this.paivanIka = ika;
+        this.sukupuoli = sukupuoli;
+        this.aktiivisuustaso = 0;
     }
 
     public String toString(){
@@ -69,4 +79,46 @@ public class Pvm {
     public void setIllallinen(double illallinen) {
         this.illallinen = illallinen;
     }
+
+    public int getPaivanPituus() {
+        return paivanPituus;
+    }
+
+    public void setPaivanPituus(int paivanPituus) {
+        this.paivanPituus = paivanPituus;
+    }
+
+    public int getPaivanPaino() {
+        return paivanPaino;
+    }
+
+    public void setPaivanPaino(int paivanPaino) {
+        this.paivanPaino = paivanPaino;
+    }
+
+    public int getPaivanIka() {
+        return paivanIka;
+    }
+
+    public void setPaivanIka(int paivanIka) {
+        this.paivanIka = paivanIka;
+    }
+
+    public String getSukupuoli() {
+        return sukupuoli;
+    }
+
+    public void setSukupuoli(String sukupuoli) {
+        this.sukupuoli = sukupuoli;
+    }
+
+    public double getAktiivisuustaso() {
+        return aktiivisuustaso;
+    }
+
+    public void setAktiivisuustaso(double aktiivisuustaso) {
+        this.aktiivisuustaso = aktiivisuustaso;
+    }
+
+    //public double paivaTarvittavaEnergia(int paino, int pituus, int )
 }
