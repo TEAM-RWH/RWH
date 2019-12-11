@@ -2,18 +2,26 @@ package com.example.rwh;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class UrheiluActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -36,18 +44,12 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_urheilu);
         getSupportActionBar().setTitle("Urheilu page");
 
-        //Bundle bundle = getIntent().getExtras();
-        //i = bundle.getInt(BasicInformationActivity.EXTRA, 0);
-
         urheilucaloriesView = findViewById(R.id.urheilucaloriesView);
         urheilucaloriesView.setText("Urheilu Suoritus");
 
         urheilulaji = findViewById(R.id.urheilulaji);
-        //urheilulaji.setText("blabla");
 
         kesto = findViewById(R.id.kesto);
-        //kesto.setText("blabla");
-
 
         Intent intent = getIntent();
         int i = intent.getIntExtra(EXTRA, 0);
@@ -112,11 +114,6 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
 
         }
     }
-
-    //String text = parent.getItemAtPosition(position).toString();
-//        Toast.makeText(parent.getContext(),text,Toast.LENGTH_SHORT).show();
-//        urheilulaji.setText(text);
-//        kesto.setText(text);
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
@@ -134,81 +131,4 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
 
         return super.onOptionsItemSelected(item);
     }
-
-    /*private double laskut(String sport, String time, double met) {
-        int aika = 0;
-        if (sport.equals("Kävely Birdwatching")) {
-            if (time.equals("10 min")) {
-                aika = 10;
-            } else if (time.equals("20 min")) {
-                aika = 20;
-            } else if (time.equals("30 min")) {
-                aika = 30;
-            } else if (time.equals("40 min")) {
-                aika = 40;
-            } else if (time.equals("50 min")) {
-                aika = 50;
-            } else if (time.equals("60 min")) {
-                aika = 60;
-            }
-            //2.5 met	bird watching, slow walk
-            return (((met * 2.5) / 6) * aika);
-
-        } else if (sport.equals("Hölkkä")) {
-            if (time.equals("10 min")) {
-                aika = 10;
-            } else if (time.equals("20 min")) {
-                aika = 20;
-            } else if (time.equals("30 min")) {
-                aika = 30;
-            } else if (time.equals("40 min")) {
-                aika = 40;
-            } else if (time.equals("50 min")) {
-                aika = 50;
-            } else if (time.equals("60 min")) {
-                aika = 60;
-            }
-            //7.0 met	jogging, general
-            return (((met * 7.0) / 6) * aika);
-        } else if (sport.equals("Juoksu")) {
-            if (time.equals("10 min")) {
-                aika = 10;
-            } else if (time.equals("20 min")) {
-                aika = 20;
-            } else if (time.equals("30 min")) {
-                aika = 30;
-            } else if (time.equals("40 min")) {
-                aika = 40;
-            } else if (time.equals("50 min")) {
-                aika = 50;
-            } else if (time.equals("60 min")) {
-                aika = 60;
-            }
-            //9.8	running, 6 mph (10 min/mile)
-            return (((met * 9.8) / 6) * aika);
-        } else if (sport.equals("PikaJuoksu")) {
-            if (time.equals("10 min")) {
-                aika = 10;
-            } else if (time.equals("20 min")) {
-                aika = 20;
-            } else if (time.equals("30 min")) {
-                aika = 30;
-            } else if (time.equals("40 min")) {
-                aika = 40;
-            } else if (time.equals("50 min")) {
-                aika = 50;
-            } else if (time.equals("60 min")) {
-                aika = 60;
-            }
-            // 19.0
-            //running, 12 mph (5 min/mile)
-            return (((met * 19.0) / 6) * aika);
-        } else {
-            return 0;
-        }
-
-
-    }*/
 }
-
-
