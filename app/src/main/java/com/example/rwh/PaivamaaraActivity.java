@@ -106,19 +106,19 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
         paivamaaraView.setText("Saadut kalorit " + OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
         if(OverallPattern.getInstance().paivamaarat.get(j).getAamupala() != 0) {
-            aamupalaView.setText("Saadut kalorit aamupalasta: " + OverallPattern.getInstance().paivamaarat.get(j).getAamupala() + " kcal");
+        aamupalaView.setText("Aamupalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getAamupala() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getLounas() != 0) {
-            lounasView.setText("Saadut kalorit lounaasta: " + OverallPattern.getInstance().paivamaarat.get(j).getLounas() + " kcal");
+        lounasView.setText("Lounaasta saadaut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getLounas() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getValipala() != 0) {
-            valipalaView.setText("Saadut kalorit välipalasta : " + OverallPattern.getInstance().paivamaarat.get(j).getValipala() + " kcal");
+        valipalaView.setText("Välipalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getValipala() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getPaivallinen() != 0) {
-            paivallinenView.setText("Saadut kalorit päivällisestä: " + OverallPattern.getInstance().paivamaarat.get(j).getPaivallinen() + " kcal");
+        paivallinenView.setText("Päivällisestä saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getPaivallinen() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() != 0) {
-            illallinenView.setText("Saadut kalorit iltapalasta: " + OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() + " kcal");
+        illallinenView.setText("Iltapalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() + " kcal");
         }
 
     }
@@ -128,19 +128,19 @@ public class PaivamaaraActivity extends AppCompatActivity {
         super.onResume();
         paivamaaraView.setText("Saadut kalorit " + OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
         if(OverallPattern.getInstance().paivamaarat.get(j).getAamupala() != 0) {
-            aamupalaView.setText("Saadut kalorit aamupalasta: " + OverallPattern.getInstance().paivamaarat.get(j).getAamupala() + " kcal");
+            aamupalaView.setText("Aamupalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getAamupala() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getLounas() != 0) {
-            lounasView.setText("Saadut kalorit lounaasta: " + OverallPattern.getInstance().paivamaarat.get(j).getLounas() + " kcal");
+            lounasView.setText("Lounaasta saadaut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getLounas() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getValipala() != 0) {
-            valipalaView.setText("Saadut kalorit välipalasta : " + OverallPattern.getInstance().paivamaarat.get(j).getValipala() + " kcal");
+            valipalaView.setText("Välipalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getValipala() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getPaivallinen() != 0) {
-            paivallinenView.setText("Saadut kalorit päivällisestä: " + OverallPattern.getInstance().paivamaarat.get(j).getPaivallinen() + " kcal");
+            paivallinenView.setText("Päivällisestä saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getPaivallinen() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() != 0) {
-            illallinenView.setText("Saadut kalorit iltapalasta: " + OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() + " kcal");
+            illallinenView.setText("Iltapalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() + " kcal");
         }
 
     }
