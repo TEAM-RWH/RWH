@@ -30,14 +30,6 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     private TextView kesto;
     private TextView kaloreitapoltettu;
     private TextView cheerup;
-    private TextView urheilu_paiva;
-    private String urheilunPvmluokalle;
-    private String aterianPvmluokalle;
-    private String valittuAteriaLuokalle;
-    private ListView listView;
-    private ArrayAdapter pvmAdapter;
-    private DatePickerDialog.OnDateSetListener setListener;
-    private ArrayList<String> valittujenRuokienLista, paivamaarat;
     int met;
     double kalorit;
     //private int i;
@@ -52,101 +44,12 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_urheilu);
         getSupportActionBar().setTitle("Urheilu page");
 
-        //ListView luominen päiville
-        pvmAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, OverallPattern.getInstance().getLiikunnat())
-                ;
-
-        listView = findViewById(R.id.urheilu_paivat);
-        listView.setAdapter(pvmAdapter);
-
-       /* listView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int i, long Id) {
-                        Log.d(TAG, "UrheiluActivityOnItemClick(" + i + ")");
-                        Intent nextActivity = new Intent(UrheiluActivity.this, PaivanRuokailut.class);
-                        nextActivity.putExtra(EXTRA, i);
-                        //nextActivity.putExtra("flag", "A");
-                        startActivity(nextActivity);
-                        Toast.makeText(getApplicationContext(), "You clicked user: " + pvmAdapter.getItem(i), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        listView.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long id) {
-                        Log.d(TAG, "Long Click :D(" + i + ")");
-
-
-                        final int which_item = i;
-
-                        new androidx.appcompat.app.AlertDialog.Builder(UrheiluActivity.this)
-                                .setIcon(android.R.drawable.ic_menu_delete)
-                                .setTitle("Poista päivä")
-                                .setMessage("Poista " + pvmAdapter.getItem(i) + "?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getApplicationContext(), "Removed user: " + pvmAdapter.getItem(which_item),
-                                                Toast.LENGTH_SHORT).show();
-                                        OverallPattern.getInstance().henkilot.remove(which_item);
-                                        pvmAdapter.notifyDataSetChanged();
-
-                                    }
-                                })
-                                .setNegativeButton("No", null)
-                                .show();
-
-                        return true;
-                    }
-
-                }
-        );*/
-
-        //Päivämäärävalitsimen luominen
-
-        urheilu_paiva = findViewById(R.id.urheilu_pvm);
-        Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        urheilu_paiva.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        UrheiluActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        setListener, year, month, day);
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog.show();
-            }
-        });
-        setListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month+1;
-                String date = day+"/"+month+"/"+year;
-                urheilu_paiva.setText(date);
-                urheilunPvmluokalle = date;
-                //paivamaarat.add
-            }
-        };
-
-        //Bundle bundle = getIntent().getExtras();
-        //i = bundle.getInt(BasicInformationActivity.EXTRA, 0);
-
         urheilucaloriesView = findViewById(R.id.urheilucaloriesView);
         urheilucaloriesView.setText("Urheilu Suoritus");
 
         urheilulaji = findViewById(R.id.urheilulaji);
-        //urheilulaji.setText("blabla");
 
         kesto = findViewById(R.id.kesto);
-        //kesto.setText("blabla");
-
 
         Intent intent = getIntent();
         int i = intent.getIntExtra(EXTRA, 0);
@@ -211,11 +114,6 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
 
         }
     }
-
-    //String text = parent.getItemAtPosition(position).toString();
-//        Toast.makeText(parent.getContext(),text,Toast.LENGTH_SHORT).show();
-//        urheilulaji.setText(text);
-//        kesto.setText(text);
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
@@ -232,14 +130,6 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    public void lisaaAteriaPaiva(View v){
-        //ateriat.add();
-
-        OverallPattern.getInstance().liikunnat.add(new Liikkuminen("laji", 10));
-        //OverallPattern.getInstance().ateriat.add(new Ateria(valittuAteriaLuokalle,valittujenRuokienLista));
-        //listView.setAdapter(pvmAdapter);
-
     }
 }
 
