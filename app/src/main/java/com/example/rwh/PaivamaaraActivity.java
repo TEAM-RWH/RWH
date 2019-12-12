@@ -22,11 +22,23 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
+
 import static com.example.rwh.OverallPattern.getInstance;
 
 public class PaivamaaraActivity extends AppCompatActivity {
 
     private int j;
+    private String nimi;
+    private int pituus;
+    private int paino;
+    private int ika;
+    private String sukupuoli;
+    private double aktiivisuusKerroin;
+    private double tarvittavatKalorit;
+
     public static final String EXTRA = "123";
     public static final String EXTRA2 = "PaivamaaraActivity";
     public static final String TAG = "PaivamaaraActivity";
@@ -45,8 +57,11 @@ public class PaivamaaraActivity extends AppCompatActivity {
     private TextView valipalaView;
     private TextView paivallinenView;
     private TextView illallinenView;
-    private TextView testView;
+    private TextView aktiivisuusKerroinView;
+    private TextView tarvittavatKaloritView;
     private Spinner spinnerAktiivisuus;
+
+    private DecimalFormat laskut = new DecimalFormat("###.##");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +82,8 @@ public class PaivamaaraActivity extends AppCompatActivity {
         valipalaView = (TextView) findViewById(R.id.valipalaView);
         paivallinenView = (TextView) findViewById(R.id.paivallinenView);
         illallinenView = (TextView) findViewById(R.id.illallinenView);
-        testView = (TextView) findViewById(R.id.testView);
+        aktiivisuusKerroinView = (TextView) findViewById(R.id.aktiivisuusKerroinView);
+        tarvittavatKaloritView = (TextView) findViewById(R.id.tarvittavatKaloritView);
 
         spinnerAktiivisuus = findViewById(R.id.spinnerAktiivisuus);
 
@@ -86,6 +102,8 @@ public class PaivamaaraActivity extends AppCompatActivity {
         list.setAdapter(adapter);
 
         asetaTiedot();
+
+        setValues();
 
         /*list.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
@@ -147,7 +165,8 @@ public class PaivamaaraActivity extends AppCompatActivity {
     public void onResume(){
         Log.d(TAG, "onResume being called");
         super.onResume();
-        paivamaaraView.setText("Saadut kalorit " + OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
+        paivamaaraView.setText("Saadut kalorit tänään: " + (laskut.format(OverallPattern.getInstance().paivamaarat.get(j).getkokonaisKalorimaara()) + "/" +
+                laskut.format(tarvittavatKalorit) + " kcal"));
         if(OverallPattern.getInstance().paivamaarat.get(j).getAamupala() != 0) {
             aamupalaView.setText("Aamupalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getAamupala() + " kcal");
         }
@@ -236,12 +255,10 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
                         //saveData();
                         if (indeksi == 0) {
-                            //Toast.makeText(getApplicationContext(), "Ruokailu activity for user: " + nimi, Toast.LENGTH_LONG).show();
                             ruokailuActivity.putExtra(EXTRA, j);
                             startActivity(ruokailuActivity);
 
                         } else {
-                            //Toast.makeText(getApplicationContext(), "Urheilu activity for user: " + nimi, Toast.LENGTH_LONG).show();
                             urheiluActivity.putExtra(EXTRA, j);
                             startActivity(urheiluActivity);
                         }
@@ -254,11 +271,75 @@ public class PaivamaaraActivity extends AppCompatActivity {
         spinnerAktiivisuus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),"Painoit " + position, Toast.LENGTH_LONG).show();
-                if(position == 0){
+                Toast.makeText(getApplicationContext(), "Painoit " + position, Toast.LENGTH_LONG).show();
+
+                if (position == 1) {
                     getInstance().paivamaarat.get(j).setAktiivisuustaso(1.0);
-                    testView.setText("" + getInstance().paivamaarat.get(j).getAktiivisuustaso());
+                    aktiivisuusKerroinView.setText("Aktiivisuustaso: " + getInstance().paivamaarat.get(j).getAktiivisuustaso());
+
                     tallennaTiedot();
+                    setValues();
+
+                    paivamaaraView.setText("Saadut kalorit tänään: " + (laskut.format(OverallPattern.getInstance().paivamaarat.get(j).getkokonaisKalorimaara()) + "/" +
+                            laskut.format(tarvittavatKalorit) + " kcal"));
+
+                }
+                if (position == 2) {
+                    getInstance().paivamaarat.get(j).setAktiivisuustaso(1.3);
+                    aktiivisuusKerroinView.setText("Aktiivisuustaso: " + getInstance().paivamaarat.get(j).getAktiivisuustaso());
+
+                    tallennaTiedot();
+                    setValues();
+
+                    paivamaaraView.setText("Saadut kalorit tänään: " + (laskut.format(OverallPattern.getInstance().paivamaarat.get(j).getkokonaisKalorimaara()) + "/" +
+                            laskut.format(tarvittavatKalorit) + " kcal"));
+
+                }
+                if (position == 3) {
+                    getInstance().paivamaarat.get(j).setAktiivisuustaso(1.5);
+                    aktiivisuusKerroinView.setText("Aktiivisuustaso: " + getInstance().paivamaarat.get(j).getAktiivisuustaso());
+
+                    tallennaTiedot();
+                    setValues();
+
+                    paivamaaraView.setText("Saadut kalorit tänään: " + (laskut.format(OverallPattern.getInstance().paivamaarat.get(j).getkokonaisKalorimaara()) + "/" +
+                            laskut.format(tarvittavatKalorit) + " kcal"));
+
+                }
+                if (position == 4) {
+                    getInstance().paivamaarat.get(j).setAktiivisuustaso(1.9);
+                    aktiivisuusKerroinView.setText("Aktiivisuustaso: " + getInstance().paivamaarat.get(j).getAktiivisuustaso());
+
+                    tallennaTiedot();
+                    setValues();
+
+                    paivamaaraView.setText("Saadut kalorit tänään: " + (laskut.format(OverallPattern.getInstance().paivamaarat.get(j).getkokonaisKalorimaara()) + "/" +
+                            laskut.format(tarvittavatKalorit) + " kcal"));
+
+
+                }
+                if (position == 5) {
+                    getInstance().paivamaarat.get(j).setAktiivisuustaso(2.2);
+                    aktiivisuusKerroinView.setText("Aktiivisuustaso: " + getInstance().paivamaarat.get(j).getAktiivisuustaso());
+
+                    tallennaTiedot();
+                    setValues();
+
+                    paivamaaraView.setText("Saadut kalorit tänään: " + (laskut.format(OverallPattern.getInstance().paivamaarat.get(j).getkokonaisKalorimaara()) + "/" +
+                            laskut.format(tarvittavatKalorit) + " kcal"));
+
+
+                }
+                if (position == 6) {
+                    getInstance().paivamaarat.get(j).setAktiivisuustaso(2.5);
+                    aktiivisuusKerroinView.setText("Aktiivisuustaso: " + getInstance().paivamaarat.get(j).getAktiivisuustaso());
+
+                    tallennaTiedot();
+                    setValues();
+
+                    paivamaaraView.setText("Saadut kalorit tänään: " + (laskut.format(OverallPattern.getInstance().paivamaarat.get(j).getkokonaisKalorimaara()) + "/" +
+                            laskut.format(tarvittavatKalorit) + " kcal"));
+
                 }
             }
 
@@ -269,13 +350,14 @@ public class PaivamaaraActivity extends AppCompatActivity {
         });
 
 
-        testView.setText("" + getInstance().paivamaarat.get(j).getAktiivisuustaso());
-        paivamaaraView.setText("Saadut kalorit " + OverallPattern.getInstance().paivamaarat.get(j).getPaivamaara());
+        aktiivisuusKerroinView.setText("Aktiivisuustaso: " + getInstance().paivamaarat.get(j).getAktiivisuustaso());
+        paivamaaraView.setText("Saadut kalorit tänään: " + (laskut.format(OverallPattern.getInstance().paivamaarat.get(j).getkokonaisKalorimaara()) + "/" +
+                laskut.format(tarvittavatKalorit) + " kcal"));
         if(OverallPattern.getInstance().paivamaarat.get(j).getAamupala() != 0) {
             aamupalaView.setText("Aamupalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getAamupala() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getLounas() != 0) {
-            lounasView.setText("Lounaasta saadaut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getLounas() + " kcal");
+            lounasView.setText("Lounaasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getLounas() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getValipala() != 0) {
             valipalaView.setText("Välipalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getValipala() + " kcal");
@@ -287,29 +369,6 @@ public class PaivamaaraActivity extends AppCompatActivity {
             illallinenView.setText("Iltapalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() + " kcal");
         }
 
-
-    }
-
-    public void asetaAktiivisuusKerroin(){
-        if (spinnerAktiivisuus.getSelectedItem().toString().equals("1.0 Täysi lepo")){
-            getInstance().paivamaarat.get(j).setAktiivisuustaso(1.0);
-            //tallennaTiedot();
-        } else if (spinnerAktiivisuus.getSelectedItem().toString().equals("1.3 Kevyt")){
-            getInstance().paivamaarat.get(j).setAktiivisuustaso(1.3);
-            //tallennaTiedot();
-        } else if (spinnerAktiivisuus.getSelectedItem().toString().equals("1.5 Tavallinen")){
-            getInstance().paivamaarat.get(j).setAktiivisuustaso(1.5);
-            //tallennaTiedot();
-        } else if (spinnerAktiivisuus.getSelectedItem().toString().equals("1.9 Kohtalainen")){
-            getInstance().paivamaarat.get(j).setAktiivisuustaso(1.9);
-            //tallennaTiedot();
-        } else if (spinnerAktiivisuus.getSelectedItem().toString().equals("2.2 Kova")){
-            getInstance().paivamaarat.get(j).setAktiivisuustaso(2.2);
-            //tallennaTiedot();
-        }else if (spinnerAktiivisuus.getSelectedItem().toString().equals("2.5 Erittäin kova")){
-            getInstance().paivamaarat.get(j).setAktiivisuustaso(2.5);
-            //tallennaTiedot();
-        }
     }
 
     public void tallennaTiedot(){
@@ -321,4 +380,22 @@ public class PaivamaaraActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    private void setValues() {
+        pituus = getInstance().paivamaarat.get(j).getPaivanPituus();
+        paino = getInstance().paivamaarat.get(j).getPaivanPaino();
+        ika = getInstance().paivamaarat.get(j).getPaivanIka();
+        sukupuoli = getInstance().paivamaarat.get(j).getSukupuoli();
+        aktiivisuusKerroin = getInstance().paivamaarat.get(j).getAktiivisuustaso();
+        laskeTarvittavatKalorit();
+    }
+
+    private void laskeTarvittavatKalorit(){
+        if (sukupuoli.equals("Nainen")) {
+            tarvittavatKalorit = (447.593 + ((9.247 * paino) + (3.098 * pituus) - (4.330 * ika)) * aktiivisuusKerroin);
+            tarvittavatKaloritView.setText("Arvioitu energiantarpeesi on " + laskut.format(tarvittavatKalorit)  + " kcal/pv.");
+        } else {
+            tarvittavatKalorit = (88.362 + ((13.397 * paino) + (4.799 * pituus) - (5.677 * ika)) * aktiivisuusKerroin);
+            tarvittavatKaloritView.setText("Arvioitu energiantarpeesi on " + laskut.format(tarvittavatKalorit) + " kcal/pv.");
+        }
+    }
 }

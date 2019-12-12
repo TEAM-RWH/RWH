@@ -14,6 +14,8 @@ public class Pvm {
         private int paivanIka;
         private String sukupuoli;
         private double aktiivisuustaso;
+        private double tarvittavaEnergia;
+        private double kokonaisKalorimaara;
 
     public Pvm(String paivamaara, int pituus, int paino, int ika, String sukupuoli) {
         this.paivamaara = paivamaara;
@@ -26,6 +28,7 @@ public class Pvm {
         this.paivanIka = ika;
         this.sukupuoli = sukupuoli;
         this.aktiivisuustaso = 0;
+        this.tarvittavaEnergia = 0;
     }
 
     public String toString(){
@@ -120,5 +123,21 @@ public class Pvm {
         this.aktiivisuustaso = aktiivisuustaso;
     }
 
-    //public double paivaTarvittavaEnergia(int paino, int pituus, int )
+    /*public double getTarvittavaEnergia() {
+        return tarvittavaEnergia;
+    }*/
+
+    public double getTarvittavaEnergia() {
+        if (this.sukupuoli.equals("Nainen")) {
+            this.tarvittavaEnergia = (447.593 + ((9.247 * this.paivanPaino) + (3.098 * this.paivanPituus) - (4.330 * this.paivanIka)) * aktiivisuustaso);
+        } else {
+            this.tarvittavaEnergia = (88.362 + ((13.397 * this.paivanPaino) + (4.799 * this.paivanPituus) - (5.677 * this.paivanIka)) * getAktiivisuustaso());
+        }
+        return this.tarvittavaEnergia;
+    }
+
+    public double getkokonaisKalorimaara(){
+        this.kokonaisKalorimaara = this.aamupala + this.lounas + this.valipala + this.paivallinen + this.illallinen;
+        return this.kokonaisKalorimaara;
+    }
 }
