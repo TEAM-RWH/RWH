@@ -101,7 +101,7 @@ public class BasicInformationActivity extends AppCompatActivity {
     /**
      * Asetetaan info -nappi yläpalkkiin
      * @param menu
-     * @return
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,7 +114,7 @@ public class BasicInformationActivity extends AppCompatActivity {
      * Luo AlertDialogin, kun painetaan info -nappia yläpalkissa, jossa kerrotaan kyseisen
      * aktiviteetin toiminnasta.
      * @param item
-     * @return
+     * @return super.onOptionsItemSelected(item)
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
