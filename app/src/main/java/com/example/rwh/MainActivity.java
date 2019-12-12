@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     public void lisaaPaivamaara(View v) {
 
         if (!paivamaaraView.getText().toString().trim().isEmpty()) {
-            OverallPattern.getInstance().paivamaarat.add(new Pvm(String.valueOf(paivamaaraView.getText())));
+            OverallPattern.getInstance().paivamaarat.add(new Pvm(String.valueOf(paivamaaraView.getText()), pituus, paino, ika, sukupuoli));
         } else {
             Toast.makeText(getApplicationContext(), "Valitse lisättävä päivämäärä", Toast.LENGTH_SHORT).show();
         }

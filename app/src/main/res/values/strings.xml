@@ -27,6 +27,16 @@
         <item>Iltapala</item>
     </string-array>
 
+    <string-array name="Aktiivisuus">
+        <item>Valitse aktiivisuustaso:</item>
+        <item>1.0 Täysi lepo</item>
+        <item>1.3 Kevyt</item>
+        <item>1.5 Tavallinen</item>
+        <item>1.9 Kohtalainen</item>
+        <item>2.2 Kova</item>
+        <item>2.5 Erittäin kova</item>
+    </string-array>
+
     <string name="aterian_pvm">Valitse PVM:</string>
     <string name="valitse_ateria">Valitse ateria:</string>
     <string name="valitutRuoat_textview"></string>
