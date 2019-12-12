@@ -142,12 +142,7 @@ public class PaivamaaraActivity extends AppCompatActivity {
         illallinenView.setText("Iltapalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getIllallinen() + " kcal");
         }*/
 
-        if(OverallPattern.getInstance().paivamaarat.get(j).getAamupala() == 0){
 
-        }
-        else{
-            aamupalaView.setText(OverallPattern.getInstance().paivamaarat.get(j).getAamupala());
-        }
 
     }
 
