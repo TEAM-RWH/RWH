@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/logo"
+    android:background="@drawable/logoilmantekstia"
     tools:context=".RuokailuActivity">
 
 
@@ -36,10 +36,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:hint="@string/lisaaAteria_button"
         android:onClick="lisaaAteriaPaiva"
-        android:textSize="36sp"
+        android:text="@string/lisaaAteria_button"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -75,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.18" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -142,10 +141,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:hint="@string/lisaaRuoka_button"
+        android:text="@string/lisaaRuoka_button"
         android:onClick="lisaaRuokaListalle"
-        android:textSize="36sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline9"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
@@ -163,9 +161,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:hint="@string/poistaRuoka_button"
-        android:textSize="36sp"
+        android:text="@string/poistaRuoka_button"
+        android:textSize="14sp"
         android:onClick="poistaRuokaListalta"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline"

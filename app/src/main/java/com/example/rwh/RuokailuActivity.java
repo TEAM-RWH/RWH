@@ -70,18 +70,23 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         } else {
             if (ateriaSpinner.getSelectedItem().toString().equals("Aamupala")){
                 getInstance().paivamaarat.get(j).setAamupala(Double.valueOf(aterianKalorit.getText().toString()));
+                Toast.makeText(getApplicationContext(), "Aamupala lisätty", Toast.LENGTH_SHORT).show();
                 tallennaTiedot();
             } else if (ateriaSpinner.getSelectedItem().toString().equals("Lounas")){
                 getInstance().paivamaarat.get(j).setLounas(Double.valueOf(aterianKalorit.getText().toString()));
+                Toast.makeText(getApplicationContext(), "Lounas lisätty", Toast.LENGTH_SHORT).show();
                 tallennaTiedot();
             } else if (ateriaSpinner.getSelectedItem().toString().equals("Välipala")){
                 getInstance().paivamaarat.get(j).setValipala(Double.valueOf(aterianKalorit.getText().toString()));
+                Toast.makeText(getApplicationContext(), "Välipala lisätty", Toast.LENGTH_SHORT).show();
                 tallennaTiedot();
             } else if (ateriaSpinner.getSelectedItem().toString().equals("Päivällinen")){
                 getInstance().paivamaarat.get(j).setPaivallinen(Double.valueOf(aterianKalorit.getText().toString()));
+                Toast.makeText(getApplicationContext(), "Päivällinen lisätty", Toast.LENGTH_SHORT).show();
                 tallennaTiedot();
             } else if (ateriaSpinner.getSelectedItem().toString().equals("Iltapala")){
                 getInstance().paivamaarat.get(j).setIllallinen(Double.valueOf(aterianKalorit.getText().toString()));
+                Toast.makeText(getApplicationContext(), "Iltapala lisätty", Toast.LENGTH_SHORT).show();
                 tallennaTiedot();
             }
 
@@ -159,9 +164,11 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
                 new AlertDialog.Builder(RuokailuActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
                         .setTitle("Info")
-                        .setMessage("Valitse mikä ateria lisätään, ja syötä aterian sisältämä kalori määrä.\n\n" +
-                                "Voit myös tarkistella yleisten tuotteiden kalorimääriä painamalla 'Tarkista ruoan kalorit' kenttää ja" +
-                                " kirjoittamalla hakukenttään tuotteen.")
+                        .setMessage("Valitse mikä ateria lisätään, ja syötä aterian sisältämä kalori määrä ja paina Lisää ateria nappia\n\n" +
+                                "Voit myös tarkistella yleisten tuotteiden kalorimääriä painamalla 'Etsi tai lisää tuote' kenttään ja" +
+                                " kirjoittamalla hakukenttään tuotteen nimen.\n\n"+
+                                "Omia tuotteita voi lisätä  ja poistaa kirjoittamalla tuotteen nimen ja kalorimäärän 'Etsi tai lisää tuote' kenttään" +
+                                " ja painamalla 'Lisää oma tuote' tai 'Poista tuote' nappeja.")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -209,7 +216,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
 
         String uusiRuoka = tarkistaKalorit.getText().toString();
         if(tarkistaKalorit.getText().toString().trim().isEmpty()){
-            Toast.makeText(getApplicationContext(), "Kirjoita ruoan nimi Tarkista ruoan kalorit -kenttään ja paina lisää ruoka!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Kirjoita ruoan nimi Etsi tai lisää tuote -kenttään ja paina Lisää ateria!", Toast.LENGTH_SHORT).show();
         } else if(getInstance().ruokalista.contains(uusiRuoka)){
             tarkistaKalorit.getText().clear();
             Toast.makeText(getApplicationContext(), "Ruoka on jo listalla!", Toast.LENGTH_SHORT).show();
@@ -225,7 +232,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
 
         int tuoteIndex = Integer.valueOf(getInstance().ruokalista.indexOf(tarkistaKalorit.getText().toString()));
         if(tarkistaKalorit.getText().toString().trim().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Kirjoita ruoan nimi Tarkista ruoan kalorit -kenttään ja paina poista ruoka!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Kirjoita ruoan nimi Etsi tai lisää tuote -kenttään ja paina Poista tuote!", Toast.LENGTH_SHORT).show();
         }else if( tuoteIndex < 213){
             Toast.makeText(getApplicationContext(), "Et voi poistaa valitsemaasi ruokaa!", Toast.LENGTH_SHORT).show();
         }else{

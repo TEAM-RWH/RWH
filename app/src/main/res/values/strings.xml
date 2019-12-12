@@ -2,7 +2,7 @@
     <string name="app_name">RWH</string>
 
     <string-array name="urheilu">
-        <item>Tyhjä</item>
+        <item>Valitse aktiviteetti</item>
         <item>Kävely</item>
         <item>Hölkkä</item>
         <item>Juoksu</item>

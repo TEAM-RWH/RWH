@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +21,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.content.Intent;
@@ -55,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView painoView;
     private TextView ikaView;
     private TextView sukupuoliView;
-    private TextView arvioView;
     private TextView paivamaaraView;
     private DatePickerDialog.OnDateSetListener setListener;
 
@@ -89,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         painoView = (TextView) findViewById(R.id.painoView);
         ikaView = (TextView) findViewById(R.id.ikaView);
         sukupuoliView = (TextView) findViewById(R.id.sukupuoliView);
-        arvioView = (TextView) findViewById(R.id.arvioView);
         paivamaaraView = (TextView) findViewById(R.id.paivamaaraView);
 
         paivamaaraActivity = new Intent(MainActivity.this, PaivamaaraActivity.class);
@@ -137,9 +132,8 @@ public class MainActivity extends AppCompatActivity {
                 new AlertDialog.Builder(MainActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
                         .setTitle("Info")
-                        .setMessage("Käytetyt kaavat tarvittavien kaloreiden selvittämiseksi : \n\nMiehille: 88.362 + ((13.397 * paino) + (4.799 * pituus) - (5.677 * ika)) * 1.5" +
-                                "\n\nNaisille:  447.593 + ((9.247 * paino) + (3.098 * pituus) - (4.330 * ika)) * 1.5\n\n" +
-                                "Nimi, paino ja ikä ovat muutettavissa pitkällä painalluksella.")
+                        .setMessage("Nimi, paino ja ikä ovat muutettavissa pitkällä painalluksella. Näytössä näkyvät arvot tallennetaan " +
+                                "luotavan päivän arvoiksi.")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -186,14 +180,6 @@ public class MainActivity extends AppCompatActivity {
         painoView.setText("Käyttäjän paino: " + paino + " kg");
         ikaView.setText("Käyttäjän ikä: " + ika + " vuotta");
         sukupuoliView.setText("Sukupuoli: " + sukupuoli);
-
-        if (sukupuoli.equals("Nainen")) {
-            arvioView.setText("Arvioitu energiantarpeesi on " + laskut.format(447.593 + ((9.247 * paino) + (3.098 * pituus) - (4.330 * ika)) * 1.5)
-                    + " kcal/pv.");
-        } else {
-            arvioView.setText("Arvioitu energiantarpeesi on " + laskut.format(88.362 + ((13.397 * paino) + (4.799 * pituus) - (5.677 * ika)) * 1.5)
-                    + " kcal/pv.");
-        }
 
     } //Asetetaan käyttäjän tiedot TextVieweihin
 

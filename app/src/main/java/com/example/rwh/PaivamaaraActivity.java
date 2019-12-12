@@ -165,7 +165,9 @@ public class PaivamaaraActivity extends AppCompatActivity {
                                 "Tavallinen | 1.5 | Kevyt työ, jonkin verran vapaa-ajan aktiivisuutta\n\n" +
                                 "Kohtalainen | 1.9 | Kevyt työ ja kuntoliikuntaa (esim. tunnin juoksulenkki päivässä) tai keskiraskas työ\n\n" +
                                 "Kova | 2.2 | Päivittäinen kova liikunta (esim. 2 tuntia uimista päivässä) tai fyysisesti raskas työ\n\n" +
-                                "Erittäin kova | 2.5 | Ammattiurheilija, esim. kilpapyöräilijä\n\n")
+                                "Erittäin kova | 2.5 | Ammattiurheilija, esim. kilpapyöräilijä\n\n" + "Käytetyt kaavat tarvittavien kaloreiden selvittämiseksi : \n\n" +
+                                "Miehille: 88.362 + ((13.397 * paino) + (4.799 * pituus) - (5.677 * ika)) * Valittu aktiivisuustso" +
+                                "\n\nNaisille:  447.593 + ((9.247 * paino) + (3.098 * pituus) - (4.330 * ika)) * Valittu aktiivisuustaso\n\n")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -220,7 +222,6 @@ public class PaivamaaraActivity extends AppCompatActivity {
         spinnerAktiivisuus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Painoit " + position, Toast.LENGTH_LONG).show();
 
                 if (position == 1) {
                     getInstance().paivamaarat.get(j).setAktiivisuustaso(1.0);
