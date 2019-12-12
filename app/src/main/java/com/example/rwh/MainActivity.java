@@ -30,6 +30,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * Luo MainActiviteetin Energy Agent sovellukselle
+ * @version 1.0
+ * @author Lauri Riikonen
+ * @since 21.10.2019
+ */
+
 public class MainActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private String[] activities;
@@ -64,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHARED_PREFS = "sharedPrefs";
     private DecimalFormat laskut = new DecimalFormat("###.##");
 
+    /**
+     * Luo perusnäkymän MainActivitylle.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate being called");
@@ -105,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Asetetaan info -nappi yläpalkkiin
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -112,6 +128,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }// Asetetaan info menu action bariin
 
+    /**
+     * Luo AlertDialogin, kun painetaan info -nappia yläpalkissa, jossa kerrotaan kyseisen
+     * aktiviteetin toiminnasta.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -151,6 +173,10 @@ public class MainActivity extends AppCompatActivity {
 
     }//Asetetaan, jotta voidaan valita jokin toiminto action barista
 
+    /**
+     * Lisää päivämäärän Singleton -luokan listalle.
+     * @param v
+     */
     public void lisaaPaivamaara(View v) {
 
         if (!paivamaaraView.getText().toString().trim().isEmpty()) {
@@ -162,6 +188,9 @@ public class MainActivity extends AppCompatActivity {
         savePaivamaaraData();
     }
 
+    /**
+     * Asettaa käyytäjäntiedot TextVieweihin.
+     */
     private void setInformation() {
         getSupportActionBar().setTitle("Käyttäjä: " + nimi);
 
@@ -181,6 +210,9 @@ public class MainActivity extends AppCompatActivity {
 
     } //Asetetaan käyttäjän tiedot TextVieweihin
 
+    /**
+     * Asettaa arvot Henkilo -oliolle.
+     */
     private void setValues() {
         nimi = OverallPattern.getInstance().henkilot.get(i).getNimi();
         pituus = OverallPattern.getInstance().henkilot.get(i).getPituus();
@@ -189,12 +221,18 @@ public class MainActivity extends AppCompatActivity {
         sukupuoli = OverallPattern.getInstance().henkilot.get(i).getSukupuoli();
     }
 
+    /**
+     * Tallentaa käyttäjän ominaisuuksien muutetut arvot onResuma -tilassa.
+     */
     public void onPause() {
         Log.d(TAG, "onPause being called");
         super.onPause();
         saveData();
     }
 
+    /**
+     * Asettaa muutetut käyttäjätiedot.
+     */
     private void setMuutokset() {
 
 
@@ -367,6 +405,9 @@ public class MainActivity extends AppCompatActivity {
 
     }//Mahdollistaa käyttäjän tietojen muuttamisen
 
+    /**
+     * Tallentaa käyttäjän ominaisuuksien muutokset.
+     */
     public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -376,6 +417,9 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }//Käytetään jos käyttäjän ominaisuuksiin(Nimi, paino... tehdään muutoksia
 
+    /**
+     * Tallentaa päivämäärälistan.
+     */
     public void savePaivamaaraData(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -386,6 +430,9 @@ public class MainActivity extends AppCompatActivity {
 
     } //Käyetetään jos käyttäjä lisää päivämääriä
 
+    /**
+     * Lataa henkilölistan.
+     */
     public void lataaHenkiloData(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
