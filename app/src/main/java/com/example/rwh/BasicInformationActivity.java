@@ -200,7 +200,7 @@ public class BasicInformationActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Vain yksi käyttäjä sallittu", Toast.LENGTH_SHORT).show();
         }
-    } //Metodi käyttäjän lisäämistä varten
+    } //Metodi käyttäjän lisäämistä varten lisaa kayttaja- napin painalluksella
 
     private void updateRadioButton() {
         radioId = radioGroup.getCheckedRadioButtonId();

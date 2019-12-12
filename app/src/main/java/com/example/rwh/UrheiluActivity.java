@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,9 +20,13 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static com.example.rwh.OverallPattern.getInstance;
 
 public class UrheiluActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -31,6 +36,7 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     private TextView kaloreitapoltettu;
     private TextView cheerup;
     int met;
+    private int j;
     double kalorit;
     //private int i;
     public static final String TAG = "Urheilulista";
@@ -52,7 +58,7 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         kesto = findViewById(R.id.kesto);
 
         Intent intent = getIntent();
-        int i = intent.getIntExtra(EXTRA, 0);
+        j = intent.getIntExtra(EXTRA, 0);
 
         //Information about calorie burning calculations
         //This calculation relies on a key value known as a MET, which stands for metabolic equivalent.
@@ -66,7 +72,7 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         kaloreitapoltettu = findViewById(R.id.kaloreitapoltettu);
 
 
-        met = (OverallPattern.getInstance().henkilot.get(i).getPaino()); //laskee paljonko yksi MET on kyseiselle henkilölle.
+        met = (OverallPattern.getInstance().paivamaarat.get(j).getPaivanPaino()); //laskee paljonko yksi MET on kyseiselle henkilölle.
 
 
         cheerup = findViewById(R.id.cheerup);
@@ -75,13 +81,13 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
 
         Spinner spinner = findViewById(R.id.spinner1);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.urheilu, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
         Spinner spinner2 = findViewById(R.id.spinner2);
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.kesto, android.R.layout.simple_spinner_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter2);
         spinner2.setOnItemSelectedListener(this);
     }
@@ -130,5 +136,21 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void lisaaUrheiuSuoritus(View v){
+        Toast.makeText(getApplicationContext(),"Urheilusuoritus lisätty", Toast.LENGTH_SHORT).show();
+        OverallPattern.getInstance().paivamaarat.get(j).setPoltetutKalorit(kalorit);
+        tallennaTiedot();
+
+    }
+
+    public void tallennaTiedot(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(getInstance().paivamaarat);
+        editor.putString("paivamaara lista", json);
+        editor.apply();
     }
 }

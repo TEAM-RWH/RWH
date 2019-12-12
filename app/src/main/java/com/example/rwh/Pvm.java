@@ -16,6 +16,7 @@ public class Pvm {
         private double aktiivisuustaso;
         private double tarvittavaEnergia;
         private double kokonaisKalorimaara;
+        private double poltetutKalorit;
 
     public Pvm(String paivamaara, int pituus, int paino, int ika, String sukupuoli) {
         this.paivamaara = paivamaara;
@@ -29,6 +30,7 @@ public class Pvm {
         this.sukupuoli = sukupuoli;
         this.aktiivisuustaso = 0;
         this.tarvittavaEnergia = 0;
+        this.poltetutKalorit = 0;
     }
 
     public String toString(){
@@ -139,5 +141,13 @@ public class Pvm {
     public double getkokonaisKalorimaara(){
         this.kokonaisKalorimaara = this.aamupala + this.lounas + this.valipala + this.paivallinen + this.illallinen;
         return this.kokonaisKalorimaara;
+    }
+
+    public void setPoltetutKalorit(double urheiluSuoritus){
+        this.poltetutKalorit = this.poltetutKalorit + urheiluSuoritus;
+    }
+
+    public double getPoltetutKalorit(){
+        return this.poltetutKalorit;
     }
 }

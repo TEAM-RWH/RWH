@@ -2,9 +2,9 @@ package com.example.rwh;
 import java.lang.*;
 public class Calculations extends UrheiluActivity {
 
-    public static double sport(String sport, String time,double met) {
+    public static double sport(String sport, String time, double met) {
         int aika =0;
-        if (sport.equals("Kävely Birdwatching")) {
+        if (sport.equals("Kävely")) {
             if (time.equals("10 min")) {
                 aika = 1;
             } else if (time.equals("20 min")) {
@@ -37,6 +37,7 @@ public class Calculations extends UrheiluActivity {
             }
             //7.0 met	jogging, general
             return (((met * 7.0) / 6) * aika);
+
         } else if (sport.equals("Juoksu")) {
             if (time.equals("10 min")) {
                 aika = 1;
@@ -53,6 +54,7 @@ public class Calculations extends UrheiluActivity {
             }
             //9.8	running, 6 mph (10 min/mile)
             return (((met * 9.8) / 6) * aika);
+
         } else if (sport.equals("PikaJuoksu")) {
             if (time.equals("10 min")) {
                 aika = 1;
