@@ -27,21 +27,23 @@ import java.util.ArrayList;
 
 import static com.example.rwh.OverallPattern.getInstance;
 
+/**
+ * Luo PaivamaaraActivityn EnergyAgent sovellukselle.
+ * @version 1.0
+ * @author
+ * @since 21.10.2019
+ */
 public class PaivamaaraActivity extends AppCompatActivity {
 
     private int j;
     public static final String EXTRA = "123";
     public static final String EXTRA2 = "PaivamaaraActivity";
     public static final String TAG = "PaivamaaraActivity";
-
     private String[] activities;
-
     private Intent ruokailuActivity;
     private Intent urheiluActivity;
-
     private ListView list;
     private ArrayAdapter adapter;
-
     private TextView paivamaaraView;
     private TextView aamupalaView;
     private TextView lounasView;
@@ -49,6 +51,10 @@ public class PaivamaaraActivity extends AppCompatActivity {
     private TextView paivallinenView;
     private TextView illallinenView;
 
+    /**
+     * Luo perusnäkymän PaivamaaraActivitylle.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG,"onCreate being called");
@@ -66,7 +72,6 @@ public class PaivamaaraActivity extends AppCompatActivity {
         valipalaView = (TextView) findViewById(R.id.valipalaView);
         paivallinenView = (TextView) findViewById(R.id.paivallinenView);
         illallinenView = (TextView) findViewById(R.id.illallinenView);
-
 
         ruokailuActivity = new Intent(PaivamaaraActivity.this, RuokailuActivity.class);
         urheiluActivity = new Intent(PaivamaaraActivity.this, UrheiluActivity.class);
@@ -128,6 +133,9 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Päivittää saadut kalorit.
+     */
     public void onResume(){
         Log.d(TAG, "onResume being called");
         super.onResume();
@@ -150,6 +158,11 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Asetetaan info -nappi yläpalkkiin
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -157,6 +170,12 @@ public class PaivamaaraActivity extends AppCompatActivity {
         return true;
     }// Asetetaan info menu action bariin
 
+    /**
+     * Luo AlertDialogin, kun painetaan info -nappia yläpalkissa, jossa kerrotaan kyseisen
+     * aktiviteetin toiminnasta.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.d(TAG, "Return to main from PaivamaaraActivity");

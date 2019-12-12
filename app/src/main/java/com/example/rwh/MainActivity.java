@@ -49,31 +49,26 @@ public class MainActivity extends AppCompatActivity {
     private TextView arvioView;
     private TextView paivamaaraView;
     private DatePickerDialog.OnDateSetListener setListener;
-
     private String nimi;
     private int pituus;
     private int paino;
     private int ika;
     private String sukupuoli;
     private double arvoSukupuolelle;
-
     private String nimiToSave;
     private String pituusToSave;
     private String painoToSave;
     private String ikaToSave;
     private int i;
-
     private String hoho;
     public static final String SHARED_PREFS = "sharedPrefs";
     private DecimalFormat laskut = new DecimalFormat("###.##");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate being called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         nimiView = (TextView) findViewById(R.id.nimiView);
         pituusView = (TextView) findViewById(R.id.pituusView);
@@ -84,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         paivamaaraView = (TextView) findViewById(R.id.paivamaaraView);
 
         paivamaaraActivity = new Intent(MainActivity.this, PaivamaaraActivity.class);
-
 
         lataaPaivamaaraData();
 
@@ -108,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         setMuutokset();
 
         asetaPaivamaaraValitsin();
-
 
     }
 
