@@ -32,8 +32,8 @@
     <string name="valitutRuoat_textview"></string>
     <string name="lisaaAteria_button">Lisää ateria</string>
     <string name="kalorit_editText">Syötä aterian kalorit</string>
-    <string name="ruoat_button">Tarkista ruoan kalorit</string>
-    <string name="lisaaRuoka_button">Lisää oma tuote</string>
-    <string name="poistaRuoka_button">Poista tuote</string>
+    <string name="ruoat_button">Tarkista ruoan kalorit:</string>
+    <string name="lisaaRuoka_button">Lisää oma tuote:</string>
+    <string name="poistaRuoka_button">Poista tuote:</string>
 
 </resources>

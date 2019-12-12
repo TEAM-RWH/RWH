@@ -19,7 +19,7 @@ public class OverallPattern {
     private OverallPattern() {
         paivamaarat = new ArrayList<>();
         henkilot = new ArrayList<>();
-        ruokalista = new ArrayList<>();
+        /*ruokalista = new ArrayList<>();
         ruokalista.add("Amerikansalaatti/jäävuorisalaatti 10 kcal/100g");
         ruokalista.add("Herne pakaste 123 kcal/100g");
         ruokalista.add("Herne-maissi-paprikasekoitus 69 kcal/100g");
@@ -233,7 +233,7 @@ public class OverallPattern {
         ruokalista.add("Oliiviöljy, extra virgin 880 kcal/100g");
         ruokalista.add("Ruokaöljy, rypsi 900 kcal/100g");
         ruokalista.add("Salaattikastike 300-500 kcal/100g");
-
+*/
     }
 
     public ArrayList<Henkilo> getHenkilot() {
@@ -248,6 +248,9 @@ public class OverallPattern {
         return  ruokalista;
     }
 
+    public void setRuokalista(ArrayList<String> ladattuRuokalista){
+        this.ruokalista = ladattuRuokalista;
+    }
 
 
 }
