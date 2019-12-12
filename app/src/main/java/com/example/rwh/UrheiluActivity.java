@@ -1,7 +1,6 @@
 package com.example.rwh;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,9 +11,14 @@ import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
 import java.text.DecimalFormat;
 
+/**
+ * Luo UrheiluActivityn EnergyAgentille.
+ * @version 1.0
+ * @author Dmitri Ludwig
+ * @since 21.10.2109
+ */
 public class UrheiluActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private TextView urheilulaji;
@@ -24,12 +28,15 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     private TextView cheerup;
     int met;
     double kalorit;
-    //private int i;
     public static final String TAG = "Urheilulista";
     public static final String EXTRA = "123";
     private DecimalFormat laskut = new DecimalFormat("###.##");
 
-
+    /**
+     * Luo perusnäkymän UrheiluActivitylle.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +94,14 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     String sport;
     String time;
 
+    /**
+     * Luo Urheilu ja aika -spinnerit.
+     *
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
@@ -117,11 +132,22 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
 //        Toast.makeText(parent.getContext(),text,Toast.LENGTH_SHORT).show();
 //        urheilulaji.setText(text);
 //        kesto.setText(text);
+
+    /**
+     * Määrätään mitä tapahtuu, kun spinnerissä ei ole mitään valittuna.
+     *
+     * @param parent
+     */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
+    /**
+     * CrashProtection
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "Return to main from UrheiluActivity");
@@ -134,81 +160,4 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
 
         return super.onOptionsItemSelected(item);
     }
-
-    /*private double laskut(String sport, String time, double met) {
-        int aika = 0;
-        if (sport.equals("Kävely Birdwatching")) {
-            if (time.equals("10 min")) {
-                aika = 10;
-            } else if (time.equals("20 min")) {
-                aika = 20;
-            } else if (time.equals("30 min")) {
-                aika = 30;
-            } else if (time.equals("40 min")) {
-                aika = 40;
-            } else if (time.equals("50 min")) {
-                aika = 50;
-            } else if (time.equals("60 min")) {
-                aika = 60;
-            }
-            //2.5 met	bird watching, slow walk
-            return (((met * 2.5) / 6) * aika);
-
-        } else if (sport.equals("Hölkkä")) {
-            if (time.equals("10 min")) {
-                aika = 10;
-            } else if (time.equals("20 min")) {
-                aika = 20;
-            } else if (time.equals("30 min")) {
-                aika = 30;
-            } else if (time.equals("40 min")) {
-                aika = 40;
-            } else if (time.equals("50 min")) {
-                aika = 50;
-            } else if (time.equals("60 min")) {
-                aika = 60;
-            }
-            //7.0 met	jogging, general
-            return (((met * 7.0) / 6) * aika);
-        } else if (sport.equals("Juoksu")) {
-            if (time.equals("10 min")) {
-                aika = 10;
-            } else if (time.equals("20 min")) {
-                aika = 20;
-            } else if (time.equals("30 min")) {
-                aika = 30;
-            } else if (time.equals("40 min")) {
-                aika = 40;
-            } else if (time.equals("50 min")) {
-                aika = 50;
-            } else if (time.equals("60 min")) {
-                aika = 60;
-            }
-            //9.8	running, 6 mph (10 min/mile)
-            return (((met * 9.8) / 6) * aika);
-        } else if (sport.equals("PikaJuoksu")) {
-            if (time.equals("10 min")) {
-                aika = 10;
-            } else if (time.equals("20 min")) {
-                aika = 20;
-            } else if (time.equals("30 min")) {
-                aika = 30;
-            } else if (time.equals("40 min")) {
-                aika = 40;
-            } else if (time.equals("50 min")) {
-                aika = 50;
-            } else if (time.equals("60 min")) {
-                aika = 60;
-            }
-            // 19.0
-            //running, 12 mph (5 min/mile)
-            return (((met * 19.0) / 6) * aika);
-        } else {
-            return 0;
-        }
-
-
-    }*/
 }
-
-
