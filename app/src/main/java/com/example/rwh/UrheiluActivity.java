@@ -2,13 +2,9 @@ package com.example.rwh;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,19 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
-
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import static com.example.rwh.OverallPattern.getInstance;
 
 public class UrheiluActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -202,5 +191,4 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         editor.putString("paivamaara lista", json);
         editor.apply();
     }
-
 }

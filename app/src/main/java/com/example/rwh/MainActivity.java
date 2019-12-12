@@ -3,7 +3,6 @@ package com.example.rwh;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,29 +22,20 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.content.Intent;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.w3c.dom.Text;
-
 public class MainActivity extends AppCompatActivity {
-    private ArrayAdapter adapter;
-    private String[] activities;
     public static final String EXTRA = "123";
     public static final String EXTRA2 = "PaivamaaraActivity";
     public static final String TAG = "MainActivity";
     private ArrayAdapter latenAdapter;
     private ListView latenListView;
-    private Intent ruokailuActivity;
-    private Intent urheiluActivity;
     private Intent paivamaaraActivity;
     private TextView nimiView;
     private TextView pituusView;
@@ -60,16 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private int paino;
     private int ika;
     private String sukupuoli;
-    private double arvoSukupuolelle;
 
-    private String nimiToSave;
-    private String pituusToSave;
-    private String painoToSave;
-    private String ikaToSave;
     private int i;
 
-    private String hoho;
-    public static final String SHARED_PREFS = "sharedPrefs";
     private DecimalFormat laskut = new DecimalFormat("###.##");
 
 
@@ -258,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 alert.setTitle("Muokkaa painoa");
                 alert.setMessage("Syötä uusi paino:");
 
-                // Set an EditText view to get user input
+
                 final EditText input = new EditText(MainActivity.this);
                 alert.setView(input);
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -266,10 +249,10 @@ public class MainActivity extends AppCompatActivity {
                 alert.setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        // Do something with value!
+
                         int saatuArvo = Integer.parseInt(input.getText().toString());
                         OverallPattern.getInstance().henkilot.get(i).setPaino(saatuArvo);
-                        //Toast.makeText(getApplicationContext(), String.valueOf(OverallPattern.getInstance().henkilot.get(i).getPaino()), Toast.LENGTH_LONG).show();
+
                         setValues();
                         setInformation();
                         saveData();
@@ -278,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
 
                 alert.setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
+
                     }
                 });
 
@@ -296,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                 alert.setTitle("Muokkaa nimeä");
                 alert.setMessage("Syötä uusi nimi:");
 
-                // Set an EditText view to get user input
+
                 final EditText input = new EditText(MainActivity.this);
                 alert.setView(input);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -304,11 +287,11 @@ public class MainActivity extends AppCompatActivity {
                 alert.setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        // Do something with value!
+
                         String saatuArvo = (input.getText().toString().trim().substring(0, 1).toUpperCase() +
                                 input.getText().toString().substring(1));
                         OverallPattern.getInstance().henkilot.get(i).setNimi(saatuArvo);
-                        //Toast.makeText(getApplicationContext(), String.valueOf(OverallPattern.getInstance().henkilot.get(i).getPaino()), Toast.LENGTH_LONG).show();
+
                         setValues();
                         setInformation();
                         saveData();
@@ -317,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
 
                 alert.setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
+
                     }
                 });
 
@@ -336,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
                 alert.setTitle("Muokkaa ikää");
                 alert.setMessage("Syötä uusi ikä:");
 
-                // Set an EditText view to get user input
+
                 final EditText input = new EditText(MainActivity.this);
                 alert.setView(input);
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -344,10 +327,9 @@ public class MainActivity extends AppCompatActivity {
                 alert.setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        // Do something with value!
+
                         int saatuArvo = Integer.parseInt(input.getText().toString());
                         OverallPattern.getInstance().henkilot.get(i).setIka(saatuArvo);
-                        //Toast.makeText(getApplicationContext(), String.valueOf(OverallPattern.getInstance().henkilot.get(i).getPaino()), Toast.LENGTH_LONG).show();
                         setValues();
                         setInformation();
                         saveData();
@@ -356,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
 
                 alert.setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
+
                     }
                 });
 
@@ -378,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }//Käytetään jos käyttäjän ominaisuuksiin(Nimi, paino... tehdään muutoksia
 
-    public void savePaivamaaraData(){
+    public void savePaivamaaraData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson2 = new Gson();
@@ -388,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
 
     } //Käyetetään jos käyttäjä lisää päivämääriä
 
-    public void lataaHenkiloData(){
+    public void lataaHenkiloData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
 
@@ -399,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
         OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
     } //Henkilötietojen lataamista varten
 
-    public void lataaPaivamaaraData(){
+    public void lataaPaivamaaraData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson2 = new Gson();
         String json2 = sharedPreferences.getString("paivamaara lista", null);
@@ -407,13 +389,13 @@ public class MainActivity extends AppCompatActivity {
         }.getType();
         OverallPattern.getInstance().paivamaarat = gson2.fromJson(json2, type2);
 
-        if(OverallPattern.getInstance().paivamaarat == null) {
+        if (OverallPattern.getInstance().paivamaarat == null) {
             OverallPattern.getInstance().paivamaarat = new ArrayList<Pvm>();
         }
 
     } //Päivämäärä listan lataus
 
-    public void asetaPaivamaaraValitsin(){
+    public void asetaPaivamaaraValitsin() {
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);

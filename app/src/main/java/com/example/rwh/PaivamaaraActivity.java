@@ -204,7 +204,6 @@ public class PaivamaaraActivity extends AppCompatActivity {
                         Log.d(TAG, "onItemClick(" + indeksi + ")");
                         String.valueOf(parent.getItemAtPosition(indeksi));
 
-                        //saveData();
                         if (indeksi == 0) {
                             ruokailuActivity.putExtra(EXTRA, j);
                             startActivity(ruokailuActivity);
