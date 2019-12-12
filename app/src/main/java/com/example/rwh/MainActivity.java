@@ -406,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
     }//Mahdollistaa käyttäjän tietojen muuttamisen
 
     /**
-     * Tallentaa käyttäjän ominaisuuksien muutokset.
+     * Tallentaa käyttäjän ominaisuuksien muutokset SharedPreferenceseista.
      */
     public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
@@ -418,7 +418,7 @@ public class MainActivity extends AppCompatActivity {
     }//Käytetään jos käyttäjän ominaisuuksiin(Nimi, paino... tehdään muutoksia
 
     /**
-     * Tallentaa päivämäärälistan.
+     * Tallentaa päivämäärälistan SharedPreferenceseista.
      */
     public void savePaivamaaraData(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
     } //Käyetetään jos käyttäjä lisää päivämääriä
 
     /**
-     * Lataa henkilölistan.
+     * Lataa henkilölistan SharedPreferenceseista.
      */
     public void lataaHenkiloData(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
@@ -444,6 +444,9 @@ public class MainActivity extends AppCompatActivity {
         OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
     } //Henkilötietojen lataamista varten
 
+    /**
+     * Lataa päivämäärälistan SharedPreferenceseista.
+     */
     public void lataaPaivamaaraData(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson2 = new Gson();
@@ -458,6 +461,9 @@ public class MainActivity extends AppCompatActivity {
 
     } //Päivämäärä listan lataus
 
+    /**
+     * Asettaa päivämäärävalitsimen.
+     */
     public void asetaPaivamaaraValitsin(){
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
