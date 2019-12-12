@@ -3,7 +3,6 @@ package com.example.rwh;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,20 +20,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+/**
+ * Luo BasicInformationActivityn EnergyAgentille.
+ * @version 1.0
+ * @author Lauri Riikonen
+ * @since 21.10.2019
+ */
 public class BasicInformationActivity extends AppCompatActivity {
 
     public static final String EXTRA = "123";
@@ -42,20 +43,20 @@ public class BasicInformationActivity extends AppCompatActivity {
 
     private ArrayAdapter Adapter1;
     private ListView ListView1;
-
     //private TextView textView2;
-
     private EditText editName;
     private EditText editPituus;
     private EditText editPaino;
     private EditText editIka;
-
     private RadioGroup radioGroup;
     private int radioId;
     private RadioButton radioButton;
-
     //private DecimalFormat laskut = new DecimalFormat("###.##");
 
+    /**
+     * Asettaa perusnäkymän BasicInformationActivitylle.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate being called");
@@ -97,6 +98,11 @@ public class BasicInformationActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Asetetaan info -nappi yläpalkkiin
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -104,6 +110,12 @@ public class BasicInformationActivity extends AppCompatActivity {
         return true;
     } // Asetetaan info menu action bariin
 
+    /**
+     * Luo AlertDialogin, kun painetaan info -nappia yläpalkissa, jossa kerrotaan kyseisen
+     * aktiviteetin toiminnasta.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -142,6 +154,9 @@ public class BasicInformationActivity extends AppCompatActivity {
 
     } //Asetetaan, jotta voidaan valita jokin toiminto action barista
 
+    /**
+     * Tallentaa luodun käyttäjän SharedPreferenceseihin.
+     */
     public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -151,6 +166,9 @@ public class BasicInformationActivity extends AppCompatActivity {
         editor.apply();
     } //Tallennetaan luotu käyttäjä sharedpreferensseihin, josta tiedot voi aina noutaa
 
+    /**
+     * Lataa käyttäjän SharedPreferenceseista.
+     */
     public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -164,12 +182,19 @@ public class BasicInformationActivity extends AppCompatActivity {
         }
     } //Tallennettun henkilön tiedot voidaan noutaa
 
+    /**
+     * Tallentaa luodun käyttäjän SharedPreferenceseihin onResume -tilassa.
+     */
     @Override
     protected void onPause() {
         super.onPause();
         saveData();
     }
 
+    /**
+     * Lisää käyttäjän.
+     * @param v
+     */
     public void lisaaKayttaja(View v) {
 
         Log.d(TAG, "Käyttäjä yritetty lisätä");
@@ -202,12 +227,18 @@ public class BasicInformationActivity extends AppCompatActivity {
         }
     } //Metodi käyttäjän lisäämistä varten
 
+    /**
+     * Päivittää RadioButtonin tilan, jolla valitaan sukupuoli.
+     */
     private void updateRadioButton() {
         radioId = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
 
     }
 
+    /**
+     * Tyhjentää EditText -kentät käyttäjän tietojen syöttämisen jälkeen.
+     */
     private void clearEditTexts() {
         editName.getText().clear();
         editPituus.getText().clear();
@@ -215,6 +246,9 @@ public class BasicInformationActivity extends AppCompatActivity {
         editIka.getText().clear();
     } //Tyhjentää Edit Text kentät käyttäjän tietojen syöttämisen jälkeen
 
+    /**
+     * Asettaa ListViewiin adapterin, onItemClickListenerin ja onItemLongClickListenerin.
+     */
     private void setData() {
 
 
@@ -275,6 +309,9 @@ public class BasicInformationActivity extends AppCompatActivity {
 
     } //Asetetaan ListViewiin adapteri, sekä onItemClickListener ja onItemLongClickListener
 
+    /**
+     * Asettaa ListViewiin adapterin, onItemClickListenerin ja onItemLongClickListenerin onResume -tilassa.
+     */
     public void onResume() {
         Log.d(TAG, "onResume being Called");
         super.onResume();

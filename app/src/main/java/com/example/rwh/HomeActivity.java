@@ -9,8 +9,17 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-
+/**
+ * Luo HomeActivityn EnergyAgent sovellukselle.
+ * @version 1.0
+ * @author Hanne Hovilampi
+ * @since 21.10.2019
+ */
 public class HomeActivity extends AppCompatActivity{
+    /**
+     * Luo Splashscreenin sovellukselle.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -28,10 +37,7 @@ public class HomeActivity extends AppCompatActivity{
                 startActivity(i);
 
                 finish();
-
             }
         },3000);
-
-
     }
 }

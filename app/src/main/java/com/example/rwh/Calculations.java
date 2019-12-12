@@ -1,7 +1,21 @@
 package com.example.rwh;
 import java.lang.*;
+
+/**
+ * Mallintaa poltettujen kaloreiden laskukaavat.
+ * @version 1.0
+ * @author Dmitri Ludwig
+ * @since 21.10.2019
+ */
 public class Calculations extends UrheiluActivity {
 
+    /**
+     * Laskee poltetut kalorit
+     * @param sport Suoritettu urheilulaji.
+     * @param time  Urheilusuoritukseen kulunut aika.
+     * @param met   Aktiivisuuskerroin, joka määräytyy käyttäjän painon mukaan.
+     * @return
+     */
     public static double sport(String sport, String time,double met) {
         int aika =0;
         if (sport.equals("Kävely Birdwatching")) {
