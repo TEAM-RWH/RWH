@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 import java.text.DecimalFormat;
 
 /**
