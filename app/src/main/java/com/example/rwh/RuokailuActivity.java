@@ -26,6 +26,13 @@ import java.util.ArrayList;
 
 import static com.example.rwh.OverallPattern.getInstance;
 
+/**
+ * Luo Ruokailu Aktiviteetin Energy Agent sovellukselle
+ * @version 1.0
+ * @author Kristian Wink
+ * @21.10.2019
+ */
+
 public class RuokailuActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner ateriaSpinner;
@@ -34,6 +41,14 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     private EditText aterianKalorit;
     private AutoCompleteTextView tarkistaKalorit;
     private int j;
+    private ArrayAdapter<String> ruokaAdapter;
+
+    /**
+     * Noutaa käyttäjän nimen Overallpatterinista yläpalkkiin, käyttää metodia
+     * lataaRuokalista() noutaakseen ruokalistan ja käyttää asetaTiedot metodia asettaakseen
+     * arvot omille kohdilleen
+     * @param savedInstanceState
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +67,18 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         asetaTiedot();
     }
 
+    /**
+     * Luo aterian määrätylle päivälle
+     * @param v
+     */
+
     public void lisaaAteriaPaiva(View v) {
         String valinta = "Valitse ateria:";
 
         if (aterianKalorit.getText().equals(toString())) {
             Toast.makeText(getApplicationContext(), "Syöttämäsi arvo ei ole numero!", Toast.LENGTH_SHORT).show();
         } else if (ateriaSpinner.getSelectedItem().toString().equals(valinta) || aterianKalorit.getText().toString().trim().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Tee kaikki valinnat!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Valitse ateria ja syötä kalorimäärä!", Toast.LENGTH_SHORT).show();
         } else {
             if (ateriaSpinner.getSelectedItem().toString().equals("Aamupala")){
                 getInstance().paivamaarat.get(j).setAamupala(Double.valueOf(aterianKalorit.getText().toString()));
@@ -85,6 +105,10 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
             tyhjennaValinnat();
         }
     }
+
+    /**
+     * Luo perusnäkymän aktiviteetille.
+     */
 
     public void asetaTiedot() {
 
@@ -121,16 +145,35 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
+    /**
+     * Määrittää, mitä tapahtuu, kun listan indeksi on valittuna adapterissa.
+     * @param adapterView
+     * @param view
+     * @param i
+     * @param l
+     */
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String valittu_ateria = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(), valittu_ateria, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Määrittää, mitä tapahtuu, kun mikään listan indekseistä ei ole valittuna adapterin listalla.
+     * @param adapterView
+     */
+
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+    /**
+     * Asetetaan info -nappi yläpalkkiin
+     * @param menu
+     * @return
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -138,6 +181,13 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         inflater.inflate(R.menu.info_menu, menu);
         return true;
     }// Asetetaan info menu action bariin
+
+    /**
+     * Luo AlertDialogin, kun painetaan info -nappia yläpalkissa, jossa kerrotaan kyseisen
+     * aktiviteetin toiminnasta.
+     * @param item
+     * @return
+     */
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -151,7 +201,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
 
         switch (item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
+
 
                 new AlertDialog.Builder(RuokailuActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
@@ -189,6 +239,10 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         //return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Tallentaa muokatun päivämäärälistan SharedPreferenceseihin.
+     */
+
     public void tallennaTiedot(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -198,11 +252,20 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         editor.apply();
     }
 
+    /**
+     * Tyhjentää täytetyt kentät RuokailuActivityssa.
+     */
+
     public void tyhjennaValinnat() {
         aterianKalorit.getText().clear();
         ateriaSpinner.setSelection(0);
         tarkistaKalorit.getText().clear();
     }
+
+    /**
+     * Lisää käyttäjän nimeämän ruokatuotteen ruokalistalle.
+     * @param v
+     */
 
     public void lisaaRuokaListalle(View v){
 
@@ -220,6 +283,11 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         tallennaRuokalista();
     }
 
+    /**
+     * Poistaa käyttäjän nimeämän ruokatuotteen ruokalistalta.
+     * @param v
+     */
+
     public void poistaRuokaListalta(View v){
 
         int tuoteIndex = Integer.valueOf(getInstance().ruokalista.indexOf(tarkistaKalorit.getText().toString()));
@@ -236,11 +304,19 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         tyhjennaValinnat();
     }
 
+    /**
+     * Tallentaa muokatun ruokalistan, kun EnergyAgent menee onPause -tilaan.
+     */
+
     @Override
     protected void onPause(){
         super.onPause();
         tallennaRuokalista();
     }
+
+    /**
+     * Tallentaa muokatun ruokalistan SharedPreferenceseihin.
+     */
 
     public void tallennaRuokalista() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
@@ -250,6 +326,10 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         editor.putString("ruokalista", json2);
         editor.apply();
     }
+
+    /**
+     * Lataa muokatun ruokalistan SharedPreferenceseista.
+     */
 
     public void lataaRuokalista() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);

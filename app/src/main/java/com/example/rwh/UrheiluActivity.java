@@ -1,5 +1,6 @@
 package com.example.rwh;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
@@ -20,6 +21,13 @@ import com.google.gson.Gson;
 import java.text.DecimalFormat;
 import static com.example.rwh.OverallPattern.getInstance;
 
+/**
+ * Luo UrheiluActivityn EnergyAgentille.
+ * @version 1.0
+ * @author Dmitri Ludwig
+ * @since 21.10.2109
+ */
+
 public class UrheiluActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private TextView urheilulaji;
@@ -34,6 +42,11 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     public static final String EXTRA = "123";
     private DecimalFormat laskut = new DecimalFormat("###.##");
 
+    /**
+     * Luo perusnäkymän UrheiluActivitylle.
+     *
+     * @param savedInstanceState
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +96,15 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
     String sport;
     String time;
 
+    /**
+     * Luo Urheilu ja aika -spinnerit.
+     *
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
@@ -108,10 +130,22 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
 
         }
     }
+
+    /**
+     * Määrittää, mitä tapahtuu, kun mikään listan indekseistä ei ole valittuna adapterin listalla.
+     * @param
+     */
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    /**
+     * Asetetaan info -nappi yläpalkkiin
+     * @param menu
+     * @return
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,8 +154,15 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
         return true;
     }// Asetetaan info menu action bariin
 
+    /**
+     * Luo AlertDialogin, kun painetaan info -nappia yläpalkissa, jossa kerrotaan kyseisen
+     * aktiviteetin toiminnasta.
+     * @param item
+     * @return
+     */
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.d(TAG, "Return to main from UrheiluActivity");
         int id = item.getItemId();
 
@@ -132,7 +173,6 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
 
         switch (item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
 
                 new AlertDialog.Builder(UrheiluActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
@@ -173,6 +213,11 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
 
     }
 
+    /**
+     * Lisää urheilusuorituksen polttamien kaloreiden määrän laskuriin
+     * @param v
+     */
+
     public void lisaaUrheiuSuoritus(View v){
         if(!urheilulaji.getText().equals("Valitse aktiviteetti")) {
             Toast.makeText(getApplicationContext(), "Urheilusuoritus lisätty", Toast.LENGTH_SHORT).show();
@@ -182,6 +227,10 @@ public class UrheiluActivity extends AppCompatActivity implements AdapterView.On
             Toast.makeText(getApplicationContext(), "Valitse aktiviteetti!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    /**
+     * Pvm - olioden tallennus
+     */
 
     public void tallennaTiedot(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);

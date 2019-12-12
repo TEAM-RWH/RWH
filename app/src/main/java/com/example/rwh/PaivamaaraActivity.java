@@ -3,7 +3,6 @@ package com.example.rwh;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,14 +18,16 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
-
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
-
 import static com.example.rwh.OverallPattern.getInstance;
+
+/**
+ * Luo PaivamaaraActivityn EnergyAgent sovellukselle.
+ * @version 1.0
+ * @author Lauri Riikonen
+ * @since 21.10.2019
+ */
 
 public class PaivamaaraActivity extends AppCompatActivity {
 
@@ -38,19 +39,14 @@ public class PaivamaaraActivity extends AppCompatActivity {
     private String sukupuoli;
     private double aktiivisuusKerroin;
     private double tarvittavatKalorit;
-
     public static final String EXTRA = "123";
     public static final String EXTRA2 = "PaivamaaraActivity";
     public static final String TAG = "PaivamaaraActivity";
-
     private String[] activities;
-
     private Intent ruokailuActivity;
     private Intent urheiluActivity;
-
     private ListView list;
     private ArrayAdapter adapter;
-
     private TextView paivamaaraView;
     private TextView aamupalaView;
     private TextView lounasView;
@@ -61,16 +57,18 @@ public class PaivamaaraActivity extends AppCompatActivity {
     private TextView tarvittavatKaloritView;
     private TextView urheiluSuorituksetView;
     private Spinner spinnerAktiivisuus;
-
     private DecimalFormat laskut = new DecimalFormat("###.##");
+
+    /**
+     * Luo perusnäkymän PaivamaaraActivitylle.
+     * @param savedInstanceState
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG,"onCreate being called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paivamaara);
-
-
 
         Intent intent = getIntent();
         j = intent.getIntExtra(EXTRA2, 0);
@@ -109,6 +107,10 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Päivittää saadut kalorit.
+     */
+
     public void onResume(){
         Log.d(TAG, "onResume being called");
         super.onResume();
@@ -134,12 +136,25 @@ public class PaivamaaraActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Asetetaan info -nappi yläpalkkiin
+     * @param menu
+     * @return
+     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.info_menu, menu);
         return true;
     }// Asetetaan info menu action bariin
+
+    /**
+     * Luo AlertDialogin, kun painetaan info -nappia yläpalkissa, jossa kerrotaan kyseisen
+     * aktiviteetin toiminnasta.
+     * @param item
+     * @return
+     */
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -153,7 +168,7 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
+
 
                 new AlertDialog.Builder(PaivamaaraActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
@@ -195,6 +210,10 @@ public class PaivamaaraActivity extends AppCompatActivity {
 
         //return super.onOptionsItemSelected(item);
     } //Crash protection
+
+    /**
+     * Asetetaan adapteri listviewiin, asetetaan spinner aktiivisuustasolle,
+     */
 
     private void asetaTiedot(){
         list.setOnItemClickListener(
@@ -302,7 +321,11 @@ public class PaivamaaraActivity extends AppCompatActivity {
             urheiluSuorituksetView.setText("Poltetut kalorit urheilusuorituksista: " + (laskut.format(OverallPattern.getInstance().paivamaarat.get(j).getPoltetutKalorit()) + " kcal"));
         }
 
-    }
+    } //Asetetaan adapteri listalle ja asetetaan spinner
+
+    /**
+     * Tallenetaan Pvm -olioiden tiedot
+     */
 
     public void tallennaTiedot(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
@@ -313,6 +336,10 @@ public class PaivamaaraActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    /**
+     * Asetetaan Pvm olion muuttujan tiedot
+     */
+
     private void setValues() {
         pituus = getInstance().paivamaarat.get(j).getPaivanPituus();
         paino = getInstance().paivamaarat.get(j).getPaivanPaino();
@@ -321,6 +348,10 @@ public class PaivamaaraActivity extends AppCompatActivity {
         aktiivisuusKerroin = getInstance().paivamaarat.get(j).getAktiivisuustaso();
         laskeTarvittavatKalorit();
     }
+
+    /**
+     * Lasketaan ja asetetaan tarvittava päivittäinen kalorimäärä
+     */
 
     private void laskeTarvittavatKalorit(){
         if (sukupuoli.equals("Nainen")) {

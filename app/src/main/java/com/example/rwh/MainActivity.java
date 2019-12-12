@@ -3,6 +3,7 @@ package com.example.rwh;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,12 +24,22 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+/**
+ * Luo MainActiviteetin Energy Agent sovellukselle
+ *
+ * @author Lauri Riikonen
+ * @version 1.0
+ * @since 21.10.2019
+ */
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA = "123";
@@ -44,17 +55,19 @@ public class MainActivity extends AppCompatActivity {
     private TextView sukupuoliView;
     private TextView paivamaaraView;
     private DatePickerDialog.OnDateSetListener setListener;
-
     private String nimi;
     private int pituus;
     private int paino;
     private int ika;
     private String sukupuoli;
-
     private int i;
-
     private DecimalFormat laskut = new DecimalFormat("###.##");
 
+    /**
+     * Luo perusnäkymän MainActivitylle.
+     *
+     * @param savedInstanceState
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +112,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Asetetaan info -nappi yläpalkkiin
+     *
+     * @param menu
+     * @return
+     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -106,11 +126,18 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }// Asetetaan info menu action bariin
 
+    /**
+     * Luo AlertDialogin, kun painetaan info -nappia yläpalkissa, jossa kerrotaan kyseisen
+     * aktiviteetin toiminnasta.
+     *
+     * @param item
+     * @return
+     */
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
 
                 new AlertDialog.Builder(MainActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
@@ -144,6 +171,12 @@ public class MainActivity extends AppCompatActivity {
 
     }//Asetetaan, jotta voidaan valita jokin toiminto action barista
 
+    /**
+     * Lisää päivämäärän Singleton -luokan listalle.
+     *
+     * @param v
+     */
+
     public void lisaaPaivamaara(View v) {
 
         if (!paivamaaraView.getText().toString().trim().isEmpty()) {
@@ -154,6 +187,10 @@ public class MainActivity extends AppCompatActivity {
         latenListView.setAdapter(latenAdapter);
         savePaivamaaraData();
     }
+
+    /**
+     * Asettaa käyttäjäntiedot TextVieweihin.
+     */
 
     private void setInformation() {
         getSupportActionBar().setTitle("Käyttäjä: " + nimi);
@@ -166,6 +203,10 @@ public class MainActivity extends AppCompatActivity {
 
     } //Asetetaan käyttäjän tiedot TextVieweihin
 
+    /**
+     * Asettaa arvot Henkilo -oliolle.
+     */
+
     private void setValues() {
         nimi = OverallPattern.getInstance().henkilot.get(i).getNimi();
         pituus = OverallPattern.getInstance().henkilot.get(i).getPituus();
@@ -174,11 +215,19 @@ public class MainActivity extends AppCompatActivity {
         sukupuoli = OverallPattern.getInstance().henkilot.get(i).getSukupuoli();
     }
 
+    /**
+     * Tallentaa käyttäjän ominaisuuksien muutetut arvot onPause -tilassa.
+     */
+
     public void onPause() {
         Log.d(TAG, "onPause being called");
         super.onPause();
         saveData();
     }
+
+    /**
+     * Asettaa OnItemClicklistenerit sekä OnItemLongClickListenerit
+     */
 
     private void setMuutokset() {
 
@@ -228,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
         painoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Clicked " + painoView.getText(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Clicked " + painoView.getText(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -236,7 +285,6 @@ public class MainActivity extends AppCompatActivity {
         painoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(getApplicationContext(), "Long Click", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("Muokkaa painoa");
                 alert.setMessage("Syötä uusi paino:");
@@ -249,13 +297,18 @@ public class MainActivity extends AppCompatActivity {
                 alert.setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
+                        String onkoNull = (input.getText().toString());
+                        if (onkoNull.length() < 1) {
+                            Toast.makeText(getApplicationContext(), "Syötä paino", Toast.LENGTH_LONG).show();
 
-                        int saatuArvo = Integer.parseInt(input.getText().toString());
-                        OverallPattern.getInstance().henkilot.get(i).setPaino(saatuArvo);
+                        } else {
+                            int saatuArvo = Integer.parseInt(input.getText().toString());
 
-                        setValues();
-                        setInformation();
-                        saveData();
+                            OverallPattern.getInstance().henkilot.get(i).setPaino(saatuArvo);
+                            setValues();
+                            setInformation();
+                            saveData();
+                        }
                     }
                 });
 
@@ -274,7 +327,6 @@ public class MainActivity extends AppCompatActivity {
         nimiView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(getApplicationContext(), "Long Click", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("Muokkaa nimeä");
                 alert.setMessage("Syötä uusi nimi:");
@@ -287,14 +339,19 @@ public class MainActivity extends AppCompatActivity {
                 alert.setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
+                        String saatuArvo = (input.getText().toString());
+                        if(saatuArvo.length() > 0) {
 
-                        String saatuArvo = (input.getText().toString().trim().substring(0, 1).toUpperCase() +
-                                input.getText().toString().substring(1));
-                        OverallPattern.getInstance().henkilot.get(i).setNimi(saatuArvo);
+                            saatuArvo = (input.getText().toString().trim().substring(0, 1).toUpperCase() +
+                                    input.getText().toString().substring(1));
+                            OverallPattern.getInstance().henkilot.get(i).setNimi(saatuArvo);
 
-                        setValues();
-                        setInformation();
-                        saveData();
+                            setValues();
+                            setInformation();
+                            saveData();
+                        } else {
+                            Toast.makeText(getApplicationContext(),"Syötä uusi nimi", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 
@@ -314,7 +371,6 @@ public class MainActivity extends AppCompatActivity {
         ikaView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(getApplicationContext(), "Long Click", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("Muokkaa ikää");
                 alert.setMessage("Syötä uusi ikä:");
@@ -328,11 +384,18 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
 
-                        int saatuArvo = Integer.parseInt(input.getText().toString());
-                        OverallPattern.getInstance().henkilot.get(i).setIka(saatuArvo);
-                        setValues();
-                        setInformation();
-                        saveData();
+                        String onkoNull = (input.getText().toString());
+                        if (onkoNull.length() < 1) {
+                            Toast.makeText(getApplicationContext(), "Syötä ikä", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            int saatuArvo = Integer.parseInt(input.getText().toString());
+
+                            OverallPattern.getInstance().henkilot.get(i).setIka(saatuArvo);
+                            setValues();
+                            setInformation();
+                            saveData();
+                        }
                     }
                 });
 
@@ -351,6 +414,10 @@ public class MainActivity extends AppCompatActivity {
 
     }//Mahdollistaa käyttäjän tietojen muuttamisen
 
+    /**
+     * Tallentaa käyttäjän ominaisuuksien muutokset SharedPreferenceseihin.
+     */
+
     public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -359,6 +426,10 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("henkilo lista", json);
         editor.apply();
     }//Käytetään jos käyttäjän ominaisuuksiin(Nimi, paino... tehdään muutoksia
+
+    /**
+     * Tallentaa päivämäärälistan SharedPreferenceseihin.
+     */
 
     public void savePaivamaaraData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
@@ -370,6 +441,10 @@ public class MainActivity extends AppCompatActivity {
 
     } //Käyetetään jos käyttäjä lisää päivämääriä
 
+    /**
+     * Lataa henkilölistan SharedPreferenceseista.
+     */
+
     public void lataaHenkiloData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -380,6 +455,10 @@ public class MainActivity extends AppCompatActivity {
         }.getType();
         OverallPattern.getInstance().henkilot = gson.fromJson(json, type);
     } //Henkilötietojen lataamista varten
+
+    /**
+     * Lataa päivämäärälistan SharedPreferenceseista.
+     */
 
     public void lataaPaivamaaraData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
@@ -394,6 +473,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
     } //Päivämäärä listan lataus
+
+    /**
+     * Asettaa päivämäärävalitsimen.
+     */
 
     public void asetaPaivamaaraValitsin() {
         Calendar calendar = Calendar.getInstance();
