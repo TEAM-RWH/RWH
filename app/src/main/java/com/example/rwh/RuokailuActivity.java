@@ -559,12 +559,15 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
+
     /**
      * Päivittää ruokalistan muutoksen jälkeen.
      */
+
     public void paivitaTuoteLista(){
         Intent intent = new Intent(this, RuokailuActivity.class);
         startActivity(intent);
     }
+
 
 }

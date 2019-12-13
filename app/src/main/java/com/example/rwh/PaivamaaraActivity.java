@@ -120,7 +120,7 @@ public class PaivamaaraActivity extends AppCompatActivity {
             aamupalaView.setText("Aamupalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getAamupala() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getLounas() != 0) {
-            lounasView.setText("Lounaasta saadaut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getLounas() + " kcal");
+            lounasView.setText("Lounaasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getLounas() + " kcal");
         }
         if(OverallPattern.getInstance().paivamaarat.get(j).getValipala() != 0) {
             valipalaView.setText("Välipalasta saadut kalorit: " + OverallPattern.getInstance().paivamaarat.get(j).getValipala() + " kcal");
