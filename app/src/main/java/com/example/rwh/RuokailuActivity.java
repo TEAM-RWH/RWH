@@ -565,6 +565,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
      */
 
     public void paivitaTuoteLista(){
+        finish();
         Intent intent = new Intent(this, RuokailuActivity.class);
         startActivity(intent);
     }
