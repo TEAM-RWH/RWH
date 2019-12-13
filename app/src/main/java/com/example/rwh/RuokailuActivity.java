@@ -281,6 +281,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(getApplicationContext(), "Uusi ruoka lisätty", Toast.LENGTH_SHORT).show();
         }
         tallennaRuokalista();
+        paivitaTuoteLista();
     }
 
     /**
@@ -301,7 +302,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(getApplicationContext(), "Valitsemasi tuote poistettu!", Toast.LENGTH_SHORT).show();
         }
         tallennaRuokalista();
-        tyhjennaValinnat();
+        paivitaTuoteLista();
     }
 
     /**
@@ -556,6 +557,11 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
             getInstance().ruokalista.add("Salaattikastike 300-500 kcal/100g");
         }
 
+    }
+
+    public void paivitaTuoteLista(){
+        Intent intent = new Intent(this, RuokailuActivity.class);
+        startActivity(intent);
     }
 
 

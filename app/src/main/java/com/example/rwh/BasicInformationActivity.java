@@ -299,6 +299,8 @@ public class BasicInformationActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Poistettu käyttäjä: " + Adapter1.getItem(which_item),
                                                 Toast.LENGTH_SHORT).show();
                                         OverallPattern.getInstance().henkilot.remove(which_item);
+                                        OverallPattern.getInstance().paivamaarat.clear();
+                                        savePaivamaaraData();
                                         Adapter1.notifyDataSetChanged();
 
                                     }
@@ -323,5 +325,19 @@ public class BasicInformationActivity extends AppCompatActivity {
         super.onResume();
         setData();
     }
+
+    /**
+     * Tallentaa henkilölistan poistamisen jos, käyttäjä poistaa luodun käyttäjän
+     */
+
+    public void savePaivamaaraData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson3 = new Gson();
+        String json3 = gson3.toJson(OverallPattern.getInstance().paivamaarat);
+        editor.putString("paivamaara lista", json3);
+        editor.apply();
+
+    } //Käyetetään jos käyttäjä lisää päivämääriä
 }
 

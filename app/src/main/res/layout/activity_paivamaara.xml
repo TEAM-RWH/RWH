@@ -85,7 +85,7 @@
         android:layout_marginStart="56dp"
         android:layout_marginLeft="56dp"
         android:layout_marginTop="16dp"
-        android:hint="Lisää illallinen ruokailusuorituksissa"
+        android:hint="Lisää iltapala ruokailusuorituksissa"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/paivallinenView" />
 
