@@ -1,5 +1,6 @@
 package com.example.rwh;
 
+
 import java.util.ArrayList;
 
 /**
@@ -8,6 +9,7 @@ import java.util.ArrayList;
  * @author Kristian Wink
  * @since 21.10.2019
  */
+
 public class OverallPattern {
     private static final OverallPattern ourInstance = new OverallPattern();
 
@@ -19,6 +21,8 @@ public class OverallPattern {
      * Palauttaa Singletonin tallennetun listan arvon.
      * @return
      */
+
+
     public static OverallPattern getInstance() {
         return ourInstance;
     }
@@ -26,12 +30,14 @@ public class OverallPattern {
     private OverallPattern() {
         paivamaarat = new ArrayList<>();
         henkilot = new ArrayList<>();
+
     }
 
     /**
      * Palauttaa ArrayListan, joka sisältää Henkilo -oliot.
      * @return
      */
+
     public ArrayList<Henkilo> getHenkilot() {
         return henkilot;
     }
@@ -40,6 +46,7 @@ public class OverallPattern {
      * Palauttaa ArrayListan, joka sisältää Pvm -oliot.
      * @return
      */
+
     public ArrayList<Pvm> getPaivamaarat(){
         return paivamaarat;
     }
@@ -48,9 +55,13 @@ public class OverallPattern {
      * Palauttaa ArrayListan, joka sisältää ruokalistan.
      * @return
      */
+
     public ArrayList<String> getRuokalista(){
         return  ruokalista;
     }
+
+
+
 }
 
 

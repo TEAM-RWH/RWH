@@ -6,6 +6,7 @@ package com.example.rwh;
  * @author Lauri Riikonen
  * @since 21.10.2019
  */
+
 public class Henkilo {
 
     private String nimi;
@@ -13,10 +14,6 @@ public class Henkilo {
     private int paino;
     private int ika;
     private String sukupuoli;
-    //private double tarvittavaEnergia;
-    //private double saatuEnergia;
-    //private double kulutettuEnenergia
-    //private double aktiivisuusTaso;
 
     /**
      * Luo henkilön, jolla on nimi, pituus, paino, ikä ja sukupuoli.
@@ -26,6 +23,7 @@ public class Henkilo {
      * @param ika henkilön ikä
      * @param sukupuoli henkilön sukupuoli
      */
+
     public Henkilo(String nimi, int pituus, int paino, int ika, String sukupuoli) {
         this.nimi = nimi;
         this.pituus = pituus;
@@ -38,6 +36,7 @@ public class Henkilo {
      * Palauttaa henkilön nimen.
      * @return
      */
+
     @Override
     public String toString() {
         return this.nimi;
@@ -47,6 +46,7 @@ public class Henkilo {
      * Palauttaa henkilön nimen.
      * @return
      */
+
     public String getNimi() {
         return nimi;
     }
@@ -55,6 +55,7 @@ public class Henkilo {
      * Asettaa nimen Henkilo -oliolle.
      * @param nimi
      */
+
     public void setNimi(String nimi) {
         this.nimi = nimi;
     }
@@ -63,6 +64,7 @@ public class Henkilo {
      * Palauttaa Henkilo -olion pituuden.
      * @return
      */
+
     public int getPituus() {
         return pituus;
     }
@@ -71,6 +73,7 @@ public class Henkilo {
      * Asettaa pituuden Henkilo -oliolle.
      * @param pituus
      */
+
     public void setPituus(int pituus) {
         this.pituus = pituus;
     }
@@ -79,6 +82,7 @@ public class Henkilo {
      * Palauttaa Henkilo -olion painon.
      * @return
      */
+
     public int getPaino() {
         return paino;
     }
@@ -87,6 +91,7 @@ public class Henkilo {
      * Asettaa painon Henkilo -oliolle.
      * @param paino
      */
+
     public void setPaino(int paino) {
         this.paino = paino;
     }
@@ -95,6 +100,7 @@ public class Henkilo {
      * Palauttaa Henkilo -olion iän.
      * @return
      */
+
     public int getIka() {
         return ika;
     }
@@ -103,6 +109,7 @@ public class Henkilo {
      * Asettaa iän Henkilo -oliolle.
      * @param ika
      */
+
     public void setIka(int ika) {
         this.ika = ika;
     }
@@ -111,6 +118,7 @@ public class Henkilo {
      * Palauttaa Henkilo -olion sukupuolen.
      * @return
      */
+
     public String getSukupuoli() {
         return sukupuoli;
     }
@@ -119,7 +127,9 @@ public class Henkilo {
      * Asettaa sukupuolen Henkilo -oliolle.
      * @param sukupuoli
      */
+
     public void setSukupuoli(String sukupuoli) {
         this.sukupuoli = sukupuoli;
     }
 }
+

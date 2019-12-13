@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,15 +15,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -36,6 +31,7 @@ import java.util.ArrayList;
  * @author Lauri Riikonen
  * @since 21.10.2019
  */
+
 public class BasicInformationActivity extends AppCompatActivity {
 
     public static final String EXTRA = "123";
@@ -43,7 +39,6 @@ public class BasicInformationActivity extends AppCompatActivity {
 
     private ArrayAdapter Adapter1;
     private ListView ListView1;
-    //private TextView textView2;
     private EditText editName;
     private EditText editPituus;
     private EditText editPaino;
@@ -51,7 +46,6 @@ public class BasicInformationActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private int radioId;
     private RadioButton radioButton;
-    //private DecimalFormat laskut = new DecimalFormat("###.##");
 
     /**
      * Asettaa perusnäkymän BasicInformationActivitylle.
@@ -86,7 +80,7 @@ public class BasicInformationActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 updateRadioButton();
                 if (checkedId == R.id.muuButton) {
-                    Toast.makeText(getApplicationContext(), "Valitse oikea sukupuoli", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Valitettavasti vain mies ja nainen ovat hyväksyttäviä vaihtoehtoja", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -120,7 +114,6 @@ public class BasicInformationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1:
-                //Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
 
                 new AlertDialog.Builder(BasicInformationActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
@@ -215,7 +208,7 @@ public class BasicInformationActivity extends AppCompatActivity {
 
             } else {
                 if (radioButton.getText().equals("Muu")) {
-                    Toast.makeText(getApplicationContext(), "Muu ei ole sukupuoli", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Muu ei käy valitettavasti :(", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Täytä kaikki tekstikentät!", Toast.LENGTH_SHORT).show();
                 }
@@ -225,7 +218,7 @@ public class BasicInformationActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Vain yksi käyttäjä sallittu", Toast.LENGTH_SHORT).show();
         }
-    } //Metodi käyttäjän lisäämistä varten
+    } //Metodi käyttäjän lisäämistä varten lisaa kayttaja- napin painalluksella
 
     /**
      * Päivittää RadioButtonin tilan, jolla valitaan sukupuoli.

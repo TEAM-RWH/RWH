@@ -2,8 +2,8 @@
     <string name="app_name">RWH</string>
 
     <string-array name="urheilu">
-        <item>Ryömiminen</item>
-        <item>Kävely Birdwatching</item>
+        <item>Valitse aktiviteetti</item>
+        <item>Kävely</item>
         <item>Hölkkä</item>
         <item>Juoksu</item>
         <item>PikaJuoksu</item>
@@ -27,12 +27,22 @@
         <item>Iltapala</item>
     </string-array>
 
+    <string-array name="Aktiivisuus">
+        <item>Valitse aktiivisuustaso:</item>
+        <item>1.0 Täysi lepo</item>
+        <item>1.3 Kevyt</item>
+        <item>1.5 Tavallinen</item>
+        <item>1.9 Kohtalainen</item>
+        <item>2.2 Kova</item>
+        <item>2.5 Erittäin kova</item>
+    </string-array>
+
     <string name="aterian_pvm">Valitse PVM:</string>
     <string name="valitse_ateria">Valitse ateria:</string>
     <string name="valitutRuoat_textview"></string>
     <string name="lisaaAteria_button">Lisää ateria</string>
     <string name="kalorit_editText">Syötä aterian kalorit</string>
-    <string name="ruoat_button">Tarkista ruoan kalorit:</string>
+    <string name="ruoat_button">Etsi tai lisää tuote</string>
     <string name="lisaaRuoka_button">Lisää oma tuote:</string>
     <string name="poistaRuoka_button">Poista tuote:</string>
 

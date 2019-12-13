@@ -18,7 +18,7 @@ public class Calculations extends UrheiluActivity {
      */
     public static double sport(String sport, String time,double met) {
         int aika =0;
-        if (sport.equals("Kävely Birdwatching")) {
+        if (sport.equals("Kävely")) {
             if (time.equals("10 min")) {
                 aika = 1;
             } else if (time.equals("20 min")) {

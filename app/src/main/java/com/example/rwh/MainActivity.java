@@ -3,6 +3,7 @@ package com.example.rwh;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,8 +24,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -32,28 +35,24 @@ import java.util.Calendar;
 
 /**
  * Luo MainActiviteetin Energy Agent sovellukselle
- * @version 1.0
+ *
  * @author Lauri Riikonen
+ * @version 1.0
  * @since 21.10.2019
  */
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayAdapter adapter;
-    private String[] activities;
     public static final String EXTRA = "123";
     public static final String EXTRA2 = "PaivamaaraActivity";
     public static final String TAG = "MainActivity";
     private ArrayAdapter latenAdapter;
     private ListView latenListView;
-    private Intent ruokailuActivity;
-    private Intent urheiluActivity;
     private Intent paivamaaraActivity;
     private TextView nimiView;
     private TextView pituusView;
     private TextView painoView;
     private TextView ikaView;
     private TextView sukupuoliView;
-    private TextView arvioView;
     private TextView paivamaaraView;
     private DatePickerDialog.OnDateSetListener setListener;
     private String nimi;
@@ -61,35 +60,31 @@ public class MainActivity extends AppCompatActivity {
     private int paino;
     private int ika;
     private String sukupuoli;
-    private double arvoSukupuolelle;
-    private String nimiToSave;
-    private String pituusToSave;
-    private String painoToSave;
-    private String ikaToSave;
     private int i;
-    private String hoho;
-    public static final String SHARED_PREFS = "sharedPrefs";
     private DecimalFormat laskut = new DecimalFormat("###.##");
 
     /**
      * Luo perusnäkymän MainActivitylle.
+     *
      * @param savedInstanceState
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate being called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         nimiView = (TextView) findViewById(R.id.nimiView);
         pituusView = (TextView) findViewById(R.id.pituusView);
         painoView = (TextView) findViewById(R.id.painoView);
         ikaView = (TextView) findViewById(R.id.ikaView);
         sukupuoliView = (TextView) findViewById(R.id.sukupuoliView);
-        arvioView = (TextView) findViewById(R.id.arvioView);
         paivamaaraView = (TextView) findViewById(R.id.paivamaaraView);
 
         paivamaaraActivity = new Intent(MainActivity.this, PaivamaaraActivity.class);
+
 
         lataaPaivamaaraData();
 
@@ -114,13 +109,16 @@ public class MainActivity extends AppCompatActivity {
 
         asetaPaivamaaraValitsin();
 
+
     }
 
     /**
      * Asetetaan info -nappi yläpalkkiin
+     *
      * @param menu
      * @return
      */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -131,21 +129,21 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Luo AlertDialogin, kun painetaan info -nappia yläpalkissa, jossa kerrotaan kyseisen
      * aktiviteetin toiminnasta.
+     *
      * @param item
      * @return
      */
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
 
                 new AlertDialog.Builder(MainActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
                         .setTitle("Info")
-                        .setMessage("Käytetyt kaavat tarvittavien kaloreiden selvittämiseksi : \n\nMiehille: 88.362 + ((13.397 * paino) + (4.799 * pituus) - (5.677 * ika)) * 1.5" +
-                                "\n\nNaisille:  447.593 + ((9.247 * paino) + (3.098 * pituus) - (4.330 * ika)) * 1.5\n\n" +
-                                "Nimi, paino ja ikä ovat muutettavissa pitkällä painalluksella.")
+                        .setMessage("Nimi, paino ja ikä ovat muutettavissa pitkällä painalluksella. Näytössä näkyvät arvot tallennetaan " +
+                                "luotavan päivän arvoiksi.")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -175,12 +173,14 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Lisää päivämäärän Singleton -luokan listalle.
+     *
      * @param v
      */
+
     public void lisaaPaivamaara(View v) {
 
         if (!paivamaaraView.getText().toString().trim().isEmpty()) {
-            OverallPattern.getInstance().paivamaarat.add(new Pvm(String.valueOf(paivamaaraView.getText())));
+            OverallPattern.getInstance().paivamaarat.add(new Pvm(String.valueOf(paivamaaraView.getText()), pituus, paino, ika, sukupuoli));
         } else {
             Toast.makeText(getApplicationContext(), "Valitse lisättävä päivämäärä", Toast.LENGTH_SHORT).show();
         }
@@ -189,8 +189,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Asettaa käyytäjäntiedot TextVieweihin.
+     * Asettaa käyttäjäntiedot TextVieweihin.
      */
+
     private void setInformation() {
         getSupportActionBar().setTitle("Käyttäjä: " + nimi);
 
@@ -200,19 +201,12 @@ public class MainActivity extends AppCompatActivity {
         ikaView.setText("Käyttäjän ikä: " + ika + " vuotta");
         sukupuoliView.setText("Sukupuoli: " + sukupuoli);
 
-        if (sukupuoli.equals("Nainen")) {
-            arvioView.setText("Arvioitu energiantarpeesi on " + laskut.format(447.593 + ((9.247 * paino) + (3.098 * pituus) - (4.330 * ika)) * 1.5)
-                    + " kcal/pv.");
-        } else {
-            arvioView.setText("Arvioitu energiantarpeesi on " + laskut.format(88.362 + ((13.397 * paino) + (4.799 * pituus) - (5.677 * ika)) * 1.5)
-                    + " kcal/pv.");
-        }
-
     } //Asetetaan käyttäjän tiedot TextVieweihin
 
     /**
      * Asettaa arvot Henkilo -oliolle.
      */
+
     private void setValues() {
         nimi = OverallPattern.getInstance().henkilot.get(i).getNimi();
         pituus = OverallPattern.getInstance().henkilot.get(i).getPituus();
@@ -222,8 +216,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Tallentaa käyttäjän ominaisuuksien muutetut arvot onResuma -tilassa.
+     * Tallentaa käyttäjän ominaisuuksien muutetut arvot onPause -tilassa.
      */
+
     public void onPause() {
         Log.d(TAG, "onPause being called");
         super.onPause();
@@ -231,8 +226,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Asettaa muutetut käyttäjätiedot.
+     * Asettaa OnItemClicklistenerit sekä OnItemLongClickListenerit
      */
+
     private void setMuutokset() {
 
 
@@ -281,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
         painoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Clicked " + painoView.getText(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Clicked " + painoView.getText(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -289,12 +285,11 @@ public class MainActivity extends AppCompatActivity {
         painoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(getApplicationContext(), "Long Click", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("Muokkaa painoa");
                 alert.setMessage("Syötä uusi paino:");
 
-                // Set an EditText view to get user input
+
                 final EditText input = new EditText(MainActivity.this);
                 alert.setView(input);
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -302,19 +297,24 @@ public class MainActivity extends AppCompatActivity {
                 alert.setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        // Do something with value!
-                        int saatuArvo = Integer.parseInt(input.getText().toString());
-                        OverallPattern.getInstance().henkilot.get(i).setPaino(saatuArvo);
-                        //Toast.makeText(getApplicationContext(), String.valueOf(OverallPattern.getInstance().henkilot.get(i).getPaino()), Toast.LENGTH_LONG).show();
-                        setValues();
-                        setInformation();
-                        saveData();
+                        String onkoNull = (input.getText().toString());
+                        if (onkoNull.length() < 1) {
+                            Toast.makeText(getApplicationContext(), "Syötä paino", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            int saatuArvo = Integer.parseInt(input.getText().toString());
+
+                            OverallPattern.getInstance().henkilot.get(i).setPaino(saatuArvo);
+                            setValues();
+                            setInformation();
+                            saveData();
+                        }
                     }
                 });
 
                 alert.setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
+
                     }
                 });
 
@@ -327,12 +327,11 @@ public class MainActivity extends AppCompatActivity {
         nimiView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(getApplicationContext(), "Long Click", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("Muokkaa nimeä");
                 alert.setMessage("Syötä uusi nimi:");
 
-                // Set an EditText view to get user input
+
                 final EditText input = new EditText(MainActivity.this);
                 alert.setView(input);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -340,20 +339,25 @@ public class MainActivity extends AppCompatActivity {
                 alert.setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        // Do something with value!
-                        String saatuArvo = (input.getText().toString().trim().substring(0, 1).toUpperCase() +
-                                input.getText().toString().substring(1));
-                        OverallPattern.getInstance().henkilot.get(i).setNimi(saatuArvo);
-                        //Toast.makeText(getApplicationContext(), String.valueOf(OverallPattern.getInstance().henkilot.get(i).getPaino()), Toast.LENGTH_LONG).show();
-                        setValues();
-                        setInformation();
-                        saveData();
+                        String saatuArvo = (input.getText().toString());
+                        if(saatuArvo.length() > 0) {
+
+                            saatuArvo = (input.getText().toString().trim().substring(0, 1).toUpperCase() +
+                                    input.getText().toString().substring(1));
+                            OverallPattern.getInstance().henkilot.get(i).setNimi(saatuArvo);
+
+                            setValues();
+                            setInformation();
+                            saveData();
+                        } else {
+                            Toast.makeText(getApplicationContext(),"Syötä uusi nimi", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 
                 alert.setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
+
                     }
                 });
 
@@ -367,12 +371,11 @@ public class MainActivity extends AppCompatActivity {
         ikaView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(getApplicationContext(), "Long Click", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("Muokkaa ikää");
                 alert.setMessage("Syötä uusi ikä:");
 
-                // Set an EditText view to get user input
+
                 final EditText input = new EditText(MainActivity.this);
                 alert.setView(input);
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -380,19 +383,25 @@ public class MainActivity extends AppCompatActivity {
                 alert.setPositiveButton("Muuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        // Do something with value!
-                        int saatuArvo = Integer.parseInt(input.getText().toString());
-                        OverallPattern.getInstance().henkilot.get(i).setIka(saatuArvo);
-                        //Toast.makeText(getApplicationContext(), String.valueOf(OverallPattern.getInstance().henkilot.get(i).getPaino()), Toast.LENGTH_LONG).show();
-                        setValues();
-                        setInformation();
-                        saveData();
+
+                        String onkoNull = (input.getText().toString());
+                        if (onkoNull.length() < 1) {
+                            Toast.makeText(getApplicationContext(), "Syötä ikä", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            int saatuArvo = Integer.parseInt(input.getText().toString());
+
+                            OverallPattern.getInstance().henkilot.get(i).setIka(saatuArvo);
+                            setValues();
+                            setInformation();
+                            saveData();
+                        }
                     }
                 });
 
                 alert.setNegativeButton("Peruuta", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
+
                     }
                 });
 
@@ -406,8 +415,9 @@ public class MainActivity extends AppCompatActivity {
     }//Mahdollistaa käyttäjän tietojen muuttamisen
 
     /**
-     * Tallentaa käyttäjän ominaisuuksien muutokset SharedPreferenceseista.
+     * Tallentaa käyttäjän ominaisuuksien muutokset SharedPreferenceseihin.
      */
+
     public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -418,9 +428,10 @@ public class MainActivity extends AppCompatActivity {
     }//Käytetään jos käyttäjän ominaisuuksiin(Nimi, paino... tehdään muutoksia
 
     /**
-     * Tallentaa päivämäärälistan SharedPreferenceseista.
+     * Tallentaa päivämäärälistan SharedPreferenceseihin.
      */
-    public void savePaivamaaraData(){
+
+    public void savePaivamaaraData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson2 = new Gson();
@@ -433,7 +444,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Lataa henkilölistan SharedPreferenceseista.
      */
-    public void lataaHenkiloData(){
+
+    public void lataaHenkiloData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
 
@@ -447,7 +459,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Lataa päivämäärälistan SharedPreferenceseista.
      */
-    public void lataaPaivamaaraData(){
+
+    public void lataaPaivamaaraData() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson2 = new Gson();
         String json2 = sharedPreferences.getString("paivamaara lista", null);
@@ -455,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
         }.getType();
         OverallPattern.getInstance().paivamaarat = gson2.fromJson(json2, type2);
 
-        if(OverallPattern.getInstance().paivamaarat == null) {
+        if (OverallPattern.getInstance().paivamaarat == null) {
             OverallPattern.getInstance().paivamaarat = new ArrayList<Pvm>();
         }
 
@@ -464,7 +477,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Asettaa päivämäärävalitsimen.
      */
-    public void asetaPaivamaaraValitsin(){
+
+    public void asetaPaivamaaraValitsin() {
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);

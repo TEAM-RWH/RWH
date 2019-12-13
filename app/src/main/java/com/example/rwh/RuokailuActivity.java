@@ -22,6 +22,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+
 import static com.example.rwh.OverallPattern.getInstance;
 
 /**
@@ -40,13 +42,14 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     private AutoCompleteTextView tarkistaKalorit;
     private int j;
     private ArrayAdapter<String> ruokaAdapter;
-
+    private AutoCompleteTextView editText;
     /**
      * Noutaa käyttäjän nimen Overallpatterinista yläpalkkiin, käyttää metodia
      * lataaRuokalista() noutaakseen ruokalistan ja käyttää asetaTiedot metodia asettaakseen
      * arvot omille kohdilleen
      * @param savedInstanceState
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,94 +58,64 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         Intent intent = getIntent();
         j = intent.getIntExtra(EXTRA, 0);
 
-        getSupportActionBar().setTitle("Ruokailut: " + getInstance().henkilot.get(j).getNimi());
+        getSupportActionBar().setTitle("Ruokailut: " + getInstance().paivamaarat.get(j).getPaivamaara());
 
         aterianKalorit = findViewById(R.id.aterian_kalorit);
         tarkistaKalorit = findViewById(R.id.tarkistaKalorit);
 
         lataaRuokalista();
         asetaTiedot();
-
-
     }
 
     /**
      * Luo aterian määrätylle päivälle
      * @param v
      */
+
     public void lisaaAteriaPaiva(View v) {
         String valinta = "Valitse ateria:";
 
         if (aterianKalorit.getText().equals(toString())) {
             Toast.makeText(getApplicationContext(), "Syöttämäsi arvo ei ole numero!", Toast.LENGTH_SHORT).show();
         } else if (ateriaSpinner.getSelectedItem().toString().equals(valinta) || aterianKalorit.getText().toString().trim().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Tee kaikki valinnat!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Valitse ateria ja syötä kalorimäärä!", Toast.LENGTH_SHORT).show();
         } else {
-
-            if (ateriaSpinner.getSelectedItem().toString().equals("aamupala")) {
-                getInstance().paivamaarat.get(j).setAamupala(Integer.valueOf(aterianKalorit.getText().toString()));
-
-
+            if (ateriaSpinner.getSelectedItem().toString().equals("Aamupala")){
+                getInstance().paivamaarat.get(j).setAamupala(Double.valueOf(aterianKalorit.getText().toString()));
+                Toast.makeText(getApplicationContext(), "Aamupala lisätty", Toast.LENGTH_SHORT).show();
                 tallennaTiedot();
-            } else if (ateriaSpinner.getSelectedItem().toString().equals("Lounas")) {
-                getInstance().paivamaarat.get(j).setLounas(Integer.valueOf(aterianKalorit.getText().toString()));
-
-                if (ateriaSpinner.getSelectedItem().toString().equals("Aamupala")) {
-                    getInstance().paivamaarat.get(j).setAamupala(Double.valueOf(aterianKalorit.getText().toString()));
-                    tallennaTiedot();
-                } else if (ateriaSpinner.getSelectedItem().toString().equals("Lounas")) {
-                    getInstance().paivamaarat.get(j).setLounas(Double.valueOf(aterianKalorit.getText().toString()));
-
-                    tallennaTiedot();
-
-                } else if (ateriaSpinner.getSelectedItem().toString().equals("Välipala")) {
-
-                    getInstance().paivamaarat.get(j).setValipala(Integer.valueOf(aterianKalorit.getText().toString()));
-
-                    getInstance().paivamaarat.get(j).setValipala(Double.valueOf(aterianKalorit.getText().toString()));
-
-                    tallennaTiedot();
-
-                } else if (ateriaSpinner.getSelectedItem().toString().equals("Päivällinen")) {
-
-                    getInstance().paivamaarat.get(j).setPaivallinen(Integer.valueOf(aterianKalorit.getText().toString()));
-
-                    getInstance().paivamaarat.get(j).setPaivallinen(Double.valueOf(aterianKalorit.getText().toString()));
-
-                    tallennaTiedot();
-
-                } else if (ateriaSpinner.getSelectedItem().toString().equals("Iltapala")) {
-
-                    getInstance().paivamaarat.get(j).setIllallinen(Integer.valueOf(aterianKalorit.getText().toString()));
-
-                    getInstance().paivamaarat.get(j).setIllallinen(Double.valueOf(aterianKalorit.getText().toString()));
-
-                    tallennaTiedot();
-                }
-                tyhjennaValinnat();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Lounas")){
+                getInstance().paivamaarat.get(j).setLounas(Double.valueOf(aterianKalorit.getText().toString()));
+                Toast.makeText(getApplicationContext(), "Lounas lisätty", Toast.LENGTH_SHORT).show();
+                tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Välipala")){
+                getInstance().paivamaarat.get(j).setValipala(Double.valueOf(aterianKalorit.getText().toString()));
+                Toast.makeText(getApplicationContext(), "Välipala lisätty", Toast.LENGTH_SHORT).show();
+                tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Päivällinen")){
+                getInstance().paivamaarat.get(j).setPaivallinen(Double.valueOf(aterianKalorit.getText().toString()));
+                Toast.makeText(getApplicationContext(), "Päivällinen lisätty", Toast.LENGTH_SHORT).show();
+                tallennaTiedot();
+            } else if (ateriaSpinner.getSelectedItem().toString().equals("Iltapala")){
+                getInstance().paivamaarat.get(j).setIllallinen(Double.valueOf(aterianKalorit.getText().toString()));
+                Toast.makeText(getApplicationContext(), "Iltapala lisätty", Toast.LENGTH_SHORT).show();
+                tallennaTiedot();
             }
-        }
-    }
 
-    /**
-     * Tyhjentää täytetyt kentät RuokailuActivityssa.
-     */
-    public void tyhjennaValinnat() {
-        aterianKalorit.getText().clear();
-        ateriaSpinner.setSelection(0);
-        tarkistaKalorit.getText().clear();
+            tyhjennaValinnat();
+        }
     }
 
     /**
      * Luo perusnäkymän aktiviteetille.
      */
+
     public void asetaTiedot() {
 
         //Ruoan tarkistaminen
 
-
         AutoCompleteTextView editText = findViewById(R.id.tarkistaKalorit);
-        ruokaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getInstance().getRuokalista());
+        ArrayAdapter<String> ruokaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, OverallPattern.getInstance().getRuokalista());
         editText.setAdapter((ruokaAdapter));
 
         //Spinnervalikon luominen
@@ -169,6 +142,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
             }
 
         });
+
     }
 
     /**
@@ -178,6 +152,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
      * @param i
      * @param l
      */
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String valittu_ateria = adapterView.getItemAtPosition(i).toString();
@@ -188,6 +163,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
      * Määrittää, mitä tapahtuu, kun mikään listan indekseistä ei ole valittuna adapterin listalla.
      * @param adapterView
      */
+
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -204,7 +180,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.info_menu, menu);
         return true;
-    }
+    }// Asetetaan info menu action bariin
 
     /**
      * Luo AlertDialogin, kun painetaan info -nappia yläpalkissa, jossa kerrotaan kyseisen
@@ -225,14 +201,16 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
 
         switch (item.getItemId()) {
             case R.id.item1:
-                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
+
 
                 new AlertDialog.Builder(RuokailuActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_info)
                         .setTitle("Info")
-                        .setMessage("Valitse mikä ateria lisätään, ja syötä aterian sisältämä kalori määrä.\n\n" +
-                                "Voit myös tarkistella yleisten tuotteiden kalorimääriä painamalla 'Tarkista ruoan kalorit' kenttää ja" +
-                                " kirjoittamalla hakukenttään tuotteen.")
+                        .setMessage("Valitse mikä ateria lisätään, ja syötä aterian sisältämä kalori määrä ja paina Lisää ateria nappia\n\n" +
+                                "Voit myös tarkistella yleisten tuotteiden kalorimääriä painamalla 'Etsi tai lisää tuote' kenttään ja" +
+                                " kirjoittamalla hakukenttään tuotteen nimen.\n\n"+
+                                "Omia tuotteita voi lisätä  ja poistaa kirjoittamalla tuotteen nimen ja kalorimäärän 'Etsi tai lisää tuote' kenttään" +
+                                " ja painamalla 'Lisää oma tuote' tai 'Poista tuote' nappeja.")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -257,13 +235,15 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
             default:
                 return super.onOptionsItemSelected(item);
         }
+
         //return super.onOptionsItemSelected(item);
     }
 
     /**
      * Tallentaa muokatun päivämäärälistan SharedPreferenceseihin.
      */
-    public void tallennaTiedot() {
+
+    public void tallennaTiedot(){
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -273,8 +253,72 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     }
 
     /**
+     * Tyhjentää täytetyt kentät RuokailuActivityssa.
+     */
+
+    public void tyhjennaValinnat() {
+        aterianKalorit.getText().clear();
+        ateriaSpinner.setSelection(0);
+        tarkistaKalorit.getText().clear();
+    }
+
+    /**
+     * Lisää käyttäjän nimeämän ruokatuotteen ruokalistalle.
+     * @param v
+     */
+
+    public void lisaaRuokaListalle(View v){
+
+        String uusiRuoka = tarkistaKalorit.getText().toString();
+        if(tarkistaKalorit.getText().toString().trim().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Kirjoita ruoan nimi Etsi tai lisää tuote -kenttään ja paina Lisää ateria!", Toast.LENGTH_SHORT).show();
+        } else if(getInstance().ruokalista.contains(uusiRuoka)){
+            tarkistaKalorit.getText().clear();
+            Toast.makeText(getApplicationContext(), "Ruoka on jo listalla!", Toast.LENGTH_SHORT).show();
+        }else{
+            getInstance().ruokalista.add(uusiRuoka);
+            tarkistaKalorit.getText().clear();
+            Toast.makeText(getApplicationContext(), "Uusi ruoka lisätty", Toast.LENGTH_SHORT).show();
+        }
+        tallennaRuokalista();
+        paivitaTuoteLista();
+    }
+
+    /**
+     * Poistaa käyttäjän nimeämän ruokatuotteen ruokalistalta.
+     * @param v
+     */
+
+    public void poistaRuokaListalta(View v){
+
+        int tuoteIndex = Integer.valueOf(getInstance().ruokalista.indexOf(tarkistaKalorit.getText().toString()));
+        if(tarkistaKalorit.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Kirjoita ruoan nimi Etsi tai lisää tuote -kenttään ja paina Poista tuote!", Toast.LENGTH_SHORT).show();
+        }else if( tuoteIndex < 213){
+            Toast.makeText(getApplicationContext(), "Et voi poistaa valitsemaasi ruokaa!", Toast.LENGTH_SHORT).show();
+        }else{
+            int poistettava = getInstance().ruokalista.indexOf(tarkistaKalorit.getText().toString());
+            getInstance().ruokalista.remove(poistettava);
+            Toast.makeText(getApplicationContext(), "Valitsemasi tuote poistettu!", Toast.LENGTH_SHORT).show();
+        }
+        tallennaRuokalista();
+        paivitaTuoteLista();
+    }
+
+    /**
+     * Tallentaa muokatun ruokalistan, kun EnergyAgent menee onPause -tilaan.
+     */
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        tallennaRuokalista();
+    }
+
+    /**
      * Tallentaa muokatun ruokalistan SharedPreferenceseihin.
      */
+
     public void tallennaRuokalista() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -287,6 +331,7 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     /**
      * Lataa muokatun ruokalistan SharedPreferenceseista.
      */
+
     public void lataaRuokalista() {
         SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
         Gson gson2 = new Gson();
@@ -515,51 +560,11 @@ public class RuokailuActivity extends AppCompatActivity implements AdapterView.O
     }
 
     /**
-     * Lisää käyttäjän nimeämän ruokatuotteen ruokalistalle.
-     * @param v
+     * Päivittää ruokalistan muutoksen jälkeen.
      */
-    public void lisaaRuokaListalle(View v) {
-
-        String uusiRuoka = tarkistaKalorit.getText().toString();
-        if (tarkistaKalorit.getText().toString().trim().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Kirjoita ruoan nimi Tarkista ruoan kalorit -kenttään ja paina lisää ruoka!", Toast.LENGTH_SHORT).show();
-        } else if (getInstance().ruokalista.contains(uusiRuoka)) {
-            tarkistaKalorit.getText().clear();
-            Toast.makeText(getApplicationContext(), "Ruoka on jo listalla!", Toast.LENGTH_SHORT).show();
-        } else {
-            getInstance().ruokalista.add(uusiRuoka);
-            tarkistaKalorit.getText().clear();
-            Toast.makeText(getApplicationContext(), "Uusi ruoka lisätty", Toast.LENGTH_SHORT).show();
-        }
-        tallennaRuokalista();
+    public void paivitaTuoteLista(){
+        Intent intent = new Intent(this, RuokailuActivity.class);
+        startActivity(intent);
     }
 
-    /**
-     * Poistaa käyttäjän nimeämän ruokatuotteen ruokalistalta.
-     * @param v
-     */
-    public void poistaRuokaListalta(View v) {
-
-        int tuoteIndex = Integer.valueOf(getInstance().ruokalista.indexOf(tarkistaKalorit.getText().toString()));
-        if (tarkistaKalorit.getText().toString().trim().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Kirjoita ruoan nimi Tarkista ruoan kalorit -kenttään ja paina poista ruoka!", Toast.LENGTH_SHORT).show();
-        } else if (tuoteIndex < 213) {
-            Toast.makeText(getApplicationContext(), "Et voi poistaa valitsemaasi ruokaa!", Toast.LENGTH_SHORT).show();
-        } else {
-            int poistettava = getInstance().ruokalista.indexOf(tarkistaKalorit.getText().toString());
-            getInstance().ruokalista.remove(poistettava);
-            Toast.makeText(getApplicationContext(), "Valitsemasi tuote poistettu!", Toast.LENGTH_SHORT).show();
-        }
-        tallennaRuokalista();
-        tyhjennaValinnat();
-    }
-
-    /**
-     * Tallentaa muokatun ruokalistan, kun EnergyAgent menee onPause -tilaan.
-     */
-    @Override
-    protected void onPause(){
-        super.onPause();
-        tallennaRuokalista();
-    }
 }
